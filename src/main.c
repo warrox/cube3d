@@ -6,15 +6,13 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/02 16:14:35 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/03 12:27:06 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // REVOIR 4. Calcul de la Direction de Chaque Rayon
 #include <stdio.h>
 #include "../cube3d_lib.h"
-#define MAP_WIDTH 6
-#define MAP_HEIGHT 5
 
 void init_player(t_data *data)
 {
@@ -24,6 +22,22 @@ void init_player(t_data *data)
 	data->wall = 0;
 	data->ground = 0;
 } 
+
+// implement a calculation function to build the fov
+void ray_cast_radians(int player_angle)
+{
+	int i = 0;
+	double ray_angle;
+	double ray_dir_x;
+	double ray_dir_y;
+	while(i < NUM_RAYS)
+	{
+		ray_angle = player_angle - (FOV / 2) + (i * (FOV / NUM_RAYS));
+		ray_dir_x = cos(ray_angle);
+		ray_dir_y = sin(ray_angle);
+		i++;
+	}
+}
 double get_angle_posplayer(char player_dir)
 {
 	if(player_dir == 'E')
@@ -60,7 +74,9 @@ int main() {
     }
 	init_player(&data); 
     // Initialisation du joueur
-    int player_x = 0, player_y = 0;
+    int player_x = 0;
+	int player_y = 0;
+	int player_angle = 0;
     char player_dir = ' ';
 
     // Rechercher la position initiale du joueur
@@ -69,7 +85,7 @@ int main() {
             if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E') {
                 player_x = j;
                 player_y = i;
-				get_angle_posplayer(map[i][j]);
+				player_angle = get_angle_posplayer(map[i][j]);
                 player_dir = map[i][j];
                 map[i][j] = '0'; // Remplace la position par un espace vide une fois que tu as enregistré la position du joueur
                 break;

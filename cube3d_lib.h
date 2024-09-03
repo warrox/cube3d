@@ -2,7 +2,9 @@
 #ifndef CUBE3D_LIB_h
 #define CUBE3D_LIB_h
 #define PI 3.14159265359
-
+#define MAP_WIDTH 6
+#define MAP_HEIGHT 5
+#define NUM_RAYS 100
 #define g_value 10;
 #define w_value 10;
 
