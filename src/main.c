@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/03 12:27:06 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/03 15:42:26 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void init_player(t_data *data)
 {
-	data->player.fov = 0;
+	data->player.fov = 60; // fov de 60 degres
 	data->player.angle = 0;
 	data->player.distance = 0;
 	data->wall = 0;
@@ -24,7 +24,7 @@ void init_player(t_data *data)
 } 
 
 // implement a calculation function to build the fov
-void ray_cast_radians(int player_angle)
+void ray_cast_radians(int player_angle, t_data *data)
 {
 	int i = 0;
 	double ray_angle;
@@ -32,7 +32,7 @@ void ray_cast_radians(int player_angle)
 	double ray_dir_y;
 	while(i < NUM_RAYS)
 	{
-		ray_angle = player_angle - (FOV / 2) + (i * (FOV / NUM_RAYS));
+		ray_angle = player_angle - (data->player.fov / 2) + (i * (data->player.fov / NUM_RAYS));
 		ray_dir_x = cos(ray_angle);
 		ray_dir_y = sin(ray_angle);
 		i++;
@@ -72,8 +72,8 @@ int main() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         printf("%s\n", map[i]);
     }
+	// Initialisation du joueur
 	init_player(&data); 
-    // Initialisation du joueur
     int player_x = 0;
 	int player_y = 0;
 	int player_angle = 0;
@@ -92,7 +92,14 @@ int main() {
             }
         }
     }
-
+	// generate raycasting 
+	ray_cast_radians(player_angle, &data);
+	// de ce que je comprend je peux theroiquement deja afficher une scene en utilisant la minilibx
+	/*Les etapes : 
+	 * 1 - check de la map 
+	 * 2 - chercher la position initiale du player via NWES
+	 * 3 - obtenir l'angle du joueur
+	 * 4 - cast les rayons en transformant l'angle en radians */
     printf("Player start position: (%d, %d)\n", player_x, player_y);
     printf("Player start direction: %c\n", player_dir);
     return 0;
