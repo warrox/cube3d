@@ -39,9 +39,9 @@ int	print_unsigned(unsigned int nb)
 }
 /*int main(void)
 {
-    unsigned int test_value = 12345; // ici votre valeur de test
+	unsigned int test_value = 12345; // ici votre valeur de test
 
-    printf("\nOutput of print_unsigned: %d\n", print_unsigned(test_value));
+	printf("\nOutput of print_unsigned: %d\n", print_unsigned(test_value));
 
-    return 0;
+	return (0);
 }*/

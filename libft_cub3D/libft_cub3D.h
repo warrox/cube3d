@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_CUB3D
-# define LIBFT_CUB3D
+#ifndef LIBFT_CUB3D_H
+# define LIBFT_CUB3D_H
 
 # include <stdio.h>
 # include <stdlib.h>
