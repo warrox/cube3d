@@ -6,7 +6,7 @@
 #    By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/04 09:52:00 by whamdi           ###   ########.fr        #
+#    Updated: 2024/09/04 13:45:45 by whamdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,9 @@ RESET   = \e[00m
 SOURCE = ./src/
 
 PARSING = $(addprefix parsing/, checker.c parser.c free_handler.c)
-GAME = $(addprefix $(SOURCE), $(PARSING) main.c)
+RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c)
 
+GAME = $(addprefix $(SOURCE), $(PARSING)) $(addprefix $(SOURCE), $(RAYCAST)) $(SOURCE)main.c
 SRC = $(GAME)
 OBJ = $(SRC:%.c=%.o)
 

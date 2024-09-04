@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 08:51:53 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:32:29 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define NUM_RAYS 100
 # define g_value 10
 # define w_value 10
-
+# define WIDTH	800
+# define HEIGHT 800
 /*all structures*/
 
 typedef struct s_map
@@ -42,18 +43,31 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int fov;
+	float fov;
 	int distance;
 	int angle;
 	int radians;
+	double time; //time of current frame
+	double oldTime; //time of previous frame
 }				t_player;
-
+typedef struct s_mlx
+{
+	void	*p_mlx;
+	void	*mlx_win;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}			t_mlx;
 typedef struct s_data
 {
 	t_player player;
+	t_mlx mlx;
 	t_map	*map;
 	int wall;
 	int ground;
+
 }				t_data;
 
 /*strings functions*/
@@ -88,4 +102,8 @@ int	open_file(char *file);
 
 void	free_map_struct(t_data *data);
 
+/*RAYCASTING functions*/
+void init_player(t_data *data);
+double get_angle_posplayer(char player_dir);
+void ray_cast_radians(int player_angle, t_data *data);
 #endif

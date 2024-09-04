@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/04 09:49:44 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/04 13:38:43 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,7 @@
 #include <stdio.h>
 #include "../includes/cub3D_lib.h"
 
-void init_player(t_data *data)
-{
-	data->player.fov = 60; // fov de 60 degres
-	data->player.angle = 0;
-	data->player.distance = 0;
-	data->wall = 0;
-	data->ground = 0;
-} 
-
 // implement a calculation function to build the fov
-void ray_cast_radians(int player_angle, t_data *data)
-{
-	int i = 0;
-	double ray_angle;
-	double ray_dir_x;
-	double ray_dir_y;
-	while(i < NUM_RAYS)
-	{
-		ray_angle = player_angle - (data->player.fov / 2) + (i * (data->player.fov / NUM_RAYS));
-		ray_dir_x = cos(ray_angle);
-		ray_dir_y = sin(ray_angle);
-		i++;
-	}
-}
-double get_angle_posplayer(char player_dir)
-{
-	if(player_dir == 'E')
-	{
-		return(0);
-	}
-	if(player_dir == 'N')
-	{
-		return(PI/2);
-	}
-	if(player_dir == 'S')
-	{
-		return(3 * PI / 2);
-	}
-	if(player_dir == 'W')
-	{
-		return(PI);
-	}
-	return(0);
-}
 char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "111111",
     "100001",
@@ -65,7 +22,37 @@ char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "100001",
     "111111"
 };
+/*void	*p_mlx;
+	void	*mlx_win;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+*/
+int	init_mlx(t_data *data)
+{
+	data->mlx.mlx_win = NULL;
+	data->mlx.img = NULL;
+	data->mlx.addr = NULL;
+	data->mlx.bits_per_pixel = 0;
+	data->mlx.line_length = 0;
+	data->mlx.endian = 0;
 
+	data->mlx.p_mlx = mlx_init();
+	if (data->mlx.p_mlx == NULL)
+		return (1);
+	data->mlx.mlx_win = mlx_new_window(data->mlx.p_mlx, WIDTH, HEIGHT, "Cube3d");
+	if (data->mlx.mlx_win == NULL)
+	{
+		free(data->mlx.mlx_win);
+		return (1);
+	}
+	data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
+	data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel,
+			&data->mlx.line_length, &data->mlx.endian);
+	return (0);
+}
 int main(int argc, char **argv, char **envp) 
 {
     t_data data;
@@ -105,6 +92,8 @@ int main(int argc, char **argv, char **envp)
 	 * 4 - cast les rayons en transformant l'angle en radians */
     printf("Player start position: (%d, %d)\n", player_x, player_y);
     printf("Player start direction: %c\n", player_dir);
+	init_mlx(&data);
+	mlx_put_image_to_window(data.mlx.p_mlx, data.mlx.mlx_win, data.mlx.img, 0, 0);
 	free_map_struct(&data);
     return 0;
 }
