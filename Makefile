@@ -1,37 +1,83 @@
-NAME = cube3d
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
+#    Updated: 2024/09/04 09:52:00 by whamdi           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = cub3d
 CC = cc
+RM = rm -rf
+XFLAGS = -Lmlx_linux -Imlx_linux -lX11 -lXext -lm -lz -Ofast
 CFLAGS = -Wall -Wextra -Werror -g3
-
-SRCS = src/main.c
-OBJS = $(SRCS:.c=.o)
-
-MINILIBXPATH = ./minilibx-linux/
-LIBFTPATH = ./libft/
-LIBFT = -L$(LIBFTPATH)
-MINILIBX = -L$(MINILIBXPATH) -lmlx -lXext -lX11
-PRINTFPATH = ./Printf/
-PRINTF = -L$(PRINTFPATH)
 MLX_PATH = minilibx-linux/
+LIBFT_CUB3D_PATH = libft_cub3D/
+LIB_MLX = minilibx-linux/libmlx.a
+LIBFT_CUB3D = libft_cub3D/cub3D.a
+
+BOLD    = \e[1m
+FADE    = \e[2m
+ITA     = \e[3m
+BLINK   = \e[5m
+GREEN   = \e[38;5;76m
+RED     = \e[38;5;196m
+YELLOW  = \e[38;5;227m
+ORANGE  = \e[38;5;208m
+PURPLE  = \e[38;5;201m
+LBLUE   = \e[38;5;45m
+BLUE    = \e[38;5;27m
+INDI    = \e[38;5;91m
+SPINK   = \e[38;5;225m
+PEACH   = \e[38;5;223m
+GREY    = \e[38;5;254m
+RESET   = \e[00m
+
+SOURCE = ./src/
+
+PARSING = $(addprefix parsing/, checker.c parser.c free_handler.c)
+GAME = $(addprefix $(SOURCE), $(PARSING) main.c)
+
+SRC = $(GAME)
+OBJ = $(SRC:%.c=%.o)
+
 all: minilibx-linux $(NAME)
 
-$(NAME): $(OBJS)
-		make -C $(MINILIBXPATH)
-		make -C $(LIBFTPATH)
-		make -C $(PRINTFPATH)
-		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(PRINTF) -lftprintf $(LIBFT) -lft $(MINILIBX) -lm -lbsd
-
+$(NAME): $(OBJ)
+	@echo "$(BOLD)Linking...$(RESET)"
+	@make -sC $(MLX_PATH)
+	@make -sC $(LIBFT_CUB3D_PATH)
+	$(RM) $(NAME)
+	make all -C ./libft_cub3D
+	$(CC) $(CFLAGS) $(OBJ) $(LIB_MLX) $(XFLAGS) $(LIBFT_CUB3D) -o $(NAME)
+	@echo "$(GREEN)Executable '$(NAME)' created successfully!$(RESET)"
+	
 minilibx-linux:
 	git clone https://github.com/42Paris/minilibx-linux.git $@
+	
 %.o: %.c
-	$(CC) $(CFLAGS) -I$(LIBFTPATH) -I$(MINILIBXPATH) -I$(PRINTFPATH) -c $< -o $@
+	@echo "$(BOLD)Compiling $<...$(RESET)"
+	$(CC) $(CFLAGS) -c $< -o $(<:%.c=%.o)
+	@echo "$(GREEN)$@ compiled successfully!$(RESET)"
 
 clean:
-	rm -f $(OBJS)
+	@echo "$(BOLD)Cleaning object files...$(RESET)"
+	$(RM) $(OBJ)
+	make clean -C ./libft_cub3D
 	make clean -C $(MLX_PATH)
+	@echo "$(GREEN)Object files cleaned successfully!$(RESET)"
+	
 fclean: clean
-	rm -f $(NAME)
-	make -C $(MINILIBXPATH) clean
-	make -C $(LIBFTPATH) fclean
-	make -C $(PRINTFPATH) fclean
+	@echo "$(BOLD)Cleaning executable...$(RESET)"
+	$(RM) $(NAME)
+	make fclean -C ./libft_cub3D
+	$(RM) ./minilibx-linux  
+	@echo "$(GREEN)Executable cleaned successfully!$(RESET)"
 
 re: fclean all
+
+.PHONY: all clean fclean re

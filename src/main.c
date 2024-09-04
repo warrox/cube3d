@@ -6,13 +6,13 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/03 15:42:26 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:49:44 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // REVOIR 4. Calcul de la Direction de Chaque Rayon
 #include <stdio.h>
-#include "../cube3d_lib.h"
+#include "../includes/cub3D_lib.h"
 
 void init_player(t_data *data)
 {
@@ -66,8 +66,11 @@ char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "111111"
 };
 
-int main() {
+int main(int argc, char **argv, char **envp) 
+{
     t_data data;
+	checker(argc, argv, envp);
+	map_parser(&data, argv[1]);	
 	// Afficher la carte pour vérification
     for (int i = 0; i < MAP_HEIGHT; i++) {
         printf("%s\n", map[i]);
@@ -102,5 +105,6 @@ int main() {
 	 * 4 - cast les rayons en transformant l'angle en radians */
     printf("Player start position: (%d, %d)\n", player_x, player_y);
     printf("Player start direction: %c\n", player_dir);
+	free_map_struct(&data);
     return 0;
 }
