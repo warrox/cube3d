@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/04 14:39:15 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/04 16:56:44 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,24 @@ char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "100001",
     "111111"
 };
+void	img_pix_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 1 || x >= WIDTH - 1 || y < 1 || y >= HEIGHT - 1)
+		return ;
+	dst = data->mlx.addr + (y * data->mlx.line_length + x * (data->mlx.bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+int	ray_render(t_data *data)
+{
+	if (data->mlx.mlx_win != NULL)
+	{
+		img_pix_put(data, data->player.x, data->player.y, 00142); //replace last param (HEXCOLOR)
+	}
+	//render floor camera
+	return (0);
+}
 int	init_mlx(t_data *data)
 {
 	data->mlx.mlx_win = NULL;
@@ -85,7 +103,14 @@ int main(int argc, char **argv, char **envp)
     printf("Player start position: (%d, %d)\n", player_x, player_y);
     printf("Player start direction: %c\n", player_dir);
 	init_mlx(&data);
-	mlx_put_image_to_window(data.mlx.p_mlx, data.mlx.mlx_win, data.mlx.img, 0, 0);
+	mlx_put_image_to_window(data.mlx.p_mlx, data.mlx.mlx_win, data.mlx.img, 0, 0);	
+	// mlx_hook(data.mlx.mlx_win, 17, 0, close_window, data);
+	// mlx_hook(data->mlx.mlx_win, KeyPress, KeyPressMask, key_handler, data);
+	// mlx_hook(data->mlx.mlx_win, KeyRelease, KeyReleaseMask, key_release_handler,data);
+	// mlx_mouse_hide(data->mlx,data->mlx.mlx_win);
+	// mlx_hook(data->window, MotionNotify, PointerMotionMask, handle_mouvement,data);
+	// mlx_mouse_hook(data->window, handle_mouse, data);
+	mlx_loop_hook(&data.mlx, &ray_render, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
 	free_map_struct(&data);
     return 0;

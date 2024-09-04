@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 13:32:29 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/04 16:53:39 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@
 # define w_value 10
 # define WIDTH	800
 # define HEIGHT 800
+
+
+#define W_KEY 119
+#define A_KEY 97
+#define S_KEY 115
+#define D_KEY 100
+#define ARROW_LEFT 65361
+#define ARROW_UP 65362
+#define ARROW_RIGHT 65363
+#define ARROW_DOWN 65364
 /*all structures*/
 
 typedef struct s_map
@@ -47,6 +57,8 @@ typedef struct s_player
 	int distance;
 	int angle;
 	int radians;
+	int x;
+	int y;
 	double time; //time of current frame
 	double oldTime; //time of previous frame
 }				t_player;
