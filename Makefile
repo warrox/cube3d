@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+         #
+#    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/04 09:52:00 by whamdi           ###   ########.fr        #
+#    Updated: 2024/09/04 10:38:01 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ RESET   = \e[00m
 
 SOURCE = ./src/
 
-PARSING = $(addprefix parsing/, checker.c parser.c free_handler.c)
+PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c)
 GAME = $(addprefix $(SOURCE), $(PARSING) main.c)
 
 SRC = $(GAME)
@@ -67,15 +67,15 @@ minilibx-linux:
 clean:
 	@echo "$(BOLD)Cleaning object files...$(RESET)"
 	$(RM) $(OBJ)
-	make clean -C ./libft_cub3D
-	make clean -C $(MLX_PATH)
+	@make clean -C ./libft_cub3D
+	@if [ -d "minilibx-linux" ]; then make clean -C minilibx-linux; fi
 	@echo "$(GREEN)Object files cleaned successfully!$(RESET)"
 	
 fclean: clean
 	@echo "$(BOLD)Cleaning executable...$(RESET)"
 	$(RM) $(NAME)
-	make fclean -C ./libft_cub3D
-	$(RM) ./minilibx-linux  
+	-make fclean -C ./libft_cub3D
+	-$(RM) ./minilibx-linux  
 	@echo "$(GREEN)Executable cleaned successfully!$(RESET)"
 
 re: fclean all
