@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/04 13:38:43 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/04 14:39:15 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "100001",
     "111111"
 };
-/*void	*p_mlx;
-	void	*mlx_win;
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-*/
 int	init_mlx(t_data *data)
 {
 	data->mlx.mlx_win = NULL;
@@ -94,6 +86,7 @@ int main(int argc, char **argv, char **envp)
     printf("Player start direction: %c\n", player_dir);
 	init_mlx(&data);
 	mlx_put_image_to_window(data.mlx.p_mlx, data.mlx.mlx_win, data.mlx.img, 0, 0);
+	mlx_loop(data.mlx.p_mlx);
 	free_map_struct(&data);
     return 0;
 }
