@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_handler.c                                     :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/04 08:38:59 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 11:11:45 by cyferrei         ###   ########.fr       */
+/*   Created: 2024/09/04 10:37:37 by cyferrei          #+#    #+#             */
+/*   Updated: 2024/09/04 11:12:08 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
-void	free_map_struct(t_data *data)
+char	*new_alloc(t_data *data, char *ptr, int size)
 {
-	free(data->map);
+	char	*new;
+
+	new = NULL;
+	free(ptr);
+	new = malloc((size + 1) * sizeof(char));
+	if (!new)
+	{
+		printf("\033[31mError\nFail to allocate memory for map_line!\n\033[0m");
+		free(data->map);
+		exit(EXIT_FAILURE);
+	}
+	return (new);
 }
