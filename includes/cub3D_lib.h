@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 11:09:21 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 09:41:10 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,12 @@ void			free_map_struct(t_data *data);
 /*utils functions*/
 
 char			*new_alloc(t_data *data, char *ptr, int size);
+void	debug(char *msg);
+
+/*error functions*/
+
+void	error_msg(char *msg);
+void	error_read(t_data *data, char *map_line, char *msg);
+void	error_open(t_data *data, char *map_line);
 
 #endif
