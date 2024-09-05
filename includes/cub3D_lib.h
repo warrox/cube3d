@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 16:53:39 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/05 11:04:47 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define WIDTH	800
 # define HEIGHT 800
 
-
+#define MOVE_SPEED 5 
 #define W_KEY 119
 #define A_KEY 97
 #define S_KEY 115
@@ -57,6 +57,7 @@ typedef struct s_player
 	int distance;
 	int angle;
 	int radians;
+	char dir;
 	int x;
 	int y;
 	double time; //time of current frame
@@ -117,5 +118,6 @@ void	free_map_struct(t_data *data);
 /*RAYCASTING functions*/
 void init_player(t_data *data);
 double get_angle_posplayer(char player_dir);
-void ray_cast_radians(int player_angle, t_data *data);
+void ray_cast_radians(t_data *data);
+void	img_pix_put(t_data *data, int x, int y, int color);
 #endif
