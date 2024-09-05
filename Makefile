@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/05 09:24:19 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/05 11:26:43 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ RESET   = \e[00m
 
 SOURCE = ./src/
 
-PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c)
+PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c cutter.c)
 GAME = $(addprefix $(SOURCE), $(PARSING) main.c)
 
 SRC = $(GAME)
