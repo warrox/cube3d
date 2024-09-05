@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:23:23 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 09:43:57 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 10:50:04 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,21 @@ void	init_map_struct(t_data *data)
 	data->map = malloc(sizeof(t_map));
 	if (!data->map)
 		error_msg("Fail to allocate memory for map!");
-	data->map->line_map = NULL;
 	data->map->fd = ZERO_INIT;
+	data->map->map_line_cpy = NULL;
+	data->map->data_tab = NULL;
 }
 
-void	map_parser(t_data *data, char *file)
+void	cpy_map_data(t_data *data, char *map_line)
+{
+	data->map->map_line_cpy = ft_strdup(map_line);
+	if (!data->map->map_line_cpy)
+		error_cpy(data, map_line);
+	close(data->map->fd);
+	free(map_line);
+}
+
+void	file_parser(t_data *data, char *file)
 {
 	char	*map_line;
 	int		bytes_read;
@@ -58,5 +68,5 @@ void	map_parser(t_data *data, char *file)
 		map_line = new_alloc(data, map_line, size_read);
 	}
 	map_line[bytes_read] = '\0';
-	(close(data->map->fd), free(map_line));
+	cpy_map_data(data, map_line);
 }
