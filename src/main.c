@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 10:13:19 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:48:23 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,6 @@ int main(int argc, char **argv, char **envp)
 	//  * 4 - cast les rayons en transformant l'angle en radians */
     // printf("Player start position: (%d, %d)\n", player_x, player_y);
     // printf("Player start direction: %c\n", player_dir);
-	free_map_struct(&data);
+	free_file_struct(&data);
     return 0;
 }
