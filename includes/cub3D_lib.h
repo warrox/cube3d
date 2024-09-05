@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 09:41:10 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:27:31 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@
 
 typedef struct s_map
 {
-	char		*line_map;
+	char		*map_line_cpy;
+	char		**data_tab;
 	int			fd;
 }				t_map;
 
@@ -76,17 +77,21 @@ void			checker(int argc, char **argv, char **envp);
 void			check_envp(char **envp);
 void			check_nb_args(int argc);
 void			check_extension(char **argv);
-int				ft_count_dot(char *argv, char c);
+int				ft_count_char(char *argv, char c);
 
 /*parsing functions*/
 
-void			map_parser(t_data *data, char *file);
+void			file_parser(t_data *data, char *file);
 void			init_map_struct(t_data *data);
 int				open_file(char *file);
+void			cpy_map_data(t_data *data, char *map_line);
+void			file_cutter(t_data *data);
+void			check_order_data(t_data *data);
 
 /*free functions*/
 
 void			free_map_struct(t_data *data);
+void			free_split(t_data *data);
 
 /*utils functions*/
 
@@ -98,5 +103,8 @@ void			debug(char *msg);
 void			error_msg(char *msg);
 void			error_read(t_data *data, char *map_line, char *msg);
 void			error_open(t_data *data, char *map_line);
+void			error_cpy(t_data *data, char *map_line);
+void			error_split(t_data *data);
+void			error_order(t_data *data);
 
 #endif
