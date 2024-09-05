@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:03:29 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 11:11:35 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 09:30:22 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,13 @@
 void	check_envp(char **envp)
 {
 	if (!*envp)
-	{
-		printf("\033[31mError\nNo environment variable!\n\033[0m");
-		exit(EXIT_FAILURE);
-	}
+		error_msg("No environment variable!");
 }
 
 void	check_nb_args(int argc)
 {
 	if (argc != 2)
-	{
-		printf("\033[31mError\n2 args needed!\n\033[0m");
-		exit(EXIT_FAILURE);
-	}
+		error_msg("2 args needed!");
 }
 
 int	ft_count_dot(char *argv, char c)
@@ -52,18 +46,12 @@ void	check_extension(char **argv)
 
 	str = NULL;
 	if (ft_count_dot(argv[1], '.') != 1)
-	{
-		printf("\033[31mError\nMap needs to be in .cub!\n\033[0m");
-		exit(EXIT_FAILURE);
-	}
+		error_msg("File needs to be in .cub!");
 	str = ft_strrchr(argv[1], '.');
 	if (str)
 	{
 		if (ft_strcmp(str, ".cub") != 0)
-		{
-			printf("\033[31mError\nMap needs to be in .cub!\n\033[0m");
-			exit(EXIT_FAILURE);
-		}
+			error_msg("File needs to be in .cub!");
 	}
 }
 

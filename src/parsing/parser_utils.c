@@ -6,11 +6,12 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:37:37 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/04 11:12:08 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 08:55:30 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
 
 char	*new_alloc(t_data *data, char *ptr, int size)
 {
