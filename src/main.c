@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 08:56:35 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/05 10:13:19 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
 int main(int argc, char **argv, char **envp) 
 {
     t_data data;
+	
 	checker(argc, argv, envp);
-	map_parser(&data, argv[1]);	
+	file_parser(&data, argv[1]);
+	file_cutter(&data);
 	// Afficher la carte pour vérification
     // for (int i = 0; i < MAP_HEIGHT; i++) {
     //     printf("%s\n", map[i]);
