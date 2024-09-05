@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 11:10:35 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/05 14:19:03 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "111111",
     "100001",
-    "100E01",
     "100001",
+    "10E001",
     "111111"
 };
 int key_handler(int keycode, t_data *data) 
@@ -42,21 +42,12 @@ int key_handler(int keycode, t_data *data)
     return (0);
 }
 
-void	img_pix_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 1 || x >= WIDTH - 1 || y < 1 || y >= HEIGHT - 1)
-		return ;
-	dst = data->mlx.addr + (y * data->mlx.line_length + x * (data->mlx.bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
 
 int	ray_render(void *param)
 {
 	t_data *data = (t_data *) param;
     
-	mlx_clear_window(data->mlx.p_mlx, data->mlx.mlx_win);
+	// mlx_clear_window(data->mlx.p_mlx, data->mlx.mlx_win);
     mlx_destroy_image(data->mlx.p_mlx, data->mlx.img);
 	data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
     data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel, &data->mlx.line_length, &data->mlx.endian);

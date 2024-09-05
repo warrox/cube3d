@@ -6,12 +6,21 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 11:11:19 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/05 14:16:05 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 #include <stdio.h>
+void	img_pix_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 1 || x >= WIDTH - 1 || y < 1 || y >= HEIGHT - 1)
+		return ;
+	dst = data->mlx.addr + (y * data->mlx.line_length + x * (data->mlx.bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
 
 void init_player(t_data *data)
 {
@@ -54,7 +63,8 @@ void ray_cast_radians(t_data *data)
     double ray_dir_x = cos(ray_angle);
     double ray_dir_y = sin(ray_angle);
 
-    for (int len = 0; len < 100; len++) { // Longueur maximale du rayon
+   
+	for (int len = 0; len < 100; len++) { // Longueur maximale du rayon
         int ray_x = data->player.x + (int)(ray_dir_x * len);
         int ray_y = data->player.y + (int)(ray_dir_y * len);
 		// printf("ray x : %d\n",ray_x);
@@ -62,7 +72,7 @@ void ray_cast_radians(t_data *data)
         //if dans la fenetre
 		if (ray_x >= 0 && ray_x < WIDTH && ray_y >= 0 && ray_y < HEIGHT) {
             // printf("GOIN BEFORE PIXPUT\n");
-			img_pix_put(data, ray_x, ray_y, 0x00FF00); // Vert
+			img_pix_put(data, ray_y, ray_x, 0x00FF00); // Vert
         }
     }
 
