@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 12:46:52 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/04 11:14:20 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/05 16:14:42 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ SRC = ft_itoa.c \
 		ft_bzero.c \
 		ft_putnbr_fd.c \
 		ft_split.c \
-		ft_strstr.c
+		ft_strstr.c \
+		ft_strncmp.c \
+		ft_atoi.c
 
 NAME = cub3D.a
 OBJS = $(SRC:.c=.o)
