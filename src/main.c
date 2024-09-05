@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/04 09:49:44 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/05 08:56:35 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,39 +72,39 @@ int main(int argc, char **argv, char **envp)
 	checker(argc, argv, envp);
 	map_parser(&data, argv[1]);	
 	// Afficher la carte pour vérification
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        printf("%s\n", map[i]);
-    }
-	// Initialisation du joueur
-	init_player(&data); 
-    int player_x = 0;
-	int player_y = 0;
-	int player_angle = 0;
-    char player_dir = ' ';
+    // for (int i = 0; i < MAP_HEIGHT; i++) {
+    //     printf("%s\n", map[i]);
+    // }
+	// // Initialisation du joueur
+	// init_player(&data); 
+    // int player_x = 0;
+	// int player_y = 0;
+	// int player_angle = 0;
+    // char player_dir = ' ';
 
-    // Rechercher la position initiale du joueur
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < MAP_WIDTH; j++) {
-            if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E') {
-                player_x = j;
-                player_y = i;
-				player_angle = get_angle_posplayer(map[i][j]);
-                player_dir = map[i][j];
-                map[i][j] = '0'; // Remplace la position par un espace vide une fois que tu as enregistré la position du joueur
-                break;
-            }
-        }
-    }
-	// generate raycasting 
-	ray_cast_radians(player_angle, &data);
-	// de ce que je comprend je peux theroiquement deja afficher une scene en utilisant la minilibx
-	/*Les etapes : 
-	 * 1 - check de la map 
-	 * 2 - chercher la position initiale du player via NWES
-	 * 3 - obtenir l'angle du joueur
-	 * 4 - cast les rayons en transformant l'angle en radians */
-    printf("Player start position: (%d, %d)\n", player_x, player_y);
-    printf("Player start direction: %c\n", player_dir);
+    // // Rechercher la position initiale du joueur
+    // for (int i = 0; i < MAP_HEIGHT; i++) {
+    //     for (int j = 0; j < MAP_WIDTH; j++) {
+    //         if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E') {
+    //             player_x = j;
+    //             player_y = i;
+	// 			player_angle = get_angle_posplayer(map[i][j]);
+    //             player_dir = map[i][j];
+    //             map[i][j] = '0'; // Remplace la position par un espace vide une fois que tu as enregistré la position du joueur
+    //             break;
+    //         }
+    //     }
+    // }
+	// // generate raycasting 
+	// ray_cast_radians(player_angle, &data);
+	// // de ce que je comprend je peux theroiquement deja afficher une scene en utilisant la minilibx
+	// /*Les etapes : 
+	//  * 1 - check de la map 
+	//  * 2 - chercher la position initiale du player via NWES
+	//  * 3 - obtenir l'angle du joueur
+	//  * 4 - cast les rayons en transformant l'angle en radians */
+    // printf("Player start position: (%d, %d)\n", player_x, player_y);
+    // printf("Player start direction: %c\n", player_dir);
 	free_map_struct(&data);
     return 0;
 }
