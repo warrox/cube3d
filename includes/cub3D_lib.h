@@ -91,12 +91,12 @@ void			free_map_struct(t_data *data);
 /*utils functions*/
 
 char			*new_alloc(t_data *data, char *ptr, int size);
-void	debug(char *msg);
+void			debug(char *msg);
 
 /*error functions*/
 
-void	error_msg(char *msg);
-void	error_read(t_data *data, char *map_line, char *msg);
-void	error_open(t_data *data, char *map_line);
+void			error_msg(char *msg);
+void			error_read(t_data *data, char *map_line, char *msg);
+void			error_open(t_data *data, char *map_line);
 
 #endif

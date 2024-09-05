@@ -12,7 +12,6 @@
 
 #include "../../includes/cub3D_lib.h"
 
-
 char	*new_alloc(t_data *data, char *ptr, int size)
 {
 	char	*new;
