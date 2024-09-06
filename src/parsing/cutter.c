@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 19:23:02 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/06 20:56:07 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,34 +57,42 @@ void	extract_data(t_data *data)
 	int	end_settings;
 	int	i;
 	int	j;
+	int	k;
 	
 	i = ZERO_INIT;
 	j = ZERO_INIT;
+	k = ZERO_INIT;
 	end_settings = ZERO_INIT;
 	end_settings = extract_settings(data);
 	while(data->file->tab_data[i] && i <= end_settings)
 	{
+		j = 0;
+		k = 0;
 		while(data->file->tab_data[i][j] == ' ' || data->file->tab_data[i][j] == '\t')
 			j++;
 		data->file->split_settings = ft_split(data->file->tab_data[i], ' ');
 		if (!data->file->split_settings)
 			error_order(data);
-		int k = 0;
 		while(data->file->split_settings[k])
 		{
-			//printf("[%s]\n", data->file->split_settings[k]);
+			dprintf(2, "ICI_> %d\n", detect_data(data, data->file->split_settings[k]));
 			if(detect_data(data, data->file->split_settings[k]) == F || detect_data(data, data->file->split_settings[k]) == C) // || == C
-			{
-				printf("OK\n");
 				set_value(data, data->file->split_settings, detect_data(data, data->file->split_settings[k]));
+			// this part is for tests
+			else if(detect_data(data, data->file->split_settings[k]) == 'E' || detect_data(data, data->file->split_settings[k]) == 'N' || detect_data(data, data->file->split_settings[k]) == 'W' || detect_data(data, data->file->split_settings[k]) == 'S')
+				i++;
+			else
+			{
+				printf("ERROR!!!!\n");
+				dprintf(2, "ICI_> %d\n", detect_data(data, data->file->split_settings[k]));
+				exit(1);		
 			}
 			k++;
 		}
-		printf("--\n");
 		i++;
 		free_split(data->file->split_settings);
 	}
-	printf("finalF R | - | -: %d\n", data->color->f_r);
+	printf("\nfinalF R | - | -: %d\n", data->color->f_r);
 	printf("finalF - | G | -: %d\n", data->color->f_g);
 	printf("finalF - | - | B: %d\n", data->color->f_b);
 	printf("finalC R | - | -: %d\n", data->color->c_r);
