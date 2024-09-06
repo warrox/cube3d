@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 13:23:05 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:08:56 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,33 @@
 # define WIDTH	800
 # define HEIGHT 800
 
-#define MOVE_SPEED 5 
-#define W_KEY 119
-#define A_KEY 97
-#define S_KEY 115
-#define D_KEY 100
-#define ARROW_LEFT 65361
-#define ARROW_UP 65362
-#define ARROW_RIGHT 65363
-#define ARROW_DOWN 65364
+#define MOVE_SPEED 0.1 
 /*all structures*/
-
+enum 
+{
+    PLUS = 61,
+    MINUS = 45,
+    WHEEL_DOWN = 5,
+    W_KEY = 119,
+    A_KEY = 97,
+    S_KEY = 115,
+    D_KEY = 100,
+    P_KEY = 112,
+    E_KEY = 101,
+    ARROW_LEFT = 65361,
+    ARROW_UP = 65362,
+    ARROW_RIGHT = 65363,
+    ARROW_DOWN = 65364,
+    LEFT = 1,
+    UP = 2,
+    RIGHT = 3,
+    DOWN = 4,
+    X = 0,
+    Y = 1,
+    ESCAPE = 65307,
+    PLEFT = 91,
+    PRIGHT = 93,
+};
 typedef struct s_map
 {
 	char 	*line_map;
@@ -54,14 +70,16 @@ typedef struct s_map
 typedef struct s_player
 {
 	float fov;
-	int distance;
-	int angle;
-	int radians;
+	double distance;
+	double angle;
+	double radians;
 	char dir;
-	int x;
-	int y;
+	double x;
+	double y;
 	double time; //time of current frame
 	double oldTime; //time of previous frame
+	double size_width;
+	double size_height; 
 }				t_player;
 typedef struct s_mlx
 {
@@ -80,6 +98,8 @@ typedef struct s_data
 	t_map	*map;
 	int wall;
 	int ground;
+	int cell_width;
+	int cell_height;
 
 }				t_data;
 

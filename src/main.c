@@ -6,39 +6,58 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 14:19:03 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:03:03 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // REVOIR 4. Calcul de la Direction de Chaque Rayon
 #include <stdio.h>
 #include "../includes/cub3D_lib.h"
-
 // implement a calculation function to build the fov
 char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
     "111111",
-    "100001",
-    "100001",
+    "101001",
+    "101001",
     "10E001",
     "111111"
 };
+
+
 int key_handler(int keycode, t_data *data) 
 {
-	if (keycode == 119) { // W key
-		printf("W pressed\n"); 
-		data->player.x += MOVE_SPEED * cos(data->player.angle);
-        data->player.y += MOVE_SPEED * sin(data->player.angle);
-		// printf("X : %d\n", data->player.x);	
-		// printf("Y : %d\n", data->player.y);
-    } else if (keycode == 115) { // S key
-        
-		printf("S pressed\n"); 
-		data->player.x -= MOVE_SPEED * cos(data->player.angle);
-        data->player.y -= MOVE_SPEED * sin(data->player.angle);
-		// printf("X : %d\n", data->player.x);	
-		// printf("Y : %d\n", data->player.y);
-
+    float new_x = data->player.x;
+    float new_y = data->player.y;
+    printf("KEY : %d\n",keycode);
+	if (keycode == W_KEY) 
+	{ // w key
+        new_x += MOVE_SPEED * cos(data->player.angle);
+        new_y += MOVE_SPEED * sin(data->player.angle);
+    } 
+	if (keycode == S_KEY) 
+	{ // s key
+        new_x -= MOVE_SPEED * cos(data->player.angle);
+        new_y -= MOVE_SPEED * sin(data->player.angle);
     }
+	if(keycode == A_KEY)
+	{
+		new_y += MOVE_SPEED * cos(data->player.angle);
+        new_x += MOVE_SPEED * sin(data->player.angle);
+		printf("GOIN]n");
+	}
+	if(keycode == D_KEY)
+	{
+		new_y -= MOVE_SPEED * cos(data->player.angle);
+        new_x -= MOVE_SPEED * sin(data->player.angle);
+		printf("GOIN]n");
+	}
+
+
+    // Vérification des collisions (pour éviter que le joueur traverse les murs)
+    if (map[(int)new_y][(int)new_x] != '1') {
+        data->player.x = new_x;
+        data->player.y = new_y;
+    }
+
     return (0);
 }
 
@@ -57,9 +76,73 @@ int	ray_render(void *param)
 
     return (0);
 }
+
+void draw_rectangle(t_data *data, int x, int y, int width, int height, int color)
+{
+	int i = x;
+	int j;
+	
+	while (i < x + width)
+	{
+		j = y;
+		while (j < y + height)
+		{
+			img_pix_put(data, i, j, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+int minimap_render(void *param)
+{
+    t_data *data = (t_data *)param;
+    int i = 0;
+    int j;
+    data->cell_width = WIDTH / MAP_WIDTH;
+    data->cell_height = HEIGHT / MAP_HEIGHT;
+
+    mlx_destroy_image(data->mlx.p_mlx, data->mlx.img);
+    data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
+    data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel, &data->mlx.line_length, &data->mlx.endian);
+
+    // Affichage de la mini-map (murs et sol)
+    while (i < MAP_HEIGHT)
+    {
+        j = 0;
+        while (j < MAP_WIDTH)
+        {
+            if (map[i][j] == '1')
+            {
+                draw_rectangle(data, j * data->cell_width, i * data->cell_height, data->cell_width, data->cell_height, 0x808080); // mur gris
+            }
+            else if (map[i][j] == '0' || map[i][j] == 'E')
+            {
+                draw_rectangle(data, j * data->cell_width, i * data->cell_height, data->cell_width, data->cell_height, 0xFFFFFF); // sol blanc
+            }
+            j++;
+        }
+        i++;
+    }
+
+    // Dessiner le joueur après la mini-map
+    data->player.size_width = data->cell_width * 0.25;
+    data->player.size_height = data->cell_height * 0.25;
+
+    // Utilise la position du joueur en pixels (déjà calculée en termes de grille dans key_handler)
+    double player_x = data->player.x * data->cell_width + (data->cell_width - data->player.size_width ) / 2; // Centre le joueur sur la cellule
+    double player_y = data->player.y * data->cell_height + (data->cell_height - data->player.size_height ) / 2;
+
+    // Dessiner le joueur (après avoir dessiné la carte)
+    draw_rectangle(data, player_x, player_y, data->player.size_width , data->player.size_height , 0xFF0000);
+	ray_cast_radians(data);
+    mlx_put_image_to_window(data->mlx.p_mlx, data->mlx.mlx_win, data->mlx.img, 0, 0);
+    return (0);
+}
 int	init_mlx(t_data *data)
 {
-	data->mlx.mlx_win = NULL;
+	data->mlx
+		.mlx_win = NULL;
 	data->mlx.img = NULL;
 	data->mlx.addr = NULL;
 	data->mlx.bits_per_pixel = 0;
@@ -77,7 +160,8 @@ int	init_mlx(t_data *data)
 	}
 	data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
 	data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel,
-			&data->mlx.line_length, &data->mlx.endian);
+			&data->mlx.line_length, &data->mlx.endian);	
+	mlx_put_image_to_window(data->mlx.p_mlx, data->mlx.mlx_win, data->mlx.img, 0, 0);	
 	return (0);
 }
 int main(int argc, char **argv, char **envp) 
@@ -86,10 +170,9 @@ int main(int argc, char **argv, char **envp)
 	checker(argc, argv, envp);
 	map_parser(&data, argv[1]);	
 	// carte vérification
-    // for (int i = 0; i < MAP_HEIGHT; i++) {
-    //     printf("%s\n", map[i]);
-    // }
-	// Initialisation du joueur
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        printf("%s\n", map[i]);
+    }
 	init_player(&data); 
 
     // Rechercher la position initiale du joueur
@@ -100,27 +183,14 @@ int main(int argc, char **argv, char **envp)
                 data.player.y = i;
 				data.player.angle = get_angle_posplayer(map[i][j]);
                 data.player.dir = map[i][j];
-                map[i][j] = '0'; // Remplace la position par un espace vide une fois que tu as enregistré la position du joueur
                 break;
             }
         }
     }
-	printf("player x %d\t player y %d\n ", data.player.x, data.player.y);
-	// generate raycasting 
-	// ray_cast_radians(player_angle, &data);
-	// de ce que je comprend je peux theroiquement deja afficher une scene en utilisant la minilibx
-	/*Les etapes : 
-	 * 1 - check de la map 
-	 * 2 - chercher la position initiale du player via NWES
-	 * 3 - obtenir l'angle du joueur
-	 * 4 - cast les rayons en transformant l'angle en radians */
-    // printf("Player start position: (%d, %d)\n", player_x, player_y);
-    // printf("Player start direction: %c\n", player_dir);
+	printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
 	init_mlx(&data);
-	mlx_put_image_to_window(data.mlx.p_mlx, data.mlx.mlx_win, data.mlx.img, 0, 0);	
-	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
-	
-    printf("GOIN main before hook ray_render\n");
-	mlx_loop_hook(data.mlx.p_mlx, ray_render, (void *)&data);
+	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);		
+	// mlx_loop_hook(data.mlx.p_mlx, ray_render, (void *)&data);
+	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
 }

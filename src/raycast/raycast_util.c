@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 14:16:05 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:07:49 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	img_pix_put(t_data *data, int x, int y, int color)
 	if (x < 1 || x >= WIDTH - 1 || y < 1 || y >= HEIGHT - 1)
 		return ;
 	dst = data->mlx.addr + (y * data->mlx.line_length + x * (data->mlx.bits_per_pixel / 8));
+	// printf("COLOR : %d\n", color);
+	// fflush(stdout);
 	*(unsigned int *)dst = color;
 }
 
@@ -31,8 +33,8 @@ void init_player(t_data *data)
 	data->ground = 0;
 	data->player.time = 0; //time of current frame
 	data->player.oldTime = 0; // time of previous frame
-	data->player.x = 0;
-	data->player.y = 0;
+	data->player.x = -1;
+	data->player.y = -1;
 }
 
 double get_angle_posplayer(char player_dir)
@@ -64,15 +66,17 @@ void ray_cast_radians(t_data *data)
     double ray_dir_y = sin(ray_angle);
 
    
-	for (int len = 0; len < 100; len++) { // Longueur maximale du rayon
-        int ray_x = data->player.x + (int)(ray_dir_x * len);
-        int ray_y = data->player.y + (int)(ray_dir_y * len);
+	for (int len = 0; len < 1000; len++) { // Longueur maximale du rayon
+        
+		// int ray_x = (data->player.x * data->cell_width) + (data->cell_width + (int)(ray_dir_x * len));
+		int ray_x = (data->player.x * data->cell_width) + (int)(ray_dir_x * len);
+		int ray_y = (data->player.y * data->cell_height + 65) + (int)(ray_dir_y * len);
 		// printf("ray x : %d\n",ray_x);
 		// printf("ray y : %d\n",ray_y);
         //if dans la fenetre
 		if (ray_x >= 0 && ray_x < WIDTH && ray_y >= 0 && ray_y < HEIGHT) {
             // printf("GOIN BEFORE PIXPUT\n");
-			img_pix_put(data, ray_y, ray_x, 0x00FF00); // Vert
+			img_pix_put(data, ray_x, ray_y, 0x00FF00); // Vert
         }
     }
 
