@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/06 17:03:03 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:17:40 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,8 @@ int minimap_render(void *param)
     data->player.size_height = data->cell_height * 0.25;
 
     // Utilise la position du joueur en pixels (déjà calculée en termes de grille dans key_handler)
-    double player_x = data->player.x * data->cell_width + (data->cell_width - data->player.size_width ) / 2; // Centre le joueur sur la cellule
-    double player_y = data->player.y * data->cell_height + (data->cell_height - data->player.size_height ) / 2;
+    double player_x = data->player.x * data->cell_width;
+    double player_y = data->player.y * data->cell_height;
 
     // Dessiner le joueur (après avoir dessiné la carte)
     draw_rectangle(data, player_x, player_y, data->player.size_width , data->player.size_height , 0xFF0000);

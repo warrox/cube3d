@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/06 17:07:49 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:20:04 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void ray_cast_radians(t_data *data)
 	for (int len = 0; len < 1000; len++) { // Longueur maximale du rayon
         
 		// int ray_x = (data->player.x * data->cell_width) + (data->cell_width + (int)(ray_dir_x * len));
-		int ray_x = (data->player.x * data->cell_width) + (int)(ray_dir_x * len);
-		int ray_y = (data->player.y * data->cell_height + 65) + (int)(ray_dir_y * len);
+		int ray_x = (data->player.x * data->cell_width + data->player.size_height) + (int)(ray_dir_x * len);
+		int ray_y = (data->player.y * data->cell_height + data->player.size_width / 2) + (int)(ray_dir_y * len);
 		// printf("ray x : %d\n",ray_x);
 		// printf("ray y : %d\n",ray_y);
         //if dans la fenetre
