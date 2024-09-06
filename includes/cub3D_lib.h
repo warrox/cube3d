@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 19:37:32 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/06 20:24:18 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void			extract_data(t_data *data);
 int				extract_settings(t_data *data);
 int				detect_data(t_data *data, char *str);
 void			set_value(t_data *data, char **split, int sett);
+void	check_nb_colors(t_data *data, char **split);
 
 /*free functions*/
 
