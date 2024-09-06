@@ -3,68 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/05 16:48:23 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:15:46 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // REVOIR 4. Calcul de la Direction de Chaque Rayon
-#include <stdio.h>
 #include "../includes/cub3D_lib.h"
 
-void init_player(t_data *data)
-{
-	data->player.fov = 60; // fov de 60 degres
-	data->player.angle = 0;
-	data->player.distance = 0;
-	data->wall = 0;
-	data->ground = 0;
-} 
+// void init_player(t_data *data)
+// {
+// 	data->player.fov = 60; // fov de 60 degres
+// 	data->player.angle = 0;
+// 	data->player.distance = 0;
+// 	data->wall = 0;
+// 	data->ground = 0;
+// } 
 
 // implement a calculation function to build the fov
-void ray_cast_radians(int player_angle, t_data *data)
-{
-	int i = 0;
-	double ray_angle;
-	double ray_dir_x;
-	double ray_dir_y;
-	while(i < NUM_RAYS)
-	{
-		ray_angle = player_angle - (data->player.fov / 2) + (i * (data->player.fov / NUM_RAYS));
-		ray_dir_x = cos(ray_angle);
-		ray_dir_y = sin(ray_angle);
-		i++;
-	}
-}
-double get_angle_posplayer(char player_dir)
-{
-	if(player_dir == 'E')
-	{
-		return(0);
-	}
-	if(player_dir == 'N')
-	{
-		return(PI/2);
-	}
-	if(player_dir == 'S')
-	{
-		return(3 * PI / 2);
-	}
-	if(player_dir == 'W')
-	{
-		return(PI);
-	}
-	return(0);
-}
-char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
-    "111111",
-    "100001",
-    "10N001",
-    "100001",
-    "111111"
-};
+// void ray_cast_radians(int player_angle, t_data *data)
+// {
+// 	int i = 0;
+// 	double ray_angle;
+// 	double ray_dir_x;
+// 	double ray_dir_y;
+// 	while(i < NUM_RAYS)
+// 	{
+// 		ray_angle = player_angle - (data->player.fov / 2) + (i * (data->player.fov / NUM_RAYS));
+// 		ray_dir_x = cos(ray_angle);
+// 		ray_dir_y = sin(ray_angle);
+// 		i++;
+// 	}
+// }
+// double get_angle_posplayer(char player_dir)
+// {
+// 	if(player_dir == 'E')
+// 	{
+// 		return(0);
+// 	}
+// 	if(player_dir == 'N')
+// 	{
+// 		return(PI/2);
+// 	}
+// 	if(player_dir == 'S')
+// 	{
+// 		return(3 * PI / 2);
+// 	}
+// 	if(player_dir == 'W')
+// 	{
+// 		return(PI);
+// 	}
+// 	return(0);
+// }
+// char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
+//     "111111",
+//     "100001",
+//     "10N001",
+//     "100001",
+//     "111111"
+// };
 
 int main(int argc, char **argv, char **envp) 
 {
