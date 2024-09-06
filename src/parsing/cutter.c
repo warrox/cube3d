@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cutter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 18:21:59 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:23:02 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	extract_settings(t_data *data)
 
 void	extract_data(t_data *data)
 {
-	char	**split_settings;
 	int	end_settings;
 	int	i;
 	int	j;
@@ -62,33 +61,35 @@ void	extract_data(t_data *data)
 	i = ZERO_INIT;
 	j = ZERO_INIT;
 	end_settings = ZERO_INIT;
-	split_settings = NULL;
 	end_settings = extract_settings(data);
 	while(data->file->tab_data[i] && i <= end_settings)
 	{
 		while(data->file->tab_data[i][j] == ' ' || data->file->tab_data[i][j] == '\t')
 			j++;
-		split_settings = ft_split(data->file->tab_data[i], ' ');
-		if (!split_settings)
-			error_split_sett(data);
+		data->file->split_settings = ft_split(data->file->tab_data[i], ' ');
+		if (!data->file->split_settings)
+			error_order(data);
 		int k = 0;
-		while(split_settings[k])
+		while(data->file->split_settings[k])
 		{
-			//printf("[%s]\n", split_settings[k]);
-			if(detect_data(data, split_settings[k]) == F) // || == C
+			//printf("[%s]\n", data->file->split_settings[k]);
+			if(detect_data(data, data->file->split_settings[k]) == F || detect_data(data, data->file->split_settings[k]) == C) // || == C
 			{
 				printf("OK\n");
-				set_value(data, split_settings, detect_data(data, split_settings[k]));
+				set_value(data, data->file->split_settings, detect_data(data, data->file->split_settings[k]));
 			}
 			k++;
 		}
 		printf("--\n");
 		i++;
-		free_split(split_settings);
+		free_split(data->file->split_settings);
 	}
-	printf("final R | - | -: %d\n", data->color->f_r);
-	printf("final - | G | -: %d\n", data->color->f_g);
-	printf("final - | - | -: %d\n", data->color->f_b);
+	printf("finalF R | - | -: %d\n", data->color->f_r);
+	printf("finalF - | G | -: %d\n", data->color->f_g);
+	printf("finalF - | - | B: %d\n", data->color->f_b);
+	printf("finalC R | - | -: %d\n", data->color->c_r);
+	printf("finalC - | G | -: %d\n", data->color->c_g);
+	printf("finalC - | - | B: %d\n", data->color->c_b);
 }
 
 void	check_order_data(t_data *data)
@@ -102,10 +103,8 @@ void	check_order_data(t_data *data)
 	while(data->file->tab_data[i][j] == ' ' || data->file->tab_data[i][j] == '\t')
 		j++;
 	comp = data->file->tab_data[i][j];
-	//dprintf(2, "TOP ->[%c]\n", comp);
 	if (comp != 'N' && comp != 'S' && comp != 'W' && comp != 'E' && comp != 'F' && comp != 'C')
 			error_order(data);
-	//dprintf(2, "\033[32mSeems good...\033[0m\n");
 }
 
 void	file_cutter(t_data *data)
