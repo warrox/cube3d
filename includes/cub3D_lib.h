@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 18:08:40 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:37:32 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,12 @@ typedef struct s_map
 
 typedef struct s_file
 {
+	char		*map_line;
 	char		*map_line_cpy;
 	char		**tab_data;
-	int			value;
+	char		**split_settings;
+	char		**value;
+	//int			value;
 	int			fd;
 }				t_file;
 
@@ -124,7 +127,7 @@ int				ft_count_char(char *argv, char c);
 
 void			file_parser(t_data *data, char *file);
 int				open_file(char *file);
-void			cpy_map_data(t_data *data, char *map_line);
+void			cpy_map_data(t_data *data);
 void			file_cutter(t_data *data);
 void			check_order_data(t_data *data);
 void			extract_data(t_data *data);
@@ -145,13 +148,14 @@ void			debug(char *msg);
 
 /*error functions*/
 
-void			error_msg(char *msg);
-void			error_read(t_data *data, char *map_line, char *msg);
-void			error_open(t_data *data, char *map_line);
-void			error_cpy(t_data *data, char *map_line);
+void	error_alloc_file(char *msg);
+void	error_alloc_mapline(t_data *data, char *msg);
+void	error_split_value(t_data *data, char *msg);
+void	error_atoi(t_data *data, char *msg);
+void			error_read(t_data *data, char *msg);
+void			error_open(t_data *data, char *msg);
 void			error_split(t_data *data);
 void			error_order(t_data *data);
-void	error_split_sett(t_data *data);
 
 /*init functions*/
 
