@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/09 13:36:16 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:41:06 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	ray_cast_radians(t_data *data)
 	double	ray_dir_y;
 	int		ray_x;
 	int		ray_y;
-	int		ray_x;
 
 	ray_angle = data->player.angle;
 	// printf("ray angle : %f\n",ray_angle);
