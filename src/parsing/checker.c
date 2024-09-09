@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:03:29 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/03 15:31:28 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:40:51 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,23 @@
 void	check_envp(char **envp)
 {
 	if (!*envp)
-	{
-		printf("\033[31mError\nNo environment variable!\n\033[0m");
-		exit(EXIT_FAILURE);
-	}
+		error_alloc_file("No environment variable!");
 }
 
 void	check_nb_args(int argc)
 {
 	if (argc != 2)
-	{
-		printf("\033[31mError\nOnly works with executable and one map!\n\033[0m");
-		exit(EXIT_FAILURE);
-	}
+		error_alloc_file("2 args needed!");
 }
 
-int	ft_count_dot(char *argv, char c)
+int	ft_count_char(char *argv, char c)
 {
 	int	i;
 	int	count;
 
 	i = ZERO_INIT;
 	count = ZERO_INIT;
-	while(argv[i])
+	while (argv[i])
 	{
 		if (argv[i] == c)
 			count++;
@@ -50,22 +44,15 @@ void	check_extension(char **argv)
 {
 	char	*str;
 
-	str = NULL_INIT;
-	if (ft_count_dot(argv[1], '.') != 1)
-	{
-		printf("\033[31mError\nMap needs to be in .cub!\n\033[0m");
-		exit(EXIT_FAILURE);
-	}
+	str = NULL;
+	if (ft_count_char(argv[1], '.') != 1)
+		error_alloc_file("File needs to be in .cub!");
 	str = ft_strrchr(argv[1], '.');
 	if (str)
 	{
-		if(ft_strcmp(str, ".cub") != 0)
-		{
-			printf("\033[31mError\nMap needs to be in .cub!\n\033[0m");
-			exit(EXIT_FAILURE);
-		}
+		if (ft_strcmp(str, ".cub") != 0)
+			error_alloc_file("File needs to be in .cub!");
 	}
-	
 }
 
 void	checker(int argc, char **argv, char **envp)

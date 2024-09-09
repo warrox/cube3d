@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+         #
+#    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/04 13:45:45 by whamdi           ###   ########.fr        #
+#    Updated: 2024/09/09 13:25:48 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,11 @@ RESET   = \e[00m
 
 SOURCE = ./src/
 
-PARSING = $(addprefix parsing/, checker.c parser.c free_handler.c)
-RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c)
 
-GAME = $(addprefix $(SOURCE), $(PARSING)) $(addprefix $(SOURCE), $(RAYCAST)) $(SOURCE)main.c
+RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c)
+PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c cutter.c cutter_utils.c init.c)
+GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) main.c)
+
 SRC = $(GAME)
 OBJ = $(SRC:%.c=%.o)
 
@@ -68,15 +69,15 @@ minilibx-linux:
 clean:
 	@echo "$(BOLD)Cleaning object files...$(RESET)"
 	$(RM) $(OBJ)
-	make clean -C ./libft_cub3D
-	make clean -C $(MLX_PATH)
+	@make clean -C ./libft_cub3D
+	@if [ -d "minilibx-linux" ]; then make clean -C minilibx-linux; fi
 	@echo "$(GREEN)Object files cleaned successfully!$(RESET)"
 	
 fclean: clean
 	@echo "$(BOLD)Cleaning executable...$(RESET)"
 	$(RM) $(NAME)
-	make fclean -C ./libft_cub3D
-	$(RM) ./minilibx-linux  
+	-make fclean -C ./libft_cub3D
+	-$(RM) ./minilibx-linux  
 	@echo "$(GREEN)Executable cleaned successfully!$(RESET)"
 
 re: fclean all
