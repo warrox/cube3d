@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/09 10:21:38 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/09 11:32:37 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,40 @@ char map[MAP_HEIGHT][MAP_WIDTH + 1] = {
 };
 
 
+#define ROTATION_SPEED 0.1 // Vitesse de rotation (en radians)
+
 int key_handler(int keycode, t_data *data) 
 {
-    float new_x = data->player.x;
-    float new_y = data->player.y;
-    printf("KEY : %d\n",keycode);
-	if (keycode == W_KEY) 
-	{ // w key
-        new_x += MOVE_SPEED * cos(data->player.angle);
-        new_y += MOVE_SPEED * sin(data->player.angle);
+    if (keycode == W_KEY) { // Avancer
+        data->player.x += MOVE_SPEED * cos(data->player.angle);
+        data->player.y += MOVE_SPEED * sin(data->player.angle);
     } 
-	if (keycode == S_KEY) 
-	{ // s key
-        new_x -= MOVE_SPEED * cos(data->player.angle);
-        new_y -= MOVE_SPEED * sin(data->player.angle);
+    else if (keycode == S_KEY) { // Reculer
+        data->player.x -= MOVE_SPEED * cos(data->player.angle);
+        data->player.y -= MOVE_SPEED * sin(data->player.angle);
+    } 
+    else if (keycode == ARROW_LEFT) { // Rotation à gauche
+        data->player.angle -= ROTATION_SPEED; 
+        if (data->player.angle < 0) { // Gérer les angles négatifs
+            data->player.angle += 2 * M_PI;
+        }
+    } 
+    else if (keycode == ARROW_RIGHT) { // Rotation à droite
+        data->player.angle += ROTATION_SPEED; 
+        if (data->player.angle > 2 * M_PI) { // Gérer les angles supérieurs à 360°
+            data->player.angle -= 2 * M_PI;
+        }
     }
 	if(keycode == A_KEY)
 	{
-		new_y += MOVE_SPEED * cos(data->player.angle);
-        new_x += MOVE_SPEED * sin(data->player.angle);
+		data->player.y += MOVE_SPEED * cos(data->player.angle);
+        data->player.x += MOVE_SPEED * sin(data->player.angle);
 		printf("GOIN]n");
 	}
 	if(keycode == D_KEY)
 	{
-		new_y -= MOVE_SPEED * cos(data->player.angle);
-        new_x -= MOVE_SPEED * sin(data->player.angle);
+		data->player.y -= MOVE_SPEED * cos(data->player.angle);
+        data->player.x -= MOVE_SPEED * sin(data->player.angle);
 		printf("GOIN]n");
 	}
 	if(keycode == ESCAPE)
@@ -57,9 +66,9 @@ int key_handler(int keycode, t_data *data)
 
 
     // Vérification des collisions (pour éviter que le joueur traverse les murs)
-    if (map[(int)new_y][(int)new_x] != '1') {
-        data->player.x = new_x;
-        data->player.y = new_y;
+    if (map[(int)data->player.y][(int)data->player.x] != '1') {
+        data->player.x = data->player.x;
+        data->player.y = data->player.y;
     }
 
     return (0);
@@ -70,7 +79,6 @@ int	ray_render(void *param)
 {
 	t_data *data = (t_data *) param;
     
-	// mlx_clear_window(data->mlx.p_mlx, data->mlx.mlx_win);
     mlx_destroy_image(data->mlx.p_mlx, data->mlx.img);
 	data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
     data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel, &data->mlx.line_length, &data->mlx.endian);
@@ -130,6 +138,7 @@ int minimap_render(void *param)
     }
 
     // Dessiner le joueur après la mini-map
+	// faire nouvel fonction a partir d'ici
     data->player.size_width = data->cell_width * 0.25;
     data->player.size_height = data->cell_height * 0.25;
 
