@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cutter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 20:56:07 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/09 13:05:53 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,24 @@ void	extract_data(t_data *data)
 			error_order(data);
 		while(data->file->split_settings[k])
 		{
-			dprintf(2, "ICI_> %d\n", detect_data(data, data->file->split_settings[k]));
-			if(detect_data(data, data->file->split_settings[k]) == F || detect_data(data, data->file->split_settings[k]) == C) // || == C
+			if(detect_data(data, data->file->split_settings[k]) == F || detect_data(data, data->file->split_settings[k]) == C)
+			{
+				dprintf(2, "ICI-> COLOR DETETECTED %d\n", detect_data(data, data->file->split_settings[k]));
 				set_value(data, data->file->split_settings, detect_data(data, data->file->split_settings[k]));
+				break;
+			}
 			// this part is for tests
-			else if(detect_data(data, data->file->split_settings[k]) == 'E' || detect_data(data, data->file->split_settings[k]) == 'N' || detect_data(data, data->file->split_settings[k]) == 'W' || detect_data(data, data->file->split_settings[k]) == 'S')
-				i++;
+			else if(detect_data(data, data->file->split_settings[k]) == EA || detect_data(data, data->file->split_settings[k]) == NO || detect_data(data, data->file->split_settings[k]) == WE || detect_data(data, data->file->split_settings[k]) == SO)
+			{
+				dprintf(2, "ICI-> PATH DETETECTED %d\n", detect_data(data, data->file->split_settings[k]));
+				break;
+			}
 			else
 			{
+				dprintf(2, "ICI_> %s\n", data->file->split_settings[k]);
 				printf("ERROR!!!!\n");
-				dprintf(2, "ICI_> %d\n", detect_data(data, data->file->split_settings[k]));
-				exit(1);		
+				//exit(1);	need to dreate function for exit;
+				//also need to check inside syntax and if no re assignation !
 			}
 			k++;
 		}

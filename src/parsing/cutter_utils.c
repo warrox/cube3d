@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cutter_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 20:40:54 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:47:15 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_nb_colors(t_data *data, char **split)
 	i = ZERO_INIT;
 	while(split[i])
 		i++;
-	dprintf(2, "ICI %d\n", i);
+	//dprintf(2, "ICI %d\n", i);
 	if (i != 4)
 		error_split_value(data, "Not a valid format for color!");
 }
