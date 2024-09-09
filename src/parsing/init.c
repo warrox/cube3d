@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:46:52 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 19:33:14 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/09 16:27:29 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	init_color_struct(t_data *data)
 	data->color->c_r = ZERO_INIT;
 	data->color->c_g = ZERO_INIT;
 	data->color->c_b = ZERO_INIT;
-	data->color->i = ZERO_INIT;
-	data->color->j = ZERO_INIT;
+	data->color->f_set = ZERO_INIT;
+	data->color->c_set = ZERO_INIT;
+	data->color->f_check = ZERO_INIT;
+	data->color->c_check = ZERO_INIT;
 }
 
 void	init_file_struct(t_data *data)
@@ -55,5 +57,9 @@ void	init_map_struct(t_data *data)
 	data->map->path_so = NULL;
 	data->map->path_we = NULL;
 	data->map->path_ea = NULL;
+	data->map->ea_check = ZERO_INIT;
+	data->map->no_check = ZERO_INIT;
+	data->map->so_check = ZERO_INIT;
+	data->map->we_check = ZERO_INIT;
 	init_color_struct(data);
 }
