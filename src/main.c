@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/09 13:30:03 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:41:38 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,35 +193,35 @@ int	main(int argc, char **argv, char **envp)
 	checker(argc, argv, envp);
 	file_parser(&data, argv[1]);
 	file_cutter(&data);
-	// carte vérification
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		printf("%s\n", map[i]);
-	}
-	init_player(&data);
-	// Rechercher la position initiale du joueur
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W'
-				|| map[i][j] == 'E')
-			{
-				data.player.x = j;
-				data.player.y = i;
-				data.player.angle = get_angle_posplayer(map[i][j]);
-				data.player.dir = map[i][j];
-				break ;
-			}
-		}
-	}
-	printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
-	init_mlx(&data);
-	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
-	// mlx_loop_hook(data.mlx.p_mlx, ray_render, (void *)&data);
-	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
-	// mlx_hook(data.mlx.p_mlx, 17, 0, close_window, &data);
-	mlx_loop(data.mlx.p_mlx);
+	// // carte vérification
+	// for (int i = 0; i < MAP_HEIGHT; i++)
+	// {
+	// 	printf("%s\n", map[i]);
+	// }
+	// init_player(&data);
+	// // Rechercher la position initiale du joueur
+	// for (int i = 0; i < MAP_HEIGHT; i++)
+	// {
+	// 	for (int j = 0; j < MAP_WIDTH; j++)
+	// 	{
+	// 		if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W'
+	// 			|| map[i][j] == 'E')
+	// 		{
+	// 			data.player.x = j;
+	// 			data.player.y = i;
+	// 			data.player.angle = get_angle_posplayer(map[i][j]);
+	// 			data.player.dir = map[i][j];
+	// 			break ;
+	// 		}
+	// 	}
+	// }
+	// printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
+	// init_mlx(&data);
+	// mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
+	// // mlx_loop_hook(data.mlx.p_mlx, ray_render, (void *)&data);
+	// mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
+	// // mlx_hook(data.mlx.p_mlx, 17, 0, close_window, &data);
+	// mlx_loop(data.mlx.p_mlx);
 	free_file_struct(&data);
 	return (0);
 }
