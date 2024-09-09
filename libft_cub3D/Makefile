@@ -3,15 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+         #
+#    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 12:46:52 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/04 09:43:00 by whamdi           ###   ########.fr        #
+#    Updated: 2024/09/05 16:14:42 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = ft_itoa.c \
-		ft_printf.c \
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_strchr.c \
@@ -33,7 +32,9 @@ SRC = ft_itoa.c \
 		ft_bzero.c \
 		ft_putnbr_fd.c \
 		ft_split.c \
-		ft_strstr.c
+		ft_strstr.c \
+		ft_strncmp.c \
+		ft_atoi.c
 
 NAME = cub3D.a
 OBJS = $(SRC:.c=.o)
