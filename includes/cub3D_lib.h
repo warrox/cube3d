@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/09 13:19:05 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:36:32 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define MOVE_SPEED 0.1
 
 /*all enums*/
+
 enum
 {
 	PLUS = 61,
@@ -85,8 +86,10 @@ typedef struct s_color
 	int			c_r;
 	int			c_g;
 	int			c_b;
-	int			i;
-	int			j;
+	int			f_set;
+	int			c_set;
+	int			f_check;
+	int			c_check;
 }				t_color;
 
 typedef struct s_map
@@ -95,7 +98,10 @@ typedef struct s_map
 	char		*path_so;
 	char		*path_we;
 	char		*path_ea;
-
+	int			no_check;
+	int			so_check;
+	int			we_check;
+	int			ea_check;
 }				t_map;
 
 typedef struct s_file
@@ -184,8 +190,10 @@ void			check_order_data(t_data *data);
 void			extract_data(t_data *data);
 int				extract_settings(t_data *data);
 int				detect_data(t_data *data, char *str);
-void			set_value(t_data *data, char **split, int sett);
+void			set_color(t_data *data, char **split, int sett);
 void			check_nb_colors(t_data *data, char **split);
+void			count_data(t_data *data, char *id);
+void	check_duplicate(t_data *data);
 
 /*free functions*/
 
@@ -207,7 +215,7 @@ void			error_atoi(t_data *data, char *msg);
 void			error_read(t_data *data, char *msg);
 void			error_open(t_data *data, char *msg);
 void			error_split(t_data *data);
-void			error_order(t_data *data);
+void			error_order(t_data *data, char *msg);
 
 /*init functions*/
 
