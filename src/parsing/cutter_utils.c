@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/09 11:47:15 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:50:34 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,33 @@ void	check_syntax(t_data *data, char **split)
 	int	i;
 	int	j;
 
-	i = ZERO_INIT;
+	(void)data;
+	i = 1;
 	j = ZERO_INIT;
 	while (split[i])
 	{
 		j = 0;
-		if (i == 0)
+		while(split[i][j] >= '0' && split[i][j] <= '9')
+			j++;
+		if(split[i][j] == '\0')
+			break;
+		if (split[i][j] == ' ' || split[i][j] == '\t')
 		{
-			while (split[i][j] == ' ' || split[i][j] == '\t')
+			while(split[i][j] && (split[i][j] == ' ' || split[i][j] == '\t'))
 				j++;
-			if (split[i][j] != 'F' || split[i][j] != 'C')
-				error_split_value(data, "Not a valid format for color!");
+		}
+		if (split[i][j] != ',')
+		{
+			dprintf(2, "ERROR SYNTAX NOT COMMA\n!");
+			exit(1);
+			// error
+		}
+		j++;
+		if (split[i][j] != '\0')
+		{
+			dprintf(2, "ERROR SYNTAX!\n");
+			exit(1);
+			// error
 		}
 		i++;
 	}
@@ -57,14 +73,13 @@ void	check_nb_colors(t_data *data, char **split)
 	i = ZERO_INIT;
 	while (split[i])
 		i++;
-	// dprintf(2, "ICI %d\n", i);
 	if (i != 4)
 		error_split_value(data, "Not a valid format for color!");
 }
 
-void	set_value_settings(t_data *data, int value, int c_or_g, int rgb)
+void	set_color_settings(t_data *data, int value, int c_or_g, int rgb)
 {
-	if (c_or_g == F)
+	if (c_or_g == F && data->color->f_set == 0)
 	{
 		if (rgb == R)
 			data->color->f_r = value;
@@ -72,19 +87,24 @@ void	set_value_settings(t_data *data, int value, int c_or_g, int rgb)
 			data->color->f_g = value;
 		else
 			data->color->f_b = value;
+		if (rgb == 2)
+			data->color->f_set = 1;
 	}
-	if (c_or_g == C)
+	if (c_or_g == C && data->color->c_set == 0)
 	{
+		data->color->c_set = 1;
 		if (rgb == R)
 			data->color->c_r = value;
 		else if (rgb == G)
 			data->color->c_g = value;
 		else
 			data->color->c_b = value;
+		if (rgb == 2)
+			data->color->c_set = 1;
 	}
 }
 
-void	check_convert(t_data *data, char *str, int c_or_g, int rgb)
+void	check_color(t_data *data, char *str, int c_or_g, int rgb)
 {
 	int	i;
 	int	value;
@@ -99,23 +119,23 @@ void	check_convert(t_data *data, char *str, int c_or_g, int rgb)
 	if (value < 0 || value > 255)
 		error_atoi(data, "Color value must be between 0 and 255!");
 	else
-		set_value_settings(data, value, c_or_g, rgb);
+		set_color_settings(data, value, c_or_g, rgb);
 }
 
-void	set_value(t_data *data, char **split, int c_or_g)
+void	set_color(t_data *data, char **split, int c_or_g)
 {
 	int	i;
 
 	i = 1;
 	check_nb_colors(data, split);
 	print_split(split);
-	// check_syntax(data, split);
+	check_syntax(data, split);
 	while (split[i])
 	{
 		data->file->value = ft_split(split[i], ',');
 		if (!data->file->value)
 			error_split_value(data, "Error while splitting value!");
-		check_convert(data, data->file->value[0], c_or_g, (i - 1));
+		check_color(data, data->file->value[0], c_or_g, (i - 1));
 		free_split(data->file->value);
 		i++;
 	}

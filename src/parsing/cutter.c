@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/09 13:05:53 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:45:20 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,23 @@ void	extract_data(t_data *data)
 			j++;
 		data->file->split_settings = ft_split(data->file->tab_data[i], ' ');
 		if (!data->file->split_settings)
-			error_order(data);
+			error_order(data, "Fail to allocate memory for split_settings");
 		while (data->file->split_settings[k])
 		{
-			if (detect_data(data, data->file->split_settings[k]) == F
-				|| detect_data(data, data->file->split_settings[k]) == C)
+			count_data(data, data->file->split_settings[k]);
+			if (detect_data(data, data->file->split_settings[k]) == F && !data->color->f_set)
 			{
 				dprintf(2, "ICI-> COLOR DETETECTED %d\n", detect_data(data,
 						data->file->split_settings[k]));
-				set_value(data, data->file->split_settings, detect_data(data,
+				set_color(data, data->file->split_settings, detect_data(data,
+						data->file->split_settings[k]));
+				break ;
+			}
+			else if (detect_data(data, data->file->split_settings[k]) == C && !data->color->c_set)
+			{
+				dprintf(2, "ICI-> COLOR DETETECTED %d\n", detect_data(data,
+						data->file->split_settings[k]));
+				set_color(data, data->file->split_settings, detect_data(data,
 						data->file->split_settings[k]));
 				break ;
 			}
@@ -99,7 +107,10 @@ void	extract_data(t_data *data)
 			else
 			{
 				dprintf(2, "ICI_> %s\n", data->file->split_settings[k]);
-				printf("ERROR!!!!\n");
+				free_split(data->file->split_settings);
+				error_order(data, "Not excpected value in data!");
+				// dprintf(2, "ERROR!!!!\n");
+				// exit(1);
 				// exit(1);	need to dreate function for exit;
 				// also need to check inside syntax and if no re assignation !
 			}
@@ -108,12 +119,20 @@ void	extract_data(t_data *data)
 		i++;
 		free_split(data->file->split_settings);
 	}
-	printf("\nfinalF R | - | -: %d\n", data->color->f_r);
-	printf("finalF - | G | -: %d\n", data->color->f_g);
-	printf("finalF - | - | B: %d\n", data->color->f_b);
-	printf("finalC R | - | -: %d\n", data->color->c_r);
-	printf("finalC - | G | -: %d\n", data->color->c_g);
-	printf("finalC - | - | B: %d\n", data->color->c_b);
+	check_duplicate(data);
+	dprintf(2, "F_SET_> %d\n", data->color->f_set);
+	dprintf(2, "C_SET_> %d\n", data->color->c_set);
+	if (data->color->f_set != 1 || data->color->c_set != 1)
+	{
+		error_order(data, "Error with colors data!");
+		exit(1);
+	}
+	dprintf(2, "\nfinalF R | - | -: %d\n", data->color->f_r);
+	dprintf(2, "finalF - | G | -: %d\n", data->color->f_g);
+	dprintf(2, "finalF - | - | B: %d\n", data->color->f_b);
+	dprintf(2, "finalC R | - | -: %d\n", data->color->c_r);
+	dprintf(2, "finalC - | G | -: %d\n", data->color->c_g);
+	dprintf(2, "finalC - | - | B: %d\n", data->color->c_b);
 }
 
 void	check_order_data(t_data *data)
@@ -130,7 +149,7 @@ void	check_order_data(t_data *data)
 	comp = data->file->tab_data[i][j];
 	if (comp != 'N' && comp != 'S' && comp != 'W' && comp != 'E' && comp != 'F'
 		&& comp != 'C')
-		error_order(data);
+		error_order(data, "Error with order!");
 }
 
 void	file_cutter(t_data *data)
