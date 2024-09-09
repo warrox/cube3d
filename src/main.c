@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/06 17:17:40 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:21:38 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ int key_handler(int keycode, t_data *data)
 		new_y -= MOVE_SPEED * cos(data->player.angle);
         new_x -= MOVE_SPEED * sin(data->player.angle);
 		printf("GOIN]n");
+	}
+	if(keycode == ESCAPE)
+	{
+		exit(EXIT_SUCCESS);
 	}
 
 
@@ -164,6 +168,7 @@ int	init_mlx(t_data *data)
 	mlx_put_image_to_window(data->mlx.p_mlx, data->mlx.mlx_win, data->mlx.img, 0, 0);	
 	return (0);
 }
+
 int main(int argc, char **argv, char **envp) 
 {
     t_data data;
@@ -191,6 +196,8 @@ int main(int argc, char **argv, char **envp)
 	init_mlx(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);		
 	// mlx_loop_hook(data.mlx.p_mlx, ray_render, (void *)&data);
-	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
+	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);	
+
+	// mlx_hook(data.mlx.p_mlx, 17, 0, close_window, &data);
 	mlx_loop(data.mlx.p_mlx);
 }
