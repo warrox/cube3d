@@ -6,33 +6,39 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/09 15:02:22 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/10 15:32:40 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // REVOIR 4. Calcul de la Direction de Chaque Rayon
 #include "../includes/cub3D_lib.h"
+#include <stdio.h>
 
 // implement a calculation function to build the fov
-char	map[MAP_HEIGHT][MAP_WIDTH + 1] = {"111111", "101001", "101001",
-		"10E001", "111111"};
+char	map[MAP_HEIGHT][MAP_WIDTH + 1] = 
+	{
+		"111111", 
+		"101001", 
+		"101001",
+		"10S001", 
+		"111111"};
 
 #define ROTATION_SPEED 0.1 // Vitesse de rotation (en radians)
 
 int	key_handler(int keycode, t_data *data)
 {
 	if (keycode == W_KEY)
-	{ // Avancer
+	{
 		data->player.x += MOVE_SPEED * cos(data->player.angle);
 		data->player.y += MOVE_SPEED * sin(data->player.angle);
 	}
 	else if (keycode == S_KEY)
-	{ // Reculer
+	{
 		data->player.x -= MOVE_SPEED * cos(data->player.angle);
 		data->player.y -= MOVE_SPEED * sin(data->player.angle);
 	}
 	else if (keycode == ARROW_LEFT)
-	{ // Rotation à gauche
+	{
 		data->player.angle -= ROTATION_SPEED;
 		if (data->player.angle < 0)
 		{ // Gérer les angles négatifs
@@ -107,15 +113,30 @@ void	draw_rectangle(t_data *data, int x, int y, int width, int height,
 	}
 }
 
+int update_player_pos(t_data *data,int player_x,int player_y)
+{
+	data->player.size_width = data->cell_width * 0.25;
+	data->player.size_height = data->cell_height * 0.25;
+	// Utilise la position du joueur en pixels (déjà calculée en termes de grille dans key_handler)
+	player_x = data->player.x * data->cell_width;
+	player_y = data->player.y * data->cell_height;
+	// Dessiner le joueur (après avoir dessiné la carte)
+	// draw_rectangle(data, player_x, player_y, data->player.size_width,data->player.size_height, 0xFF0000);
+	ray_cast_radians(data);
+
+	return(0);
+}
 int	minimap_render(void *param)
 {
+
 	t_data	*data;
 	int		i;
 	int		j;
-	double	player_x;
-	double	player_y;
+	double	player_x = 0;
+	double	player_y = 0;
 
-	data = (t_data *)param;
+	data = (t_data *)param;	
+	// printf("string : %s\n", data->map_test[0]);
 	i = 0;
 	data->cell_width = WIDTH / MAP_WIDTH;
 	data->cell_height = HEIGHT / MAP_HEIGHT;
@@ -135,7 +156,7 @@ int	minimap_render(void *param)
 					* data->cell_height, data->cell_width, data->cell_height,
 					0x808080); // mur gris
 			}
-			else if (map[i][j] == '0' || map[i][j] == 'E')
+			else
 			{
 				draw_rectangle(data, j * data->cell_width, i
 					* data->cell_height, data->cell_width, data->cell_height,
@@ -147,15 +168,9 @@ int	minimap_render(void *param)
 	}
 	// Dessiner le joueur après la mini-map
 	// faire nouvel fonction a partir d'ici
-	data->player.size_width = data->cell_width * 0.25;
-	data->player.size_height = data->cell_height * 0.25;
-	// Utilise la position du joueur en pixels (déjà calculée en termes de grille dans key_handler)
-	player_x = data->player.x * data->cell_width;
-	player_y = data->player.y * data->cell_height;
-	// Dessiner le joueur (après avoir dessiné la carte)
-	draw_rectangle(data, player_x, player_y, data->player.size_width,
-		data->player.size_height, 0xFF0000);
-	ray_cast_radians(data);
+	update_player_pos(data, player_x, player_y);
+	(void) player_x ;
+	(void) player_y;
 	mlx_put_image_to_window(data->mlx.p_mlx, data->mlx.mlx_win, data->mlx.img,
 		0, 0);
 	return (0);
@@ -189,11 +204,30 @@ int	init_mlx(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-
+	
+	(void)argc;(void) argv; (void)envp;
 	checker(argc, argv, envp);
 	file_parser(&data, argv[1]);
 	file_cutter(&data);
 	// carte vérification
+	int i = 0;
+	data.map_test = malloc(sizeof(char*) * (MAP_HEIGHT + 1));
+	if (!data.map_test)
+		return (0);
+
+	while (i < MAP_HEIGHT)
+	{
+		data.map_test[i] = ft_strdup(map[i]);
+		if (!data.map_test[i])
+		{
+			while (i > 0)
+				free(data.map_test[--i]);
+			free(data.map_test);
+		return (0);
+		}
+		i++;
+	}
+	data.map_test[i] = NULL;
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
 		printf("%s\n", map[i]);

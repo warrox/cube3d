@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/09 13:19:05 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:15:00 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_mlx
 typedef struct s_data
 {
 	t_player	player;
+	char		**map_test;
 	t_file		*file;
 	t_map		*map;
 	t_color		*color;
