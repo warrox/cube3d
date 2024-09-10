@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/09 16:36:32 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:55:34 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_file
 	char		**tab_data;
 	char		**split_settings;
 	char		**value;
+	int			end_settings;
 	int			fd;
 }				t_file;
 
@@ -182,18 +183,20 @@ int				ft_count_char(char *argv, char c);
 
 /*parsing functions*/
 
-void			file_parser(t_data *data, char *file);
+void			file_extractor(t_data *data, char *file);
 int				open_file(char *file);
 void			cpy_map_data(t_data *data);
 void			file_cutter(t_data *data);
 void			check_order_data(t_data *data);
 void			extract_data(t_data *data);
-int				extract_settings(t_data *data);
+int				extract_end_settings(t_data *data);
 int				detect_data(t_data *data, char *str);
 void			set_color(t_data *data, char **split, int sett);
 void			check_nb_colors(t_data *data, char **split);
 void			count_data(t_data *data, char *id);
-void	check_duplicate(t_data *data);
+void			check_duplicate(t_data *data);
+int	data_detector(t_data *data, int var);
+void	init_detector(t_data *data, int i, int j);
 
 /*free functions*/
 
@@ -205,6 +208,7 @@ void			free_split(char **split);
 
 char			*new_alloc(t_data *data, char *ptr, int size);
 void			debug(char *msg);
+void	print_split(char **split);
 
 /*error functions*/
 

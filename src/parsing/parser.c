@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:23:23 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 18:55:45 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/10 17:52:10 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	cpy_map_data(t_data *data)
 	free(data->file->map_line);
 }
 
-void	file_parser(t_data *data, char *file)
+void	file_extractor(t_data *data, char *file)
 {
 	int	bytes_read;
 	int	size_read;

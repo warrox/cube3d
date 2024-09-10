@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:46:52 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/09 16:27:29 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:48:04 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_file_struct(t_data *data)
 	// data->file->value = ZERO_INIT;
 	data->file->split_settings = NULL;
 	data->file->value = NULL;
+	data->file->end_settings = ZERO_INIT;
 }
 
 void	init_map_struct(t_data *data)
