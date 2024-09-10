@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/10 15:29:12 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/10 17:27:52 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void ray_cast_radians(t_data *data)
     double ray_x, ray_y; // Position temporaire du rayon
     int map_x, map_y; // Position dans la grille de la carte
     int hit; // Indicateur de collision
-
+	int old_x = 0;
+	int old_y = 0;
     player_pos[0] = data->player.x * data->cell_width;
     player_pos[1] = data->player.y * data->cell_height;
 
@@ -126,25 +127,28 @@ void ray_cast_radians(t_data *data)
         ray_x = data->player.x;
         ray_y = data->player.y;
         hit = 0;
-
+		old_x = ray_x;
+		old_y = ray_y;
         // Parcourir le rayon jusqu'à rencontrer un mur (cellule "1")
         while (!hit)
         {
             // Avancer le long du rayon
             ray_x += ray_dir_x * 0.1; // 0.1 est un pas relativement petit pour plus de précision
             ray_y += ray_dir_y * 0.1;
-
+			old_x *= 0.1;
+			old_y *= 0.1;
             // Convertir les coordonnées réelles en coordonnées de la carte (entier)
             map_x = (int)ray_x;
             map_y = (int)ray_y;
-			printf("x:%d\ny:%d\n", map_x, map_y);
 
             // Vérifier si le rayon touche un mur
-            printf("MAP : %c\n", data->map_test[map_y][map_x]);
 			if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
             {
-                printf("TOUCH IT\n");
-				hit = 1; // Rayon a touché un mur
+				hit = 1;// Rayon a touché un mur
+				if(old_x >= MAP_WIDTH - 0.2 && old_y >= MAP_HEIGHT - 0.2)
+				{
+					printf("OKIDOKI\n"); //ESSAIE DE DETECTER UNE COLISION DU PLAYER PAR UN MUR MAIS MARCHE PAS CHECK IF AU DESSUS AVEC OLD X ET OLD Y
+				}
             }
 
             // Si le rayon sort de la carte, on arrête aussi

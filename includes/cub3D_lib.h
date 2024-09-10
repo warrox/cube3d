@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/10 14:15:00 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/10 17:10:28 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define WIDTH 800
 # define HEIGHT 800
 # define MOVE_SPEED 0.1
-
+#define ROTATION_SPEED 0.1 // Vitesse de rotation (en radians)
 /*all enums*/
 enum
 {
@@ -215,12 +215,18 @@ void			error_order(t_data *data);
 void			init_map_struct(t_data *data);
 void			init_file_struct(t_data *data);
 void			init_color_struct(t_data *data);
-
+int				init_mlx(t_data *data);
 /*raycasting functions*/
 
 void			init_player(t_data *data);
 double			get_angle_posplayer(char player_dir);
 void			ray_cast_radians(t_data *data);
 void			img_pix_put(t_data *data, int x, int y, int color);
-
+void			draw_rectangle(t_data *data, int x, int y, int width, int height, int color);
+int				update_player_pos(t_data *data,int player_x,int player_y);
+int				minimap_render(void *param);
+int cpy_map(t_data *data);
+int update_player_pos(t_data *data,int player_x,int player_y);
+void	draw_rectangle(t_data *data, int x, int y, int width, int height,int color);
+int	key_handler(int keycode, t_data *data);
 #endif

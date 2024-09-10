@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
+#    By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/09 13:25:48 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/10 17:00:13 by whamdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,10 @@ RESET   = \e[00m
 SOURCE = ./src/
 
 
-RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c)
+RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c raycast_util_2.c)
+CUSTOMMLX = $(addprefix CustomMlxFunc/,init_mlx.c  )
 PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c cutter.c cutter_utils.c init.c)
-GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) main.c)
+GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) $(CUSTOMMLX) main.c)
 
 SRC = $(GAME)
 OBJ = $(SRC:%.c=%.o)
