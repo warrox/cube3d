@@ -76,11 +76,11 @@ int	key_handler(int keycode, t_data *data)
 		exit(EXIT_SUCCESS);
 	}
 	// Vérification des collisions (pour éviter que le joueur traverse les murs)
-	if (data->map_test[(int)data->player.y][(int)data->player.x] != '1')
-	{
-		data->player.x = data->player.x;			
-		data->player.y = data->player.y;
-	}
+	// if (data->map_test[(int)data->player.y][(int)data->player.x] != '1')
+	// {
+	// 	data->player.x = data->player.x;			
+	// 	data->player.y = data->player.y;
+	// }
 	return (0);
 }
 
@@ -89,9 +89,28 @@ int	key_handler(int keycode, t_data *data)
 // 	int ray_distance;
 // 	int wall_height;
 // 	int view_height;
-// 	
-//
-// 	
+// 	data->player.distance;
 //
 // }
 
+void render_3d(t_data *data)
+{
+    for (int ray_x = 0; ray_x < WIDTH; ray_x++) // Lancer un rayon pour chaque colonne de pixels à l'écran
+    {
+        // Ici tu fais ton raycasting pour obtenir la distance jusqu'au mur
+        // Après avoir calculé la distance, stocke-la dans data->player.distance
+
+        // Calculer la hauteur du mur en fonction de la distance
+        int wall_height = (int)(HEIGHT / data->player.distance);
+
+        // Calculer la position du haut et du bas du mur à dessiner
+        int wall_top = (HEIGHT / 2) - (wall_height / 2);
+        int wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+
+        // Dessiner le mur pour cette colonne
+        for (int y = wall_top; y < wall_bottom; y++)
+        {
+            img_pix_put(data, ray_x, y, 0xFFFFFF); // Remplace 0xFFFFFF par la couleur du mur
+        }
+    }
+}
