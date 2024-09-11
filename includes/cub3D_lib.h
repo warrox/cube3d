@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 18:30:12 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:49:25 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define MOVE_SPEED 0.1
 # define COLOR 1
 # define PATH 2
+# define F 1
+# define C 2
 
 /*all enums*/
 
@@ -68,15 +70,15 @@ enum
 	PRIGHT = 93,
 };
 
-enum			settings
-{
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C
-};
+// enum			settings
+// {
+// 	NO,
+// 	SO,
+// 	WE,
+// 	EA,
+// 	F,
+// 	C
+// };
 
 /*all structures*/
 
@@ -191,18 +193,10 @@ void			file_extractor(t_data *data, char *file);
 int				open_file(char *file);
 void			cpy_map_data(t_data *data);
 void			file_cutter(t_data *data);
-void			check_order_data(t_data *data);
-void			extract_data(t_data *data);
-int				extract_end_settings(t_data *data);
-int				detect_data(t_data *data, char *str);
-void			set_color(t_data *data, char **split, int sett);
-void			check_nb_colors(t_data *data, char **split);
-void			count_data(t_data *data, char *id);
-void			check_duplicate(t_data *data);
-int	data_detector(t_data *data, int var);
-void	init_detector(t_data *data, int i, int j);
 void    data_parser(t_data *data);
-void	color_case(char *infos);
+void	color_case(t_data *data, char *infos);
+char    *clear_whitespace(char *str);
+int ft_isdigit(char c);
 
 /*free functions*/
 
@@ -220,12 +214,9 @@ void	print_split(char **split);
 
 void			error_alloc_file(char *msg);
 void			error_alloc_mapline(t_data *data, char *msg);
-void			error_split_value(t_data *data, char *msg);
-void			error_atoi(t_data *data, char *msg);
 void			error_read(t_data *data, char *msg);
 void			error_open(t_data *data, char *msg);
 void			error_split(t_data *data);
-void			error_order(t_data *data, char *msg);
 
 /*init functions*/
 
