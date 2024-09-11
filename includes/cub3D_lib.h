@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 15:51:14 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:08:53 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define WIDTH 800
 # define HEIGHT 800
 # define MOVE_SPEED 0.1
+# define COLOR 1
+# define PATH 2
 
 /*all enums*/
 
