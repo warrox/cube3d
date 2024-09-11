@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 21:39:02 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 23:31:15 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,8 @@ int check_syntax(char *str)
 
 void    color_case(t_data *data, char *infos)
 {
-    //int i;
     char    **tmp;
     char    *cpy;
-    //i = ZERO_INIT;
     cpy = clear_whitespace(infos);
     tmp = ft_split(infos, ' ');
     if (!tmp)
