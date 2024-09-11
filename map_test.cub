@@ -1,9 +1,10 @@
 F 220, 100, 0
 C 225, 30, 12
-EA ./textures/examples3.xpm
 NO ./textures/examples0.xpm
 WE ./textures/examples2.xpm
+EA ./textures/examples3.xpm
 SO ./textures/examples1.xpm
+F 340, 21, 43
 
                    1111111111111111111111111
                    1000000000110000000000001
