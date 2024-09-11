@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/10 17:52:30 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:51:02 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int	main(int argc, char **argv, char **envp)
 	checker(argc, argv, envp);
 	file_extractor(&data, argv[1]);
 	file_cutter(&data);
+	data_parser(&data);
 	// // carte vérification
 	// for (int i = 0; i < MAP_HEIGHT; i++)
 	// {
