@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/11 14:58:09 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/11 15:38:20 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void ray_cast_radians(t_data *data)
 
         // Tracer la ligne (rayon) entre la position du joueur et la position d'arrêt
 		storage_box4render(map_x,map_y,data);
-    	draw_vector(data, player_pos, arrival_pos, 0xFF0000);
+		draw_vector(data, player_pos, arrival_pos, 0xFF0000);
 		render_3d(data);
     }
 }

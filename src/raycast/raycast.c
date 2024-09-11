@@ -9,8 +9,8 @@ int	minimap_render(void *param)
 	data = (t_data *)param;	
 	// printf("string : %s\n", data->map_test[0]);
 	i = 0;
-	data->cell_width = WIDTH / MAP_WIDTH;
-	data->cell_height = HEIGHT / MAP_HEIGHT;
+	data->cell_width = (WIDTH / 6) / MAP_WIDTH;
+	data->cell_height = (HEIGHT / 6) / MAP_HEIGHT;
 	mlx_destroy_image(data->mlx.p_mlx, data->mlx.img);
 	data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
 	data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel,
@@ -37,9 +37,9 @@ int	minimap_render(void *param)
 		}
 		i++;
 	}
+	update_player_pos(data, data->player.x, data->player.y);
 	// Dessiner le joueur après la mini-map
 	// faire nouvel fonction a partir d'ici
-	update_player_pos(data, data->player.x, data->player.y);
 	mlx_put_image_to_window(data->mlx.p_mlx, data->mlx.mlx_win, data->mlx.img,
 		0, 0);
 	return (0);

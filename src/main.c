@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/10 17:13:18 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/11 15:29:02 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	init_mlx(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
+	// mlx_loop_hook(data.mlx.p_mlx, render_3d, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
 	free_file_struct(&data);
 	return (0);
