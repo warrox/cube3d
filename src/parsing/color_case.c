@@ -6,17 +6,52 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 20:50:05 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:39:02 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
-int ft_isdigit(char c)
+void    set_value(t_data *data, char *str)
 {
-    if(c >= '0' && c <= '9')
-        return(1);
-    return (0);
+    char    **tmp;
+    char    **tmp_value;
+    int id_value;
+
+    id_value = ZERO_INIT;
+    tmp = NULL;
+    tmp_value = NULL;
+    tmp = ft_split(str, ' ');
+    if(!tmp)
+    {
+        exit(1);
+        // error;
+    }
+    tmp_value = ft_split(tmp[1], ',');
+    if (!tmp_value)
+    {
+        exit(1);
+        // error;
+    }
+    dprintf(2, "TMP[0]: %s\n", tmp[0]);
+    if(ft_strncmp(tmp[0], "F", 2) == 0)
+        id_value = F;
+    else
+        id_value = C;
+    if(id_value == F)
+    {
+        data->file->color->f_r = ft_atoi(tmp_value[0]);
+        data->file->color->f_g = ft_atoi(tmp_value[1]);
+        data->file->color->f_b = ft_atoi(tmp_value[2]);
+    }
+    else 
+    {
+        data->file->color->c_r = ft_atoi(tmp_value[0]);
+        data->file->color->c_g = ft_atoi(tmp_value[1]);
+        data->file->color->c_b = ft_atoi(tmp_value[2]);
+    }
+    free_split(tmp_value);
+    free_split(tmp);
 }
 
 int    check_value(char *str)
@@ -79,55 +114,7 @@ int check_syntax(char *str)
     return (1);
 }
 
-char    *clear_whitespace(char *str)
-{
-    int i;
-    int j;
-    int flag;
-    char    *clear_cpy;
-    int count_char;
-    
-    i = ZERO_INIT;
-    flag = 1;
-    clear_cpy = NULL;
-    count_char = ZERO_INIT;
-    j = ZERO_INIT;
-    while(str[i])
-    {
-        if(str[i] == ' '  || str[i] == '\t')
-            i++;
-        count_char++;
-        i++;
-    }
-    clear_cpy = malloc((sizeof(char) * count_char) + 2);
-    if (!clear_cpy)
-    {
-        exit(1);
-        //error;
-    }
-    i = 0;
-    while(str[i])
-    {
-        while(str[i] == ' '  || str[i] == '\t')
-            i++;
-        clear_cpy[j] = str[i];
-        {
-            if (flag)
-            {
-                j++;
-                clear_cpy[j] = ' ';
-                flag = 0;
-            }
-        }
-        i++;
-        j++;
-    }
-    clear_cpy[j] = '\0';
-    dprintf(2, "[ICI]-> %s\n", clear_cpy);
-    return(clear_cpy);
-}
-
-void    color_case(char *infos)
+void    color_case(t_data *data, char *infos)
 {
     //int i;
     char    **tmp;
@@ -152,6 +139,7 @@ void    color_case(char *infos)
         exit(1);
         // error;
     }
+    set_value(data, cpy);
     // print_split(tmp);
     free_split(tmp);
     free(cpy);
