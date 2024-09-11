@@ -78,11 +78,20 @@ int	key_handler(int keycode, t_data *data)
 	// Vérification des collisions (pour éviter que le joueur traverse les murs)
 	if (data->map_test[(int)data->player.y][(int)data->player.x] != '1')
 	{
-		data->player.x = data->player.x;
+		data->player.x = data->player.x;			
 		data->player.y = data->player.y;
 	}
 	return (0);
 }
 
-
+// void render_3d(t_data *data)
+// {
+// 	int ray_distance;
+// 	int wall_height;
+// 	int view_height;
+// 	
+//
+// 	
+//
+// }
 

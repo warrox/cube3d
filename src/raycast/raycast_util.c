@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/10 17:27:52 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:09 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,23 @@ void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
         }
     }
 }
+
+void storage_box4render(int map_x, int map_y, t_data *data)
+{
+    int pos_x;
+    int pos_y;
+    double distance; // Utilisation d'un double pour la précision
+
+    pos_x = data->player.x; // Position du joueur en x
+    pos_y = data->player.y; // Position du joueur en y
+
+    // Calcul de la distance euclidienne entre le joueur et le hit du rayon
+    distance = sqrt(pow(map_x - pos_x, 2) + pow(map_y - pos_y, 2));
+    
+    data->player.distance = distance; // Stocker la distance
+
+    // printf("Player distance : %f\n", data->player.distance);
+}
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
@@ -145,6 +162,8 @@ void ray_cast_radians(t_data *data)
 			if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
             {
 				hit = 1;// Rayon a touché un mur
+				storage_box4render(map_x,map_y,data);
+				// render_3d(data);
 				if(old_x >= MAP_WIDTH - 0.2 && old_y >= MAP_HEIGHT - 0.2)
 				{
 					printf("OKIDOKI\n"); //ESSAIE DE DETECTER UNE COLISION DU PLAYER PAR UN MUR MAIS MARCHE PAS CHECK IF AU DESSUS AVEC OLD X ET OLD Y

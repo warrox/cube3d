@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/10 17:10:28 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/11 11:05:13 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@
 # define MAP_WIDTH 6
 # define MAP_HEIGHT 5
 # define NUM_RAYS 100
-# define g_value 10
-# define w_value 10
 # define WIDTH 800
 # define HEIGHT 800
 # define MOVE_SPEED 0.1
@@ -229,4 +227,5 @@ int cpy_map(t_data *data);
 int update_player_pos(t_data *data,int player_x,int player_y);
 void	draw_rectangle(t_data *data, int x, int y, int width, int height,int color);
 int	key_handler(int keycode, t_data *data);
+void render_3d(t_data *data);
 #endif
