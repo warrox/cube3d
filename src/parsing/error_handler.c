@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 09:23:53 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 19:13:16 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 01:50:18 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	error_split(t_data *data)
 {
-	free(data->color);
-	free(data->map);
+	free(data->file->color);
+	free(data->file->path);
 	free(data->file->map_line_cpy);
 	error_alloc_mapline(data, "Fail to allocate memory for tab_map!");
 }
@@ -28,8 +28,8 @@ void	error_read(t_data *data, char *msg)
 
 void	error_open(t_data *data, char *msg)
 {
-	free(data->color);
-	free(data->map);
+	free(data->file->color);
+	free(data->file->path);
 	free(data->file->map_line);
 	error_alloc_mapline(data, msg);
 }

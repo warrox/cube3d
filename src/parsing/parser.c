@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:23:23 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/10 17:52:10 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/11 01:32:19 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	file_extractor(t_data *data, char *file)
 	data->file->map_line = malloc(size_read * sizeof(char));
 	if (!data->file->map_line)
 		error_alloc_mapline(data, "Fail to allocate memory for map_line!");
-	init_map_struct(data);
+	init_path_struct(data);
 	data->file->fd = open_file(file);
 	if (data->file->fd == -1)
 		error_open(data, "Error while opening file!");

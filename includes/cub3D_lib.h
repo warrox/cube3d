@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/10 17:55:34 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:21:32 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_color
 	int			c_check;
 }				t_color;
 
-typedef struct s_map
+typedef struct s_path
 {
 	char		*path_no;
 	char		*path_so;
@@ -102,17 +102,21 @@ typedef struct s_map
 	int			so_check;
 	int			we_check;
 	int			ea_check;
-}				t_map;
+}				t_path;
 
 typedef struct s_file
 {
 	char		*map_line;
 	char		*map_line_cpy;
 	char		**tab_data;
-	char		**split_settings;
-	char		**value;
-	int			end_settings;
 	int			fd;
+	int			line_data;
+	int			line_map;
+	int			total_line;
+	char		**map;
+	char		**infos;
+	t_path		*path;
+	t_color		*color;
 }				t_file;
 
 typedef struct s_player
@@ -146,8 +150,6 @@ typedef struct s_data
 {
 	t_player	player;
 	t_file		*file;
-	t_map		*map;
-	t_color		*color;
 	t_mlx		mlx;
 	int			cell_width;
 	int			cell_height;
@@ -223,7 +225,7 @@ void			error_order(t_data *data, char *msg);
 
 /*init functions*/
 
-void			init_map_struct(t_data *data);
+void			init_path_struct(t_data *data);
 void			init_file_struct(t_data *data);
 void			init_color_struct(t_data *data);
 
