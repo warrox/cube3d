@@ -6,7 +6,7 @@
 #    By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/11 18:28:58 by cyprien          ###   ########.fr        #
+#    Updated: 2024/09/11 21:45:33 by cyprien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SOURCE = ./src/
 
 
 RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c)
-PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c cutter.c cutter_utils.c cutter_utils_one.c init.c data_parser.c color_case.c)
+PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c cutter.c cutter_utils.c init.c data_parser.c color_case.c color_utils.c)
 GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) main.c)
 
 SRC = $(GAME)
