@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 21:49:25 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:56:11 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void    data_parser(t_data *data);
 void	color_case(t_data *data, char *infos);
 char    *clear_whitespace(char *str);
 int ft_isdigit(char c);
+void    path_case(t_data *data, char *str);
 
 /*free functions*/
 
