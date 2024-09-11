@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 19:25:00 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:50:05 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,46 @@ int ft_isdigit(char c)
     if(c >= '0' && c <= '9')
         return(1);
     return (0);
+}
+
+int    check_value(char *str)
+{
+    char    **tmp;
+    char    **tmp_value;
+    int value;
+    int i;
+
+    tmp = NULL;
+    tmp_value = NULL;
+    i = 1;
+    tmp = ft_split(str, ' ');
+    if (!tmp)
+    {
+        exit(1);
+        // error;
+    }
+    print_split((tmp));
+    tmp_value = ft_split(tmp[1], ',');
+    if (!tmp_value)
+    {
+        exit(1);
+        // error;
+    }
+    i = 0;
+    while(tmp_value[i])
+    {
+        value = ft_atoi(tmp_value[i]);
+        if (value < 0 || !(value >= 0 && value <= 255))
+        {
+            free_split(tmp_value);
+            free_split(tmp);
+            return (0);
+        }
+        i++;
+    }
+    free_split(tmp_value);
+    free_split(tmp);
+    return (1);
 }
 
 int check_syntax(char *str)
@@ -102,9 +142,15 @@ void    color_case(char *infos)
     }
     if(!check_syntax(cpy))
     {
-        dprintf(2, "ERROR SYNTAX");
+        dprintf(2, "ERROR SYNTAX\n");
         exit(1);
         //error;
+    }
+    if(!check_value(cpy))
+    {
+        dprintf(2, "ERROR VALUE\n");
+        exit(1);
+        // error;
     }
     // print_split(tmp);
     free_split(tmp);
