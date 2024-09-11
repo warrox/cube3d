@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 18:08:53 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:30:12 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ void			check_duplicate(t_data *data);
 int	data_detector(t_data *data, int var);
 void	init_detector(t_data *data, int i, int j);
 void    data_parser(t_data *data);
+void	color_case(char *infos);
 
 /*free functions*/
 
