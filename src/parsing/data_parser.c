@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 21:36:30 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:56:52 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void    data_parser(t_data *data)
         else if(id_info == PATH)
         {
             dprintf(2, "PATH DETECTED!\n");
+            path_case(data, data->file->infos[i]);
         }
             //path_case;
         i++;
