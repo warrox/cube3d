@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 02:46:10 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 15:44:24 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,36 @@
 // 	}
 // }
 
+void	check_order(t_data *data)
+{
+	int	i;
+	char	*str;
+	
+	i = ZERO_INIT;
+	str = data->file->map_line_cpy;
+	//dprintf(2, "line_in_map: %s\n", data->file->map_line_cpy);
+	while(str[i])
+		i++;
+	i--;
+	if (str[i] != '1')
+	{
+		dprintf(2, "Error order: map is not last!\n");
+		exit(1);
+		// error;
+	}
+	i = 0;
+	while(str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (str[i] == 'F' || str[i] == 'C' || str[i] == 'E' || str[i] == 'N'|| str[i] == 'W'|| str[i] == 'S')
+		return;
+	else
+	{
+		dprintf(2, "Error order: not expected format data!\n");
+		exit(1);
+		// error;
+	}
+}
+
 int	is_map_line(char *line)
 {
 	int	i;
@@ -262,32 +292,13 @@ void	count_line(t_data *data)
 
 void	file_cutter(t_data *data)
 {
-	int	i;
-
-	i = ZERO_INIT;
 	data->file->tab_data = ft_split(data->file->map_line_cpy, '\n');
 	if (!data->file->tab_data)
 		error_split(data);
 	print_split(data->file->tab_data);
 	count_line(data);
 	split_data_map(data);
-	dprintf(2, "-- DATA --\n");
-	while(i < data->file->line_data)
-	{
-		dprintf(2, "[%s]\n", data->file->infos[i]);
-		free(data->file->infos[i]);
-		i++;
-	}
-	free(data->file->infos);
-	i = 0;
-	dprintf(2, "-- MAP --\n");
-	while(i < data->file->line_map)
-	{
-		dprintf(2, "[%s]\n", data->file->map[i]);
-		free(data->file->map[i]);
-		i++;
-	}
-	free(data->file->map);
+	check_order(data);
 	// dprintf(2, "[line_map[%d]] | line_data[%d]\n", data->file->line_map, data->file->line_data);
 	// check_requiered_data(data, data->file->tab_data);
 	// extract_data(data);
