@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 18:22:38 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:33:11 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void    data_parser(t_data *data)
         if(id_info == COLOR)
         {
             dprintf(2, "COLOR DETECTED!\n");
+            color_case(data->file->infos[i]);
         }
             //color_case;
         else if(id_info == PATH)
