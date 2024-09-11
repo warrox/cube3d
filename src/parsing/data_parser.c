@@ -6,11 +6,39 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 16:15:04 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:22:38 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+int identify_info(char *infos)
+{
+    int id_info;
+    char    **tmp;
+
+    tmp = ft_split(infos, ' ');
+    if (!tmp)
+    {
+        exit(1);
+        //error;
+    }
+    id_info = ZERO_INIT;
+    if (ft_strncmp(tmp[0], "F", 2) == 0)
+        id_info = COLOR;
+    else if (ft_strncmp(tmp[0], "C", 2) == 0)
+        id_info = COLOR;
+    else if(ft_strncmp(tmp[0], "EA", 3) == 0)
+        id_info = PATH;
+    else if (ft_strncmp(tmp[0], "NO", 3) == 0)
+        id_info = PATH;
+    else if (ft_strncmp(tmp[0], "WE", 3) == 0)
+        id_info = PATH;
+    else if (ft_strncmp(tmp[0], "SO", 3) == 0)
+            id_info = PATH;
+    free_split(tmp);
+    return (id_info);
+}
 
 int is_all_data(t_data *data)
 {
@@ -78,6 +106,30 @@ int    check_required_data(t_data *data, char **infos)
 
 void    data_parser(t_data *data)
 {
+    int     i;
+    int id_info;
+
+    id_info = ZERO_INIT;
+    i = ZERO_INIT;
     if(!check_required_data(data, data->file->infos))
+    {
+        // error;
         dprintf(2, "TROUBLES DATA HERE\n");
+        exit(1);
+    }
+    while(i < data->file->line_data)
+    {
+        id_info = identify_info(data->file->infos[i]);
+        if(id_info == COLOR)
+        {
+            dprintf(2, "COLOR DETECTED!\n");
+        }
+            //color_case;
+        else if(id_info == PATH)
+        {
+            dprintf(2, "PATH DETECTED!\n");
+        }
+            //path_case;
+        i++;
+    }
 }
