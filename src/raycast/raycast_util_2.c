@@ -84,33 +84,67 @@ int	key_handler(int keycode, t_data *data)
 	return (0);
 }
 
-// void render_3d(t_data *data)
-// {
-// 	int ray_distance;
-// 	int wall_height;
-// 	int view_height;
-// 	data->player.distance;
-//
-// }
 
 void render_3d(t_data *data)
 {
-    for (int ray_x = 0; ray_x < WIDTH; ray_x++) // Lancer un rayon pour chaque colonne de pixels à l'écran
-    {
-        // Ici tu fais ton raycasting pour obtenir la distance jusqu'au mur
-        // Après avoir calculé la distance, stocke-la dans data->player.distance
+    int wall_top;
+    int wall_bottom;
+    int wall_height;
 
+    // Lancer un rayon pour chaque colonne de pixels à l'écran
+    for (int ray_x = 0; ray_x < WIDTH; ray_x++)
+    {
         // Calculer la hauteur du mur en fonction de la distance
-        int wall_height = (int)(HEIGHT / data->player.distance);
+        wall_height = (int)(64 / data->player.distance);
 
         // Calculer la position du haut et du bas du mur à dessiner
-        int wall_top = (HEIGHT / 2) - (wall_height / 2);
-        int wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+        wall_top = (HEIGHT / 2) - (wall_height / 2);
+        if (wall_top < 0)
+            wall_top = 0; // Éviter que le mur sorte de l'écran
+        wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+        if (wall_bottom >= HEIGHT)
+            wall_bottom = HEIGHT - 1; // Éviter que le mur sorte de l'écran
+
+        // Dessiner le ciel (au-dessus du mur)
+        for (int y = 0; y < wall_top; y++)
+        {
+            img_pix_put(data, ray_x, y, 0x2ea3d1); // Couleur du ciel
+        }
 
         // Dessiner le mur pour cette colonne
-        for (int y = wall_top; y < wall_bottom; y++)
+        for (int y = wall_top; y <= wall_bottom; y++)
         {
-            img_pix_put(data, ray_x, y, 0xFFFFFF); // Remplace 0xFFFFFF par la couleur du mur
+            img_pix_put(data, ray_x, y, 0xFF0000); // Couleur du mur
+        }
+
+        // Dessiner le sol (en dessous du mur)
+        for (int y = wall_bottom + 1; y < HEIGHT; y++)
+        {
+            img_pix_put(data, ray_x, y, 0x42423A); // Couleur du sol
         }
     }
+	int i = 0;
+	int j = 0;
+	while (i < MAP_HEIGHT)
+	{
+		j = 0;
+		while (j < MAP_WIDTH)
+		{
+			if (data->map_test[i][j] == '1')
+			{
+				draw_rectangle(data, j * data->cell_width, i
+					* data->cell_height, data->cell_width, data->cell_height,
+					0x808080); // mur gris
+			}
+			else
+			{
+				draw_rectangle(data, j * data->cell_width, i
+					* data->cell_height, data->cell_width, data->cell_height,
+					0xFFFFFF); // sol blanc
+			}
+			j++;
+		}
+		i++;
+	}
+
 }

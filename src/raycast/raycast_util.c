@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/11 15:38:20 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/12 10:19:55 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void storage_box4render(int map_x, int map_y, t_data *data)
     double pos_y;
     double distance; // Utilisation d'un double pour la précision
 
-    printf("player_x : %f\n", data->player.x);
-    printf("player_y : %f\n", data->player.y);
+    // printf("player_x : %f\n", data->player.x);
+    // printf("player_y : %f\n", data->player.y);
 	pos_x = data->player.x; // Position du joueur en x
     pos_y = data->player.y; // Position du joueur en y
 
@@ -113,7 +113,7 @@ void storage_box4render(int map_x, int map_y, t_data *data)
     
     data->player.distance = distance; // Stocker la distance
 
-    printf("Player distance : %f\n", data->player.distance);
+    // printf("Player distance : %f\n", data->player.distance);
 }
 void ray_cast_radians(t_data *data)
 {
