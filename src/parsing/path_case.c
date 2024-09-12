@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   path_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 21:54:11 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/12 00:10:12 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:48:33 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+int check_permission(char *path)
+{
+    if(access(path, F_OK) != 0)
+        return (0);
+    if (access(path, R_OK) != 0)
+        return (0);
+    return (1);
+}
 
 int check_extension_path(char *str)
 {
@@ -110,23 +119,14 @@ void    path_case(t_data *data, char *str)
     cpy = clear_whitespace_path(str);
     tmp = ft_split(cpy, ' ');
     if (!tmp)
-    {
-        exit(1);
-        // error;
-    }
+        error_malloc_value(data, cpy, tmp, "Fail to allocate memory for tmp (in path_case)!");
     if(!check_syntax_path(str))
-    {
-        dprintf(2, "ERROR IN PATH\n");
-        exit(1);
-        // error;
-    }
+        error_malloc_value(data, cpy, tmp, "Syntax error in path!");
     if(!check_extension_path(tmp[1]))
-    {
-        dprintf(2, "ERROR IN PATH EXTENSION\n");
-        exit(1);
-        // error;
-    }
-    dprintf(2, "clear_str: %s\n", cpy);
+        error_malloc_value(data, cpy, tmp, "Extension error in path!");
+    if(!check_permission(tmp[1]))
+        error_malloc_value(data, cpy, tmp, "No permission detected!");
+    set_path(data, tmp);
     free_split(tmp);
     free(cpy);
 }

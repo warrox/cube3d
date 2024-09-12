@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 21:18:07 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 21:18:58 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:29:30 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int ft_isdigit(char c)
     return (0);
 }
 
-char    *clear_whitespace(char *str)
+char    *clear_whitespace(t_data *data, char *str)
 {
     int i;
     int j;
@@ -41,10 +41,7 @@ char    *clear_whitespace(char *str)
     }
     clear_cpy = malloc((sizeof(char) * count_char) + 2);
     if (!clear_cpy)
-    {
-        exit(1);
-        //error;
-    }
+        error_malloc_whtspc(data, clear_cpy, "Fail to malloc clear_cpy!");
     i = 0;
     while(str[i])
     {
@@ -63,6 +60,5 @@ char    *clear_whitespace(char *str)
         j++;
     }
     clear_cpy[j] = '\0';
-    dprintf(2, "[ICI]-> %s\n", clear_cpy);
     return(clear_cpy);
 }

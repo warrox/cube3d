@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   color_case.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 23:31:15 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:24:12 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
-void    set_value(t_data *data, char *str)
+void    set_value(t_data *data, char *str, char **split)
 {
     char    **tmp;
     char    **tmp_value;
@@ -23,17 +23,13 @@ void    set_value(t_data *data, char *str)
     tmp_value = NULL;
     tmp = ft_split(str, ' ');
     if(!tmp)
-    {
-        exit(1);
-        // error;
-    }
+        error_malloc_value(data, str, split, "Fail to malloc tmp (in set_value)!");
     tmp_value = ft_split(tmp[1], ',');
     if (!tmp_value)
     {
-        exit(1);
-        // error;
+        free_split(tmp);
+        error_malloc_value(data, str, split, "Fail to malloc tmp_value (in set_value)!");
     }
-    dprintf(2, "TMP[0]: %s\n", tmp[0]);
     if(ft_strncmp(tmp[0], "F", 2) == 0)
         id_value = F;
     else
@@ -54,7 +50,7 @@ void    set_value(t_data *data, char *str)
     free_split(tmp);
 }
 
-int    check_value(char *str)
+int    check_value(t_data *data, char *str, char **split)
 {
     char    **tmp;
     char    **tmp_value;
@@ -66,16 +62,12 @@ int    check_value(char *str)
     i = 1;
     tmp = ft_split(str, ' ');
     if (!tmp)
-    {
-        exit(1);
-        // error;
-    }
-    print_split((tmp));
+        error_malloc_value(data, str, split, "Fail to malloc tmp (in check_value)!");
     tmp_value = ft_split(tmp[1], ',');
     if (!tmp_value)
     {
-        exit(1);
-        // error;
+        free_split(tmp);
+        error_malloc_value(data, str, split, "Fail to malloc tmp_value (in check_value)!");
     }
     i = 0;
     while(tmp_value[i])
@@ -118,27 +110,15 @@ void    color_case(t_data *data, char *infos)
 {
     char    **tmp;
     char    *cpy;
-    cpy = clear_whitespace(infos);
+    cpy = clear_whitespace(data, infos);
     tmp = ft_split(infos, ' ');
     if (!tmp)
-    {
-        exit(1);
-        //error;
-    }
+        error_malloc_value(data, cpy, tmp, "Fail to malloc tmp (in color_case)!");
     if(!check_syntax(cpy))
-    {
-        dprintf(2, "ERROR SYNTAX\n");
-        exit(1);
-        //error;
-    }
-    if(!check_value(cpy))
-    {
-        dprintf(2, "ERROR VALUE\n");
-        exit(1);
-        // error;
-    }
-    set_value(data, cpy);
-    // print_split(tmp);
+        error_malloc_value(data, cpy, tmp, "Error syntax detected in colors!");
+    if(!check_value(data, cpy, tmp))
+        error_malloc_value(data, cpy, tmp, "Error value detected in colors!");
+    set_value(data, cpy, tmp);
     free_split(tmp);
     free(cpy);
 }

@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   data_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/11 21:56:52 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:51:19 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
-int identify_info(char *infos)
+int identify_info(t_data *data, char *infos)
 {
     int id_info;
     char    **tmp;
 
     tmp = ft_split(infos, ' ');
     if (!tmp)
-    {
-        exit(1);
-        //error;
-    }
+        error_malloc_tmp(data, "Fail to malloc tmp data tab!");
     id_info = ZERO_INIT;
     if (ft_strncmp(tmp[0], "F", 2) == 0)
         id_info = COLOR;
@@ -73,10 +70,7 @@ int    check_required_data(t_data *data, char **infos)
     {
         tmp = ft_split(infos[i], ' ');
         if (!tmp)
-        {
-            exit(1);
-            //error;
-        }
+            error_malloc_tmp(data, "Fail to malloc tmp data tab!");
         if (ft_strncmp(tmp[0], "F", 2) == 0)
             data->file->color->f_check++;
         else if (ft_strncmp(tmp[0], "C", 2) == 0)
@@ -91,10 +85,8 @@ int    check_required_data(t_data *data, char **infos)
             data->file->path->so_check++;
         else
         {
-            dprintf(2, "UNEXECPETED DATA\n");
-            exit(1);
             free_split(tmp);
-            //error
+            error_unexpected_info(data, "Unexpected data!");
         }
         free_split(tmp);
         i++;
@@ -106,38 +98,21 @@ int    check_required_data(t_data *data, char **infos)
 
 void    data_parser(t_data *data)
 {
-    int     i;
+    int i;
     int id_info;
 
     id_info = ZERO_INIT;
     i = ZERO_INIT;
     if(!check_required_data(data, data->file->infos))
-    {
-        // error;
-        dprintf(2, "TROUBLES DATA HERE\n");
-        exit(1);
-    }
+        error_data_format(data, "Missing or extra data detected!");
     while(i < data->file->line_data)
     {
-        id_info = identify_info(data->file->infos[i]);
+        id_info = identify_info(data, data->file->infos[i]);
         if(id_info == COLOR)
-        {
-            dprintf(2, "COLOR DETECTED!\n");
             color_case(data, data->file->infos[i]);
-        }
-            //color_case;
         else if(id_info == PATH)
-        {
-            dprintf(2, "PATH DETECTED!\n");
             path_case(data, data->file->infos[i]);
-        }
-            //path_case;
         i++;
     }
-    dprintf(2, "final_F_r: %d\n", data->file->color->f_r);
-    dprintf(2, "final_F_g: %d\n", data->file->color->f_g);
-    dprintf(2, "final_F_b: %d\n", data->file->color->f_b);
-    dprintf(2, "final_C_r: %d\n", data->file->color->c_r);
-    dprintf(2, "final_C_g: %d\n", data->file->color->c_g);
-    dprintf(2, "final_C_b: %d\n", data->file->color->c_b);
+    print_final_datas(data);
 }

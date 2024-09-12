@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:46:52 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 02:34:08 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:41:49 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	init_color_struct(t_data *data)
 	data->file->color = malloc(sizeof(t_color));
 	if (!data->file->color)
 	{
-		;
-		// error;
+		free(data->file->path);
+		free(data->file->map_line);
+		free(data->file);
+		error_alloc_file("Fail to allocate memory for path!");
 	}
 	data->file->color->f_r = ZERO_INIT;
 	data->file->color->f_g = ZERO_INIT;
@@ -36,7 +38,7 @@ void	init_file_struct(t_data *data)
 {
 	data->file = malloc(sizeof(t_file));
 	if (!data->file)
-		error_alloc_file("Fail to allocate memory for map!");
+		error_alloc_file("Fail to allocate memory for file!");
 	data->file->fd = ZERO_INIT;
 	data->file->line_data = ZERO_INIT;
 	data->file->line_map = ZERO_INIT;
@@ -50,8 +52,9 @@ void	init_path_struct(t_data *data)
 	data->file->path = malloc(sizeof(t_path));
 	if (!data->file->path)
 	{
-		;
-		// error
+		free(data->file->map_line);
+		free(data->file);
+		error_alloc_file("Fail to allocate memory for path!");
 	}
 	data->file->path->path_no = NULL;
 	data->file->path->path_so = NULL;
