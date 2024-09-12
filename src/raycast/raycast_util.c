@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/12 10:19:55 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/12 14:22:47 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
 
     int err = dx - dy;
     int e2;
-
     while (1)
     {
-        img_pix_put(data, x0, y0, color); // Dessine un pixel en blanc (ou autre couleur)
-
+		img_pix_put(data, x0, y0, color); // Dessine un pixel en blanc (ou autre couleur)
         if (x0 == x1 && y0 == y1) // Si la ligne est complète
             break;
 
@@ -177,14 +175,18 @@ void ray_cast_radians(t_data *data)
                 hit = 1;
             }
         }
-
+		
         // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)
         arrival_pos[0] = ray_x * data->cell_width;
         arrival_pos[1] = ray_y * data->cell_height;
 
         // Tracer la ligne (rayon) entre la position du joueur et la position d'arrêt
+		data->player.map_pos[0] = player_pos[0];
+		data->player.map_pos[1] = player_pos[1];
+
+		data->player.arrival_pos[0] = arrival_pos[0];
+		data->player.arrival_pos[1] = arrival_pos[1];
 		storage_box4render(map_x,map_y,data);
-		draw_vector(data, player_pos, arrival_pos, 0xFF0000);
-		render_3d(data);
     }
+	render_3d(data);
 }

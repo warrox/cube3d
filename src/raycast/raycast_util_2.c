@@ -95,7 +95,7 @@ void render_3d(t_data *data)
     for (int ray_x = 0; ray_x < WIDTH; ray_x++)
     {
         // Calculer la hauteur du mur en fonction de la distance
-        wall_height = (int)(64 / data->player.distance);
+        wall_height = (int)(HEIGHT / data->player.distance);
 
         // Calculer la position du haut et du bas du mur à dessiner
         wall_top = (HEIGHT / 2) - (wall_height / 2);
@@ -125,6 +125,8 @@ void render_3d(t_data *data)
     }
 	int i = 0;
 	int j = 0;
+	// Affichage de la mini-map (murs et sol)
+	i = 0;
 	while (i < MAP_HEIGHT)
 	{
 		j = 0;
@@ -146,5 +148,7 @@ void render_3d(t_data *data)
 		}
 		i++;
 	}
+	draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
+
 
 }

@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 13:46:23 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/12 14:17:12 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct s_player
 	double oldTime; // time of previous frame
 	double		size_width;
 	double		size_height;
+	int			map_pos[4096];
+	int			arrival_pos[4096];
 
 }				t_player;
 
@@ -228,4 +230,5 @@ int update_player_pos(t_data *data,int player_x,int player_y);
 void	draw_rectangle(t_data *data, int x, int y, int width, int height,int color);
 int	key_handler(int keycode, t_data *data);
 void render_3d(t_data *data);
+void draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 #endif
