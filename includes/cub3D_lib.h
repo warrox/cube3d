@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 21:56:11 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:31:01 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,6 @@ enum
 	PLEFT = 91,
 	PRIGHT = 93,
 };
-
-// enum			settings
-// {
-// 	NO,
-// 	SO,
-// 	WE,
-// 	EA,
-// 	F,
-// 	C
-// };
 
 /*all structures*/
 
@@ -193,11 +183,12 @@ void			file_extractor(t_data *data, char *file);
 int				open_file(char *file);
 void			cpy_map_data(t_data *data);
 void			file_cutter(t_data *data);
-void    data_parser(t_data *data);
-void	color_case(t_data *data, char *infos);
-char    *clear_whitespace(char *str);
-int ft_isdigit(char c);
-void    path_case(t_data *data, char *str);
+void			data_parser(t_data *data);
+void			color_case(t_data *data, char *infos);
+char			*clear_whitespace(t_data *data, char *str);
+int				ft_isdigit(char c);
+void			path_case(t_data *data, char *str);
+void			set_path(t_data *data, char **tmp);
 
 /*free functions*/
 
@@ -208,8 +199,8 @@ void			free_split(char **split);
 /*utils functions*/
 
 char			*new_alloc(t_data *data, char *ptr, int size);
-void			debug(char *msg);
-void	print_split(char **split);
+void			print_split(char **split);
+void	print_final_datas(t_data *data);
 
 /*error functions*/
 
@@ -218,6 +209,14 @@ void			error_alloc_mapline(t_data *data, char *msg);
 void			error_read(t_data *data, char *msg);
 void			error_open(t_data *data, char *msg);
 void			error_split(t_data *data);
+void			error_data_format(t_data *data, char *msg);
+void			error_malloc_filemap(t_data *data, char *msg);
+void			error_malloc_fileinfos(t_data *data, char *msg);
+void			error_malloc_tmp(t_data *data, char *msg);
+void			error_unexpected_info(t_data *data, char *msg);
+void	error_malloc_value(t_data *data, char *str, char **split, char *msg);
+void	error_malloc_whtspc(t_data *data, char *str, char *msg);
+
 
 /*init functions*/
 
