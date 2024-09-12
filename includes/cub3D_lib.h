@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/12 15:31:01 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:43:55 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ char			*clear_whitespace(t_data *data, char *str);
 int				ft_isdigit(char c);
 void			path_case(t_data *data, char *str);
 void			set_path(t_data *data, char **tmp);
+void			map_parser(t_data *data);
+
 
 /*free functions*/
 
