@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/12 16:43:55 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:30:18 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ void			error_malloc_tmp(t_data *data, char *msg);
 void			error_unexpected_info(t_data *data, char *msg);
 void	error_malloc_value(t_data *data, char *str, char **split, char *msg);
 void	error_malloc_whtspc(t_data *data, char *str, char *msg);
+void	error_map(t_data *data, char *msg);
 
 
 /*init functions*/
