@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/13 14:53:34 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:50:29 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,8 @@ int				ft_isdigit(char c);
 void			path_case(t_data *data, char *str);
 void			set_path(t_data *data, char **tmp);
 void			map_parser(t_data *data);
+int	check_ea_we_walls(t_data *data, char **map);
+int	check_no_s_walls(t_data *data, char **map);
 
 
 /*free functions*/
