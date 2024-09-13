@@ -6,12 +6,35 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:43:09 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/13 15:18:15 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:27:47 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
+int	check_walls(t_data *data)
+{
+	int	ea_we;
+	int	no_s;
+	char	**tmp;
+
+	ea_we = ZERO_INIT;
+	no_s = ZERO_INIT;
+	tmp = data->file->map;
+	ea_we = check_ea_we_walls(data, tmp);
+	no_s = check_no_s_walls(data, tmp);
+	if(ea_we)
+		dprintf(2, "\033[38;5;76mea_we_walls OK\033[0m\n");
+	else
+	 	dprintf(2, "\033[38;5;196mea_we_walls KO\033[0m\n");
+	if(no_s)
+		dprintf(2, "\033[38;5;76mno_s_walls OK\033[0m\n");
+	else
+		dprintf(2, "\033[38;5;196mno_s_walls KO\033[0m\n");
+	if (ea_we && no_s)
+		return (1);
+	return (0);	
+}
 int	check_required_char(t_data *data)
 {
 	int	i;
@@ -37,7 +60,6 @@ int	check_required_char(t_data *data)
 		}
 		i++;
 	}
-	//dprintf(2, "PLAYER: %d\n", player);
 	if(player == 1)
 		return (1);
 	return (0);
@@ -75,4 +97,6 @@ void	map_parser(t_data *data)
 		error_map(data, "Invalid char detected int map!");
 	if (!check_required_char(data))
 		error_map(data, "Missing required char or extra one detected!");
+	if (!check_walls(data))
+		error_map(data, "Map is not surrounded by walls!");
 }
