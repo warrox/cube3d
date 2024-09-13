@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/12 17:30:02 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:01:46 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,8 @@ int	main(int argc, char **argv, char **envp)
 	file_extractor(&data, argv[1]);
 	file_cutter(&data);
 	data_parser(&data);
-	print_final_datas(&data);
 	map_parser(&data);
+	print_final_datas(&data);
 	// // carte vérification
 	// for (int i = 0; i < MAP_HEIGHT; i++)
 	// {
