@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/13 14:30:18 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:53:34 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_file
 	int			total_line;
 	char		**map;
 	char		**infos;
+	char		orientation;
 	t_path		*path;
 	t_color		*color;
 }				t_file;
@@ -126,7 +127,6 @@ typedef struct s_player
 	double oldTime; // time of previous frame
 	double		size_width;
 	double		size_height;
-
 }				t_player;
 
 typedef struct s_mlx
