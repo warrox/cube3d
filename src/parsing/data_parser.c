@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/12 16:55:39 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:23:11 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,4 @@ void    data_parser(t_data *data)
             path_case(data, data->file->infos[i]);
         i++;
     }
-    //print_final_datas(data);
 }
