@@ -6,11 +6,42 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:31:30 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/12 15:28:33 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:34:44 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+void	error_map(t_data *data, char *msg)
+{
+	int	i;
+
+	i = ZERO_INIT;
+	free(data->file->path->path_ea);
+	free(data->file->path->path_no);
+	free(data->file->path->path_so);
+	free(data->file->path->path_we);
+	free(data->file->color);
+	free(data->file->path);
+	free_split(data->file->tab_data);
+	while(i < data->file->line_data)
+	{
+		free(data->file->infos[i]);
+		i++;
+	}
+	i = 0;
+	while(i < data->file->line_map)
+	{
+		free(data->file->map[i]);
+		i++;
+	}
+	free(data->file->map);
+	free(data->file->infos);
+	free(data->file->map_line_cpy);
+	free(data->file);
+	printf("\033[31mError\n%s\n\033[0m", msg);
+	exit(EXIT_FAILURE);
+}
 
 void	error_malloc_whtspc(t_data *data, char *str, char *msg)
 {
