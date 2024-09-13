@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:43:09 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/13 16:27:47 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:14:10 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ int	check_walls(t_data *data)
 {
 	int	ea_we;
 	int	no_s;
+	int	inside_space;
 	char	**tmp;
 
 	ea_we = ZERO_INIT;
 	no_s = ZERO_INIT;
+	inside_space = ZERO_INIT;
 	tmp = data->file->map;
 	ea_we = check_ea_we_walls(data, tmp);
 	no_s = check_no_s_walls(data, tmp);
+	inside_space = check_in_space(data, tmp);
 	if(ea_we)
 		dprintf(2, "\033[38;5;76mea_we_walls OK\033[0m\n");
 	else
