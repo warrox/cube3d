@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/12 17:37:04 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:01:07 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_map_line(char *line)
 	i = ZERO_INIT;
 	while(line[i] == ' ' || line[i] == 't')
 		i++;
-	if(line[i] == '1')
+	if(line[i] == '1' || line[i] == '0')
 		return (1);
 	return (0);
 }
