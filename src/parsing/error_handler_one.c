@@ -20,13 +20,13 @@ void	error_unexpected_info(t_data *data, char *msg)
 	free(data->file->color);
 	free(data->file->path);
 	free_split(data->file->tab_data);
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;
@@ -41,19 +41,19 @@ void	error_unexpected_info(t_data *data, char *msg)
 
 void	error_malloc_tmp(t_data *data, char *msg)
 {
-	int i;
+	int	i;
 
 	i = ZERO_INIT;
 	free(data->file->color);
 	free(data->file->path);
 	free_split(data->file->tab_data);
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;
@@ -96,13 +96,13 @@ void	error_data_format(t_data *data, char *msg)
 	i = ZERO_INIT;
 	free(data->file->color);
 	free(data->file->path);
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;

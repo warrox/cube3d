@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 13:18:52 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:42:42 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define MAP_WIDTH 6
 # define MAP_HEIGHT 5
 # define NUM_RAYS 100
-# define g_value 10
-# define w_value 10
+# define G_VALUE 10
+# define W_VALUE 10
 # define WIDTH 800
 # define HEIGHT 800
 # define MOVE_SPEED 0.1
@@ -123,8 +123,8 @@ typedef struct s_player
 	char		dir;
 	double		x;
 	double		y;
-	double time;    // time of current frame
-	double oldTime; // time of previous frame
+	double		time; // time of current frame
+	double		oldtime; // time of previous frame
 	double		size_width;
 	double		size_height;
 }				t_player;
@@ -167,7 +167,6 @@ char			*ft_strstr(char *haystack, char *needle);
 int				ft_strncmp(const char *first, const char *second,
 					size_t length);
 int				ft_atoi(const char *nbr);
-;
 
 /*checker functions*/
 
@@ -190,10 +189,9 @@ int				ft_isdigit(char c);
 void			path_case(t_data *data, char *str);
 void			set_path(t_data *data, char **tmp);
 void			map_parser(t_data *data);
-int	check_ea_we_walls(t_data *data, char **map);
-int	check_no_s_walls(t_data *data, char **map);
-int	check_in_space(t_data *data, char **map);
-
+int				check_ea_we_walls(t_data *data, char **map);
+int				check_no_s_walls(t_data *data, char **map);
+int				check_in_space(t_data *data, char **map);
 
 /*free functions*/
 
@@ -205,7 +203,7 @@ void			free_split(char **split);
 
 char			*new_alloc(t_data *data, char *ptr, int size);
 void			print_split(char **split);
-void	print_final_datas(t_data *data);
+void			print_final_datas(t_data *data);
 
 /*error functions*/
 
@@ -219,10 +217,10 @@ void			error_malloc_filemap(t_data *data, char *msg);
 void			error_malloc_fileinfos(t_data *data, char *msg);
 void			error_malloc_tmp(t_data *data, char *msg);
 void			error_unexpected_info(t_data *data, char *msg);
-void	error_malloc_value(t_data *data, char *str, char **split, char *msg);
-void	error_malloc_whtspc(t_data *data, char *str, char *msg);
-void	error_map(t_data *data, char *msg);
-
+void			error_malloc_value(t_data *data, char *str, char **split,
+					char *msg);
+void			error_malloc_whtspc(t_data *data, char *str, char *msg);
+void			error_map(t_data *data, char *msg);
 
 /*init functions*/
 

@@ -17,14 +17,14 @@ void	free_duplicate_data(t_data *data)
 	int	i;
 
 	i = ZERO_INIT;
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	free(data->file->infos);
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;

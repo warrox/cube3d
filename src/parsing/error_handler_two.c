@@ -24,13 +24,13 @@ void	error_map(t_data *data, char *msg)
 	free(data->file->color);
 	free(data->file->path);
 	free_split(data->file->tab_data);
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;
@@ -46,27 +46,27 @@ void	error_map(t_data *data, char *msg)
 void	error_malloc_whtspc(t_data *data, char *str, char *msg)
 {
 	int	i;
-	
+
 	i = ZERO_INIT;
 	free(str);
-	if(data->file->path->path_ea != NULL)
+	if (data->file->path->path_ea != NULL)
 		free(data->file->path->path_ea);
-	if(data->file->path->path_no != NULL)
+	if (data->file->path->path_no != NULL)
 		free(data->file->path->path_no);
-	if(data->file->path->path_so != NULL)
+	if (data->file->path->path_so != NULL)
 		free(data->file->path->path_so);
-	if(data->file->path->path_we != NULL)
+	if (data->file->path->path_we != NULL)
 		free(data->file->path->path_we);
 	free(data->file->color);
 	free(data->file->path);
 	free_split(data->file->tab_data);
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;
@@ -81,29 +81,29 @@ void	error_malloc_whtspc(t_data *data, char *str, char *msg)
 
 void	error_malloc_value(t_data *data, char *str, char **split, char *msg)
 {
-	int i;
+	int	i;
 
 	i = ZERO_INIT;
 	free_split(split);
-    free(str);
-	if(data->file->path->path_ea != NULL)
+	free(str);
+	if (data->file->path->path_ea != NULL)
 		free(data->file->path->path_ea);
-	if(data->file->path->path_no != NULL)
+	if (data->file->path->path_no != NULL)
 		free(data->file->path->path_no);
-	if(data->file->path->path_so != NULL)
+	if (data->file->path->path_so != NULL)
 		free(data->file->path->path_so);
-	if(data->file->path->path_we != NULL)
+	if (data->file->path->path_we != NULL)
 		free(data->file->path->path_we);
 	free(data->file->color);
 	free(data->file->path);
 	free_split(data->file->tab_data);
-	while(i < data->file->line_data)
+	while (i < data->file->line_data)
 	{
 		free(data->file->infos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < data->file->line_map)
+	while (i < data->file->line_map)
 	{
 		free(data->file->map[i]);
 		i++;
