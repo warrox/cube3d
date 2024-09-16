@@ -6,11 +6,18 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/16 15:44:18 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:07:19 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+void	error_init_value(t_data *data, char **tmp, char *str, char **split)
+{
+	free_split(tmp);
+	error_malloc_value(data, str, split,
+		"Fail to malloc tmp_value (in set_value)!");
+}
 
 void	set_value(t_data *data, char *str, char **split)
 {
@@ -27,27 +34,15 @@ void	set_value(t_data *data, char *str, char **split)
 			"Fail to malloc tmp (in set_value)!");
 	tmp_value = ft_split(tmp[1], ',');
 	if (!tmp_value)
-	{
-		free_split(tmp);
-		error_malloc_value(data, str, split,
-			"Fail to malloc tmp_value (in set_value)!");
-	}
+		error_init_value(data, tmp, str, split);
 	if (ft_strncmp(tmp[0], "F", 2) == 0)
 		id_value = F;
 	else
 		id_value = C;
 	if (id_value == F)
-	{
-		data->file->color->f_r = ft_atoi(tmp_value[0]);
-		data->file->color->f_g = ft_atoi(tmp_value[1]);
-		data->file->color->f_b = ft_atoi(tmp_value[2]);
-	}
+		set_f_color(data, tmp_value);
 	else
-	{
-		data->file->color->c_r = ft_atoi(tmp_value[0]);
-		data->file->color->c_g = ft_atoi(tmp_value[1]);
-		data->file->color->c_b = ft_atoi(tmp_value[2]);
-	}
+		set_c_color(data, tmp_value);
 	free_split(tmp_value);
 	free_split(tmp);
 }
@@ -56,7 +51,6 @@ int	check_value(t_data *data, char *str, char **split)
 {
 	char	**tmp;
 	char	**tmp_value;
-	int		value;
 	int		i;
 
 	tmp = NULL;
@@ -68,21 +62,12 @@ int	check_value(t_data *data, char *str, char **split)
 			"Fail to malloc tmp (in check_value)!");
 	tmp_value = ft_split(tmp[1], ',');
 	if (!tmp_value)
-	{
-		free_split(tmp);
-		error_malloc_value(data, str, split,
-			"Fail to malloc tmp_value (in check_value)!");
-	}
+		error_init_value(data, tmp, str, split);
 	i = 0;
 	while (tmp_value[i])
 	{
-		value = ft_atoi(tmp_value[i]);
-		if (value < 0 || !(value >= 0 && value <= 255))
-		{
-			free_split(tmp_value);
-			free_split(tmp);
+		if (!check_atoi_value(i, tmp_value, tmp))
 			return (0);
-		}
 		i++;
 	}
 	free_split(tmp_value);

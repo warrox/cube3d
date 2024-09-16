@@ -6,11 +6,32 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/16 15:25:13 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:10:54 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+void	count_data(t_data *data, char **tmp)
+{
+	if (ft_strncmp(tmp[0], "F", 2) == 0)
+		data->file->color->f_check++;
+	else if (ft_strncmp(tmp[0], "C", 2) == 0)
+		data->file->color->c_check++;
+	else if (ft_strncmp(tmp[0], "EA", 3) == 0)
+		data->file->path->ea_check++;
+	else if (ft_strncmp(tmp[0], "NO", 3) == 0)
+		data->file->path->no_check++;
+	else if (ft_strncmp(tmp[0], "WE", 3) == 0)
+		data->file->path->we_check++;
+	else if (ft_strncmp(tmp[0], "SO", 3) == 0)
+		data->file->path->so_check++;
+	else
+	{
+		free_split(tmp);
+		error_unexpected_info(data, "Unexpected data!");
+	}
+}
 
 int	identify_info(t_data *data, char *infos)
 {
@@ -71,24 +92,7 @@ int	check_required_data(t_data *data, char **infos)
 		tmp = ft_split(infos[i], ' ');
 		if (!tmp)
 			error_malloc_tmp(data, "Fail to malloc tmp data tab!");
-		if (ft_strncmp(tmp[0], "F", 2) == 0)
-			data->file->color->f_check++;
-		else if (ft_strncmp(tmp[0], "C", 2) == 0)
-			data->file->color->c_check++;
-		else if (ft_strncmp(tmp[0], "EA", 3) == 0)
-			data->file->path->ea_check++;
-		else if (ft_strncmp(tmp[0], "NO", 3) == 0)
-			data->file->path->no_check++;
-		else if (ft_strncmp(tmp[0], "WE", 3) == 0)
-			data->file->path->we_check++;
-		else if (ft_strncmp(tmp[0], "SO", 3) == 0)
-			data->file->path->so_check++;
-		else
-		{
-			dprintf(2, "ICI: %s\n", tmp[0]);
-			free_split(tmp);
-			error_unexpected_info(data, "Unexpected data!");
-		}
+		count_data(data, tmp);
 		free_split(tmp);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 15:42:42 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:17:32 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_file
 	int			line_data;
 	int			line_map;
 	int			total_line;
+	int			nb_player;
 	char		**map;
 	char		**infos;
 	char		orientation;
@@ -192,6 +193,9 @@ void			map_parser(t_data *data);
 int				check_ea_we_walls(t_data *data, char **map);
 int				check_no_s_walls(t_data *data, char **map);
 int				check_in_space(t_data *data, char **map);
+void	set_f_color(t_data *data, char **tmp_value);
+void	set_c_color(t_data *data, char **tmp_value);
+int	check_atoi_value(int i, char **tmp_value, char **tmp);
 
 /*free functions*/
 

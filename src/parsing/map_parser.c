@@ -6,11 +6,17 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:43:09 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 15:47:18 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:22:07 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+void	set_orientation(t_data *data, char **tmp, int i, int j)
+{
+	data->file->orientation = tmp[i][j];
+	data->file->nb_player++;
+}
 
 int	check_walls(t_data *data)
 {
@@ -26,18 +32,6 @@ int	check_walls(t_data *data)
 	ea_we = check_ea_we_walls(data, tmp);
 	no_s = check_no_s_walls(data, tmp);
 	inside_space = check_in_space(data, tmp);
-	if (ea_we)
-		dprintf(2, "\033[38;5;76mea_we_walls OK\033[0m\n");
-	else
-		dprintf(2, "\033[38;5;196mea_we_walls KO\033[0m\n");
-	if (no_s)
-		dprintf(2, "\033[38;5;76mno_s_walls OK\033[0m\n");
-	else
-		dprintf(2, "\033[38;5;196mno_s_walls KO\033[0m\n");
-	if (inside_space)
-		dprintf(2, "\033[38;5;76minside_walls OK\033[0m\n");
-	else
-		dprintf(2, "\033[38;5;196minside_walls KO\033[0m\n");
 	if (ea_we && no_s && inside_space)
 		return (1);
 	return (0);
@@ -48,11 +42,9 @@ int	check_required_char(t_data *data)
 	int		i;
 	int		j;
 	char	**tmp;
-	int		player;
 
 	i = ZERO_INIT;
 	j = ZERO_INIT;
-	player = ZERO_INIT;
 	tmp = data->file->map;
 	while (i < data->file->line_map)
 	{
@@ -61,15 +53,12 @@ int	check_required_char(t_data *data)
 		{
 			if (tmp[i][j] == 'N' || tmp[i][j] == 'S' || tmp[i][j] == 'E'
 				|| tmp[i][j] == 'W')
-			{
-				data->file->orientation = tmp[i][j];
-				player++;
-			}
+				set_orientation(data, tmp, i, j);
 			j++;
 		}
 		i++;
 	}
-	if (player == 1)
+	if (data->file->nb_player == 1)
 		return (1);
 	return (0);
 }

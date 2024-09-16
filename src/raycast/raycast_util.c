@@ -6,12 +6,11 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/09 13:41:06 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:43:09 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
-#include <stdio.h>
 
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
@@ -34,7 +33,7 @@ void	init_player(t_data *data)
 	// data->wall = 0;
 	// data->ground = 0;
 	data->player.time = 0;    // time of current frame
-	data->player.oldTime = 0; // time of previous frame
+	data->player.oldtime = 0; // time of previous frame
 	data->player.x = -1;
 	data->player.y = -1;
 }
