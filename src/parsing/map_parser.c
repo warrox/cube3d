@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:43:09 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/13 17:14:10 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:34:42 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ int	check_walls(t_data *data)
 		dprintf(2, "\033[38;5;76mno_s_walls OK\033[0m\n");
 	else
 		dprintf(2, "\033[38;5;196mno_s_walls KO\033[0m\n");
-	if (ea_we && no_s)
+	if(inside_space)
+		dprintf(2, "\033[38;5;76minside_walls OK\033[0m\n");
+	else
+		dprintf(2, "\033[38;5;196minside_walls KO\033[0m\n");
+	if (ea_we && no_s && inside_space)
 		return (1);
 	return (0);	
 }

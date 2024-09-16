@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:49:45 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/13 17:01:49 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:25:13 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int    check_required_data(t_data *data, char **infos)
             data->file->path->so_check++;
         else
         {
+            dprintf(2, "ICI: %s\n", tmp[0]);
             free_split(tmp);
             error_unexpected_info(data, "Unexpected data!");
         }
