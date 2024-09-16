@@ -1,0 +1,13 @@
+F 220,100,0
+C 225,30,0
+
+NO ./textures/examples0.xpm
+SO ./textures/examples1.xpm
+WE ./textures/examples2.xpm
+EA ./textures/examples3.xpm
+
+111111
+100001
+101001
+1000N1
+111111
