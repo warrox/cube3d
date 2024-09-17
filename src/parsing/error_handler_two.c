@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:31:30 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 17:13:38 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:08:56 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	error_malloc_value(t_data *data, char *str, char **split, char *msg)
 	int	i;
 
 	i = ZERO_INIT;
-	free_split(split);
+	if (split != NULL)
+		free_split(split);
 	free(str);
 	if (data->file->path->path_ea != NULL)
 		free(data->file->path->path_ea);

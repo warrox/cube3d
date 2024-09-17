@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/13 17:01:07 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:57:06 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_map_line(char *line)
 	int	i;
 
 	i = ZERO_INIT;
-	while (line[i] == ' ' || line[i] == 't')
+	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (line[i] == '1' || line[i] == '0')
 		return (1);
@@ -61,6 +61,7 @@ void	split_data_map(t_data *data)
 	data->file->infos = malloc(sizeof(char *) * data->file->line_data);
 	if (!data->file->infos)
 		error_malloc_fileinfos(data, "Fail to malloc data->file->infos!");
+	print_split(data->file->tab_data);
 	while (i < data->file->total_line)
 	{
 		if (is_map_line(data->file->tab_data[i]))
@@ -92,9 +93,10 @@ void	count_line(t_data *data)
 
 void	file_cutter(t_data *data)
 {
+	checker_map(data, data->file->map_line_cpy);
 	data->file->tab_data = ft_split(data->file->map_line_cpy, '\n');
 	if (!data->file->tab_data)
-		error_split(data);
+		error_split(data, "Fail to allocate memory for tab_map!");
 	count_line(data);
 	split_data_map(data);
 	check_order(data);

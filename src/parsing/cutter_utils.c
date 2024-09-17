@@ -6,11 +6,53 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 15:45:32 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:57:39 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+void	checker_map(t_data *data, char *str)
+{
+	int	i;
+
+	i = ZERO_INIT;
+	while (str[i])
+	{
+		while (str[i] != '\n')
+			i++;
+		i++;
+		while (str[i] == ' ' || str[i] == '\t')
+			i++;
+		if (str[i] == '1')
+			break ;
+		i++;
+	}
+	while (str[i])
+	{
+		if (str[i] == '\n' && !is_wrong_line(&str[i]))
+			error_split(data, "Error with the map (space)!");
+		if (str[i] == '\n')
+		{
+			while (str[i] == ' ' || str[i] == '\t')
+				i++;
+		}
+		i++;
+	}
+}
+
+int	is_wrong_line(char *str)
+{
+	int	i;
+
+	i = ZERO_INIT;
+	str++;
+	while (str[i] && ft_strchr(" \t", str[i]))
+		i++;
+	if (!str[i] || str[i] == '1')
+		return (1);
+	return (0);
+}
 
 void	print_split(char **split)
 {

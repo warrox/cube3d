@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 17:17:32 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:27:15 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,14 @@ void			map_parser(t_data *data);
 int				check_ea_we_walls(t_data *data, char **map);
 int				check_no_s_walls(t_data *data, char **map);
 int				check_in_space(t_data *data, char **map);
-void	set_f_color(t_data *data, char **tmp_value);
-void	set_c_color(t_data *data, char **tmp_value);
-int	check_atoi_value(int i, char **tmp_value, char **tmp);
+void			set_f_color(t_data *data, char **tmp_value);
+void			set_c_color(t_data *data, char **tmp_value);
+int				check_atoi_value(int i, char **tmp_value, char **tmp);
+int				is_wrong_line(char *str);
+void			checker_map(t_data *data, char *str);
+char	*fill_clean_path(t_data *data, char **tmp, char *str, int count_char);
+int	count_clean_path_len(const char *str);
+int	check_permission(char *path);
 
 /*free functions*/
 
@@ -215,7 +220,7 @@ void			error_alloc_file(char *msg);
 void			error_alloc_mapline(t_data *data, char *msg);
 void			error_read(t_data *data, char *msg);
 void			error_open(t_data *data, char *msg);
-void			error_split(t_data *data);
+void			error_split(t_data *data, char *msg);
 void			error_data_format(t_data *data, char *msg);
 void			error_malloc_filemap(t_data *data, char *msg);
 void			error_malloc_fileinfos(t_data *data, char *msg);

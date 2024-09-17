@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 21:54:11 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/12 15:48:33 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:17:15 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ int	check_syntax_path(char *str)
 	tmp = NULL;
 	tmp = ft_split(str, ' ');
 	if (!tmp)
-	{
-		exit(1);
-		// error;
-	}
+		return (0);
 	while (tmp[i])
 		i++;
 	if (i != 2)
@@ -63,49 +60,12 @@ int	check_syntax_path(char *str)
 	return (1);
 }
 
-char	*clear_whitespace_path(char *str)
+char	*clear_whitespace_path(t_data *data, char **tmp, char *str)
 {
-	int		i;
-	int		j;
-	int		count_char;
-	int		flag;
-	char	*clear_path;
+	int	count_char;
 
-	i = ZERO_INIT;
-	j = ZERO_INIT;
-	count_char = ZERO_INIT;
-	flag = ZERO_INIT;
-	clear_path = NULL;
-	while (str[i])
-	{
-		if (str[i] == ' ' || str[i] == '\t')
-			i++;
-		count_char++;
-		i++;
-	}
-	clear_path = malloc((sizeof(char) * count_char) + 2);
-	if (!clear_path)
-	{
-		exit(1);
-		// error;
-	}
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		clear_path[j] = str[i];
-		flag++;
-		if (flag == 2)
-		{
-			j++;
-			clear_path[j] = ' ';
-		}
-		i++;
-		j++;
-	}
-	clear_path[j] = '\0';
-	return (clear_path);
+	count_char = count_clean_path_len(str);
+	return (fill_clean_path(data, tmp, str, count_char));
 }
 
 void	path_case(t_data *data, char *str)
@@ -116,7 +76,7 @@ void	path_case(t_data *data, char *str)
 	(void)data;
 	cpy = NULL;
 	tmp = NULL;
-	cpy = clear_whitespace_path(str);
+	cpy = clear_whitespace_path(data, tmp, str);
 	tmp = ft_split(cpy, ' ');
 	if (!tmp)
 		error_malloc_value(data, cpy, tmp,
