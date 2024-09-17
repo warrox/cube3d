@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/17 18:17:35 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/17 18:41:46 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void ray_cast_radians(t_data *data)
 	
 	int old_x = 0;
 	int old_y = 0;
-	
+	int x = 0;	
 	int i = 0;
 	double subsequent_ray = 0;
     player_pos[0] = data->player.x * data->cell_width;
@@ -200,10 +200,10 @@ void ray_cast_radians(t_data *data)
         while (!hit)
         {
             // Avancer le long du rayon
-            ray_x += ray_dir_x * 0.1; // 0.1 est un pas relativement petit pour plus de précision
-            ray_y += ray_dir_y * 0.1;
-			old_x *= 0.1;
-			old_y *= 0.1;
+            ray_x += ray_dir_x * 0.01; // 0.1 est un pas relativement petit pour plus de précision
+            ray_y += ray_dir_y * 0.01;
+			old_x *= 0.01;
+			old_y *= 0.01;
             // Convertir les coordonnées réelles en coordonnées de la carte (entier)
             map_x = (int)ray_x;
             map_y = (int)ray_y;
@@ -216,7 +216,7 @@ void ray_cast_radians(t_data *data)
 				distance = sqrt(pow(ray_x - data->player.x, 2) + pow(ray_y - data->player.y, 2));
 				// printf("Distance : %f\n",distance);
 				
-				int x = (int)((i / (double)num_rays) * WIDTH); // i est l'index du rayon
+				x = (int)((i / (double)num_rays) * WIDTH); // i est l'index du rayon
 				render_3d(data, distance, x);
 			}
 
