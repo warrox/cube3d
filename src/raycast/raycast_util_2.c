@@ -1,4 +1,5 @@
 #include "../../includes/cub3D_lib.h"
+#include <stdio.h>
 
 
 int update_player_pos(t_data *data,int player_x,int player_y)
@@ -85,44 +86,8 @@ int	key_handler(int keycode, t_data *data)
 }
 
 
-void render_3d(t_data *data)
+void draw_map(t_data *data)
 {
-    int wall_top;
-    int wall_bottom;
-    int wall_height;
-
-    // Lancer un rayon pour chaque colonne de pixels à l'écran
-    for (int ray_x = 0; ray_x < WIDTH; ray_x++)
-    {
-        // Calculer la hauteur du mur en fonction de la distance
-        wall_height = (int)(HEIGHT / data->player.distance);
-
-        // Calculer la position du haut et du bas du mur à dessiner
-        wall_top = (HEIGHT / 2) - (wall_height / 2);
-        if (wall_top < 0)
-            wall_top = 0; // Éviter que le mur sorte de l'écran
-        wall_bottom = (HEIGHT / 2) + (wall_height / 2);
-        if (wall_bottom >= HEIGHT)
-            wall_bottom = HEIGHT - 1; // Éviter que le mur sorte de l'écran
-
-        // Dessiner le ciel (au-dessus du mur)
-        for (int y = 0; y < wall_top; y++)
-        {
-            img_pix_put(data, ray_x, y, 0x2ea3d1); // Couleur du ciel
-        }
-
-        // Dessiner le mur pour cette colonne
-        for (int y = wall_top; y <= wall_bottom; y++)
-        {
-            img_pix_put(data, ray_x, y, 0xFF0000); // Couleur du mur
-        }
-
-        // Dessiner le sol (en dessous du mur)
-        for (int y = wall_bottom + 1; y < HEIGHT; y++)
-        {
-            img_pix_put(data, ray_x, y, 0x42423A); // Couleur du sol
-        }
-    }
 	int i = 0;
 	int j = 0;
 	// Affichage de la mini-map (murs et sol)
@@ -148,7 +113,79 @@ void render_3d(t_data *data)
 		}
 		i++;
 	}
-	draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
 
 
 }
+
+void prespective_fn(t_data *data)
+{
+	(void) data;
+
+}
+// void render_3d(t_data *data)
+// {
+    // int wall_top;
+    // int wall_bottom;
+    // int wall_height;
+
+    // Lancer un rayon pour chaque colonne de pixels à l'écran
+ //    for (int ray_x = 0; ray_x < WIDTH; ray_x++)
+ //    {
+ //        // Calculer la hauteur du mur en fonction de la distance
+ //        wall_height = (int)(HEIGHT / data->player.distance);
+	//
+ //        // Calculer la position du haut et du bas du mur à dessiner
+ //        wall_top = (HEIGHT / 2) - (wall_height / 2);
+ //        if (wall_top < 0)
+ //            wall_top = 0; // Éviter que le mur sorte de l'écran
+ //        wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+ //        if (wall_bottom >= HEIGHT)
+ //            wall_bottom = HEIGHT - 1; // Éviter que le mur sorte de l'écran
+	//
+ //        // Dessiner le ciel (au-dessus du mur)
+ //        // for (int y = 0; y < wall_top; y++)
+ //        // {
+ //        //     img_pix_put(data, ray_x, y, 0x2ea3d1); // Couleur du ciel
+ //        // }
+ //        //
+ //        // // Dessiner le mur pour cette colonne
+ //        // for (int y = wall_top; y <= wall_bottom; y++)
+ //        // {
+ //        //     img_pix_put(data, ray_x, y, 0xFF0000); // Couleur du mur
+ //        // }
+ //        //
+ //        // // Dessiner le sol (en dessous du mur)
+ //        // for (int y = wall_bottom + 1; y < HEIGHT; y++)
+ //        // {
+ //        //     img_pix_put(data, ray_x, y, 0x42423A); // Couleur du sol
+ //        // }
+ //    }
+	// int i = 0;
+	// int j = 0;
+	// // Affichage de la mini-map (murs et sol)
+	// i = 0;
+	// while (i < MAP_HEIGHT)
+	// {
+	// 	j = 0;
+	// 	while (j < MAP_WIDTH)
+	// 	{
+	// 		if (data->map_test[i][j] == '1')
+	// 		{
+	// 			draw_rectangle(data, j * data->cell_width, i
+	// 				* data->cell_height, data->cell_width, data->cell_height,
+	// 				0x808080); // mur gris
+	// 		}
+	// 		else
+	// 		{
+	// 			draw_rectangle(data, j * data->cell_width, i
+	// 				* data->cell_height, data->cell_width, data->cell_height,
+	// 				0xFFFFFF); // sol blanc
+	// 		}
+	// 		j++;
+	// 	}
+	// 	i++;
+	// 	printf("GOIN\n");
+	// }
+	// draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0001);
+	
+// }

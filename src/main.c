@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/11 15:29:02 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/17 15:04:38 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	main(int argc, char **argv, char **envp)
 	
 	(void)argc;(void) argv; (void)envp;
 	checker(argc, argv, envp);
-	file_parser(&data, argv[1]);
-	file_cutter(&data);
+	// file_parser(&data, argv[1]);
+	// file_cutter(&data);
 	// carte vérification
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{

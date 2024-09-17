@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/12 14:22:47 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/17 18:17:35 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,25 +113,75 @@ void storage_box4render(int map_x, int map_y, t_data *data)
 
     // printf("Player distance : %f\n", data->player.distance);
 }
+
+
+void draw_vertical_line(t_data *data, int x, int start, int end, int color)
+{
+    // Vérifier que x est dans les limites de la fenêtre
+    if (x < 0 || x >= WIDTH)
+        return;
+
+    
+	// Dessiner la ligne du point start au point end
+    for (int y = start; y <= end; y++)
+    {
+        // Vérifier que y est dans les limites de la fenêtre
+        if (y >= 0 && y < HEIGHT)
+        {
+            img_pix_put(data, x, y, color);
+        }
+    }
+}
+
+void render_3d(t_data *data, double distance, int x)
+{
+    int wall_height = (int)(HEIGHT / distance);
+    int draw_start = -wall_height / 2 + HEIGHT / 2;
+    if (draw_start < 0) draw_start = 0;
+    
+    int draw_end = wall_height / 2 + HEIGHT / 2;
+    if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
+    
+    // Dessiner la ligne pour le mur à la position x (la colonne correspondante)
+    draw_vertical_line(data,x ,draw_start, draw_end, 0xff1241);
+}
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
-    double ray_dir_x;
+    
+	double ray_dir_x;
     double ray_dir_y;
-    int player_pos[2];
+    
+	int player_pos[2];
     int arrival_pos[2];
     int num_rays = 100; // Nombre de rayons à tracer pour couvrir le FOV
-    double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
+	
+	// **New var ** //
+	int plane_dimension = WIDTH * HEIGHT;
+	double distance;
+	int center_plane[2];
+	center_plane[0] = WIDTH /2 ;
+	center_plane[1] = HEIGHT /2;
+	// ** //
+	double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
     double angle_step = fov_radians / num_rays; // Pas d'angle entre chaque rayon
-    double ray_x, ray_y; // Position temporaire du rayon
-    int map_x, map_y; // Position dans la grille de la carte
-    int hit; // Indicateur de collision
+    
+	double ray_x, ray_y; // Position temporaire du rayon
+    
+	int map_x, map_y; // Position dans la grille de la carte
+    
+	int hit; // Indicateur de collision
+	
 	int old_x = 0;
 	int old_y = 0;
+	
+	int i = 0;
+	double subsequent_ray = 0;
     player_pos[0] = data->player.x * data->cell_width;
     player_pos[1] = data->player.y * data->cell_height;
 
-    for (int i = 0; i < num_rays; i++)
+	draw_map(data);
+    while (i++ < num_rays)
     {
         // Calcul de l'angle du rayon actuel
         ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
@@ -158,16 +208,17 @@ void ray_cast_radians(t_data *data)
             map_x = (int)ray_x;
             map_y = (int)ray_y;
 
+			subsequent_ray = fov_radians/ plane_dimension; // Angle between subsequent rays = 60/800 degrees
             // Vérifier si le rayon touche un mur
 			if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
             {
 				hit = 1;// Rayon a touché un mur
-				// render_3d(data);
-				if(old_x >= MAP_WIDTH - 0.2 && old_y >= MAP_HEIGHT - 0.2)
-				{
-					printf("OKIDOKI\n"); //ESSAIE DE DETECTER UNE COLISION DU PLAYER PAR UN MUR MAIS MARCHE PAS CHECK IF AU DESSUS AVEC OLD X ET OLD Y
-				}
-            }
+				distance = sqrt(pow(ray_x - data->player.x, 2) + pow(ray_y - data->player.y, 2));
+				// printf("Distance : %f\n",distance);
+				
+				int x = (int)((i / (double)num_rays) * WIDTH); // i est l'index du rayon
+				render_3d(data, distance, x);
+			}
 
             // Si le rayon sort de la carte, on arrête aussi
             if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
@@ -187,6 +238,8 @@ void ray_cast_radians(t_data *data)
 		data->player.arrival_pos[0] = arrival_pos[0];
 		data->player.arrival_pos[1] = arrival_pos[1];
 		storage_box4render(map_x,map_y,data);
+		draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
+		prespective_fn(data);
     }
-	render_3d(data);
+	// render_3d(data);
 }

@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/12 14:17:12 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/17 16:15:49 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ int cpy_map(t_data *data);
 int update_player_pos(t_data *data,int player_x,int player_y);
 void	draw_rectangle(t_data *data, int x, int y, int width, int height,int color);
 int	key_handler(int keycode, t_data *data);
-void render_3d(t_data *data);
 void draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
+void draw_map(t_data *data);
+void prespective_fn(t_data *data);
 #endif
