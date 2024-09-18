@@ -6,11 +6,70 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/17 14:57:39 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:43:35 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+void	find_max_len(t_data *data, char *line)
+{
+	int	line_len;
+
+	line_len = ft_strlen(line);
+	if (line_len > data->file->max_len)
+		data->file->max_len = line_len;
+		// dprintf(2, "[ICI LINE]: %s\n", line);
+	// dprintf(2, "[ICI MAX_LEN]: %d\n", data->file->max_len);
+}
+
+void	fill_map(t_data *data, char *line, char **cpy)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	*cpy = malloc(sizeof(char) * (data->file->max_len + 1));
+	if (!*cpy)
+	{
+		// Gérer l'erreur si l'allocation échoue
+		exit(1);
+	}
+	while (line[i])
+		(*cpy)[j++] = line[i++];
+	while (j < data->file->max_len)
+		(*cpy)[j++] = ' ';
+	(*cpy)[j] = '\0';
+}
+
+
+// void	fill_map(t_data *data, char *line, char *cpy)
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = ZERO_INIT;
+// 	j = ZERO_INIT;
+// 	cpy = malloc(sizeof(char) * data->file->max_len + 1);
+// 	if (!cpy)
+// 	{
+// 		//error;
+// 		exit(1);
+// 	}
+// 	while(line[i])
+// 	{
+// 		cpy[j] = line[i];
+// 		i++;
+// 		j++;
+// 	}
+// 	while(j < data->file->max_len)
+// 	{
+// 		cpy[j] = ' ';
+// 		j++;
+// 	}
+// 	cpy[j] = '\0';
+// }
 
 void	checker_map(t_data *data, char *str)
 {
@@ -78,6 +137,9 @@ void	print_file(t_data *data)
 
 void	print_final_datas(t_data *data)
 {
+	int i;
+
+	i = ZERO_INIT;
 	dprintf(2, "-----------FILE BEFORE PARSING-----------\n\n");
 	print_file(data);
 	dprintf(2, "\n");
@@ -94,6 +156,12 @@ void	print_final_datas(t_data *data)
 	dprintf(2, "final_path_EA: %s\n", data->file->path->path_ea);
 	dprintf(2, "final_path_SO: %s\n", data->file->path->path_so);
 	dprintf(2, "----------------------------------------\n");
-	dprintf(2, "final_orientation: %c\n", data->file->orientation);
+	dprintf(2, "final_orientation: %c\n\n", data->file->orientation);
+	dprintf(2, "-----------FINALS MAP-----------\n");
+	while(i < data->file->line_map)
+	{
+		dprintf(2, "%s\n", data->file->map[i]);
+		i++;
+	}
 	dprintf(2, "----------------------------------------\n");
 }

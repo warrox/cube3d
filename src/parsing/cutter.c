@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/17 14:57:06 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:34:04 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,20 @@ void	split_data_map(t_data *data)
 	data->file->infos = malloc(sizeof(char *) * data->file->line_data);
 	if (!data->file->infos)
 		error_malloc_fileinfos(data, "Fail to malloc data->file->infos!");
-	print_split(data->file->tab_data);
+	while (i < data->file->total_line) 
+	{
+		if (is_map_line(data->file->tab_data[i]))
+			find_max_len(data, data->file->tab_data[i]);
+		i++;
+	}
+	i = 0;
 	while (i < data->file->total_line)
 	{
 		if (is_map_line(data->file->tab_data[i]))
-			data->file->map[map_idx++] = ft_strdup(data->file->tab_data[i]);
+		{
+			fill_map(data, data->file->tab_data[i], &data->file->map[map_idx++]);
+			// data->file->map[map_idx++] = ft_strdup(data->file->tab_data[i]);
+		}
 		else
 			data->file->infos[data_idx++] = ft_strdup(data->file->tab_data[i]);
 		i++;
