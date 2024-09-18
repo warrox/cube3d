@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:03:29 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/17 15:29:49 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:57:02 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	checker(int argc, char **argv, char **envp)
 	check_envp(envp);
 	check_nb_args(argc);
 	check_extension(argv);
-	if(!check_permission(argv[1]))
+	if (!check_permission(argv[1]))
 		error_alloc_file("File needs permissions!");
 }
