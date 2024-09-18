@@ -6,12 +6,11 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/18 13:54:13 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/18 16:18:51 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
-#include <stdio.h>
 
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
@@ -115,22 +114,45 @@ void storage_box4render(int map_x, int map_y, t_data *data)
 }
 
 
-void draw_vertical_line(t_data *data, int x, int start, int end, int color)
+void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
 {
+    int y;
+
+    // Vérifier que la colonne x est dans les limites de l'écran
     if (x < 0 || x >= WIDTH)
         return;
 
-    
-	// Dessiner la ligne du point start au point end
-    for (int y = start; y <= end; y++)
+    // 1. Dessiner le ciel (en bleu clair) au-dessus du mur
+    y = 0;
+    while (y < start)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, color);
+            img_pix_put(data, x, y, 0x87CEEB); // Couleur du ciel (bleu clair)
         }
+        y++;
+    }
+
+    // 2. Dessiner le mur entre 'start' et 'end'
+    while (y <= end)
+    {
+        if (y >= 0 && y < HEIGHT)
+        {
+            img_pix_put(data, x, y, wall_color); // Couleur du mur
+        }
+        y++;
+    }
+
+    // 3. Dessiner le sol (en marron) en dessous du mur
+    while (y < HEIGHT)
+    {
+        if (y >= 0 && y < HEIGHT)
+        {
+            img_pix_put(data, x, y, 0x8B4513); // Couleur du sol (marron)
+        }
+        y++;
     }
 }
-
 void render_3d(t_data *data, double distance, int x)
 {
     int wall_height = (int)(HEIGHT / distance);
@@ -152,7 +174,7 @@ void ray_cast_radians(t_data *data)
     
 	int player_pos[2];
     int arrival_pos[2];
-    int num_rays = 100; // Nombre de rayons à tracer pour couvrir le FOV
+    int num_rays = 1000; // Nombre de rayons à tracer pour couvrir le FOV
 	
 	// **New var ** //
 	int plane_dimension = WIDTH * HEIGHT;
