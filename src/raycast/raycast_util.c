@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/18 13:51:24 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/18 13:54:13 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ void ray_cast_radians(t_data *data)
 		data->player.arrival_pos[0] = arrival_pos[0];
 		data->player.arrival_pos[1] = arrival_pos[1];
 		storage_box4render(map_x,map_y,data);
+		// rename drawvector elle sert a dessiner le fov du player sur la minimap
 		draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
 		prespective_fn(data);
     }
