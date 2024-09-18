@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/17 18:41:46 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/18 13:51:24 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ void storage_box4render(int map_x, int map_y, t_data *data)
 {
     double pos_x;
     double pos_y;
-    double distance; // Utilisation d'un double pour la précision
+    double distance;
 
     // printf("player_x : %f\n", data->player.x);
     // printf("player_y : %f\n", data->player.y);
 	pos_x = data->player.x; // Position du joueur en x
     pos_y = data->player.y; // Position du joueur en y
 
-    // Calcul de la distance euclidienne entre le joueur et le hit du rayon
+    // Calcul de la distance entre le joueur et le hit du rayon
     distance = sqrt(pow(map_x - pos_x, 2) + pow(map_y - pos_y, 2));
     
     data->player.distance = distance; // Stocker la distance
@@ -117,7 +117,6 @@ void storage_box4render(int map_x, int map_y, t_data *data)
 
 void draw_vertical_line(t_data *data, int x, int start, int end, int color)
 {
-    // Vérifier que x est dans les limites de la fenêtre
     if (x < 0 || x >= WIDTH)
         return;
 
@@ -125,7 +124,6 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int color)
 	// Dessiner la ligne du point start au point end
     for (int y = start; y <= end; y++)
     {
-        // Vérifier que y est dans les limites de la fenêtre
         if (y >= 0 && y < HEIGHT)
         {
             img_pix_put(data, x, y, color);
@@ -166,9 +164,11 @@ void ray_cast_radians(t_data *data)
 	double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
     double angle_step = fov_radians / num_rays; // Pas d'angle entre chaque rayon
     
-	double ray_x, ray_y; // Position temporaire du rayon
+	double ray_x; 
+	double ray_y; // Position temporaire du rayon
     
-	int map_x, map_y; // Position dans la grille de la carte
+	int map_x; 
+	int map_y; // Position dans la grille de la carte
     
 	int hit; // Indicateur de collision
 	
@@ -196,7 +196,7 @@ void ray_cast_radians(t_data *data)
         hit = 0;
 		old_x = ray_x;
 		old_y = ray_y;
-        // Parcourir le rayon jusqu'à rencontrer un mur (cellule "1")
+        // Parcourir le rayon jusqu'à rencontrer un mur "1"
         while (!hit)
         {
             // Avancer le long du rayon
