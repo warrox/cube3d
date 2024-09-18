@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/18 14:01:21 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:33:24 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_file
 	int			line_map;
 	int			total_line;
 	int			nb_player;
+	int			max_len;
 	char		**map;
 	char		**infos;
 	char		orientation;
@@ -201,6 +202,8 @@ void			checker_map(t_data *data, char *str);
 char	*fill_clean_path(t_data *data, char **tmp, char *str, int count_char);
 int	count_clean_path_len(const char *str);
 int	check_permission(char *path);
+void	fill_map(t_data *data, char *line, char **cpy);
+void	find_max_len(t_data *data, char *line);
 
 /*free functions*/
 
