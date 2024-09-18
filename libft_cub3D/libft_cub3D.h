@@ -13,11 +13,11 @@
 #ifndef LIBFT_CUB3D_H
 # define LIBFT_CUB3D_H
 
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <stdarg.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
@@ -37,8 +37,8 @@ void	ft_bzero(void *s, size_t n);
 void	ft_putnbr_fd(int n, int fd);
 char	**ft_split(char const *s, char c);
 char	*ft_strstr(char *haystack, char *needle);
-int	ft_strncmp(const char *first, const char *second, size_t length);
-int	ft_atoi(const char *nbr);
+int		ft_strncmp(const char *first, const char *second, size_t length);
+int		ft_atoi(const char *nbr);
 
 int		ft_printf(const char *input, ...);
 int		print_char(char c);

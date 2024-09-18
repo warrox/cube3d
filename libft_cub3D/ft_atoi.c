@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:14:17 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 17:57:46 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:35:25 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_atoi(const char *nbr)
 {
-	long result;
-	long sign;
+	long	result;
+	long	sign;
 
 	sign = 1;
 	result = 0;

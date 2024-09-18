@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/11 15:29:02 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/18 14:15:40 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// REVOIR 4. Calcul de la Direction de Chaque Rayon
 #include "../includes/cub3D_lib.h"
-#include <stdio.h>
 
 // implement a calculation function to build the fov
 char	map[MAP_HEIGHT][MAP_WIDTH + 1] = 
@@ -51,10 +49,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	
-	(void)argc;(void) argv; (void)envp;
-	checker(argc, argv, envp);
-	file_parser(&data, argv[1]);
-	file_cutter(&data);
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	// checker(argc, argv, envp);
+	// file_extractor(&data, argv[1]);
+	// file_cutter(&data);
+	// data_parser(&data);
+	// map_parser(&data);
+	// print_final_datas(&data);
 	// carte vérification
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
@@ -82,8 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	init_mlx(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
-	// mlx_loop_hook(data.mlx.p_mlx, render_3d, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
-	free_file_struct(&data);
+	// free_file_struct(&data);
 	return (0);
 }

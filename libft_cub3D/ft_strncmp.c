@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:43:10 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/05 14:43:31 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:35:58 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strncmp(const char *first, const char *second, size_t length)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < length && first[i] != '\0' && second[i] != '\0')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/11 13:46:23 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/18 14:01:21 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,14 @@
 # define WIDTH 800
 # define HEIGHT 800
 # define MOVE_SPEED 0.1
-#define ROTATION_SPEED 0.1 // Vitesse de rotation (en radians)
+# define ROTATION_SPEED 0.1
+# define COLOR 1
+# define PATH 2
+# define F 1
+# define C 2
+
 /*all enums*/
+
 enum
 {
 	PLUS = 61,
@@ -63,16 +69,6 @@ enum
 	PRIGHT = 93,
 };
 
-enum			settings
-{
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C
-};
-
 /*all structures*/
 
 typedef struct s_color
@@ -83,27 +79,39 @@ typedef struct s_color
 	int			c_r;
 	int			c_g;
 	int			c_b;
-	int			i;
-	int			j;
+	int			f_set;
+	int			c_set;
+	int			f_check;
+	int			c_check;
 }				t_color;
 
-typedef struct s_map
+typedef struct s_path
 {
 	char		*path_no;
 	char		*path_so;
 	char		*path_we;
 	char		*path_ea;
-
-}				t_map;
+	int			no_check;
+	int			so_check;
+	int			we_check;
+	int			ea_check;
+}				t_path;
 
 typedef struct s_file
 {
 	char		*map_line;
 	char		*map_line_cpy;
 	char		**tab_data;
-	char		**split_settings;
-	char		**value;
 	int			fd;
+	int			line_data;
+	int			line_map;
+	int			total_line;
+	int			nb_player;
+	char		**map;
+	char		**infos;
+	char		orientation;
+	t_path		*path;
+	t_color		*color;
 }				t_file;
 
 typedef struct s_player
@@ -115,11 +123,10 @@ typedef struct s_player
 	char		dir;
 	double		x;
 	double		y;
-	double time;    // time of current frame
-	double oldTime; // time of previous frame
+	double		time; // time of current frame
+	double		oldtime; // time of previous frame
 	double		size_width;
 	double		size_height;
-
 }				t_player;
 
 typedef struct s_mlx
@@ -138,8 +145,6 @@ typedef struct s_data
 	t_player	player;
 	char		**map_test;
 	t_file		*file;
-	t_map		*map;
-	t_color		*color;
 	t_mlx		mlx;
 	int			cell_width;
 	int			cell_height;
@@ -163,7 +168,6 @@ char			*ft_strstr(char *haystack, char *needle);
 int				ft_strncmp(const char *first, const char *second,
 					size_t length);
 int				ft_atoi(const char *nbr);
-;
 
 /*checker functions*/
 
@@ -175,16 +179,28 @@ int				ft_count_char(char *argv, char c);
 
 /*parsing functions*/
 
-void			file_parser(t_data *data, char *file);
+void			file_extractor(t_data *data, char *file);
 int				open_file(char *file);
 void			cpy_map_data(t_data *data);
 void			file_cutter(t_data *data);
-void			check_order_data(t_data *data);
-void			extract_data(t_data *data);
-int				extract_settings(t_data *data);
-int				detect_data(t_data *data, char *str);
-void			set_value(t_data *data, char **split, int sett);
-void			check_nb_colors(t_data *data, char **split);
+void			data_parser(t_data *data);
+void			color_case(t_data *data, char *infos);
+char			*clear_whitespace(t_data *data, char *str);
+int				ft_isdigit(char c);
+void			path_case(t_data *data, char *str);
+void			set_path(t_data *data, char **tmp);
+void			map_parser(t_data *data);
+int				check_ea_we_walls(t_data *data, char **map);
+int				check_no_s_walls(t_data *data, char **map);
+int				check_in_space(t_data *data, char **map);
+void			set_f_color(t_data *data, char **tmp_value);
+void			set_c_color(t_data *data, char **tmp_value);
+int				check_atoi_value(int i, char **tmp_value, char **tmp);
+int				is_wrong_line(char *str);
+void			checker_map(t_data *data, char *str);
+char	*fill_clean_path(t_data *data, char **tmp, char *str, int count_char);
+int	count_clean_path_len(const char *str);
+int	check_permission(char *path);
 
 /*free functions*/
 
@@ -195,22 +211,29 @@ void			free_split(char **split);
 /*utils functions*/
 
 char			*new_alloc(t_data *data, char *ptr, int size);
-void			debug(char *msg);
+void			print_split(char **split);
+void			print_final_datas(t_data *data);
 
 /*error functions*/
 
 void			error_alloc_file(char *msg);
 void			error_alloc_mapline(t_data *data, char *msg);
-void			error_split_value(t_data *data, char *msg);
-void			error_atoi(t_data *data, char *msg);
 void			error_read(t_data *data, char *msg);
 void			error_open(t_data *data, char *msg);
-void			error_split(t_data *data);
-void			error_order(t_data *data);
+void			error_split(t_data *data, char *msg);
+void			error_data_format(t_data *data, char *msg);
+void			error_malloc_filemap(t_data *data, char *msg);
+void			error_malloc_fileinfos(t_data *data, char *msg);
+void			error_malloc_tmp(t_data *data, char *msg);
+void			error_unexpected_info(t_data *data, char *msg);
+void			error_malloc_value(t_data *data, char *str, char **split,
+					char *msg);
+void			error_malloc_whtspc(t_data *data, char *str, char *msg);
+void			error_map(t_data *data, char *msg);
 
 /*init functions*/
 
-void			init_map_struct(t_data *data);
+void			init_path_struct(t_data *data);
 void			init_file_struct(t_data *data);
 void			init_color_struct(t_data *data);
 int				init_mlx(t_data *data);

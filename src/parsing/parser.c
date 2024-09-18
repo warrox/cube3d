@@ -6,7 +6,7 @@
 /*   By: cyprien <cyprien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:23:23 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/06 18:55:45 by cyprien          ###   ########.fr       */
+/*   Updated: 2024/09/11 01:32:19 by cyprien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	cpy_map_data(t_data *data)
 	free(data->file->map_line);
 }
 
-void	file_parser(t_data *data, char *file)
+void	file_extractor(t_data *data, char *file)
 {
 	int	bytes_read;
 	int	size_read;
@@ -43,7 +43,7 @@ void	file_parser(t_data *data, char *file)
 	data->file->map_line = malloc(size_read * sizeof(char));
 	if (!data->file->map_line)
 		error_alloc_mapline(data, "Fail to allocate memory for map_line!");
-	init_map_struct(data);
+	init_path_struct(data);
 	data->file->fd = open_file(file);
 	if (data->file->fd == -1)
 		error_open(data, "Error while opening file!");

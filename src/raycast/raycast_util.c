@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/11 15:38:20 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/18 14:05:17 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
-#include <stdio.h>
 
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
@@ -31,7 +30,7 @@ void	init_player(t_data *data)
 	// data->wall = 0;
 	// data->ground = 0;
 	data->player.time = 0;    // time of current frame
-	data->player.oldTime = 0; // time of previous frame
+	data->player.oldtime = 0; // time of previous frame
 	data->player.x = -1;
 	data->player.y = -1;
 }
@@ -39,9 +38,7 @@ void	init_player(t_data *data)
 double	get_angle_posplayer(char player_dir)
 {
 	if (player_dir == 'E')
-	{
 		return (0);
-	}
 	if (player_dir == 'S')
 	{
 		return (PI / 2);
@@ -56,7 +53,6 @@ double	get_angle_posplayer(char player_dir)
 	}
 	return (0);
 }
-
 
 void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
 {
