@@ -1,4 +1,5 @@
 #include "../../includes/cub3D_lib.h"
+#include <stdio.h>
 
 
 int update_player_pos(t_data *data,int player_x,int player_y)
@@ -84,33 +85,40 @@ int	key_handler(int keycode, t_data *data)
 	return (0);
 }
 
-// void render_3d(t_data *data)
-// {
-// 	int ray_distance;
-// 	int wall_height;
-// 	int view_height;
-// 	data->player.distance;
-//
-// }
 
-void render_3d(t_data *data)
+void draw_map(t_data *data)
 {
-    for (int ray_x = 0; ray_x < WIDTH; ray_x++) // Lancer un rayon pour chaque colonne de pixels à l'écran
-    {
-        // Ici tu fais ton raycasting pour obtenir la distance jusqu'au mur
-        // Après avoir calculé la distance, stocke-la dans data->player.distance
+	int i = 0;
+	int j = 0;
+	// Affichage de la mini-map (murs et sol)
+	i = 0;
+	while (i < MAP_HEIGHT)
+	{
+		j = 0;
+		while (j < MAP_WIDTH)
+		{
+			if (data->map_test[i][j] == '1')
+			{
+				draw_rectangle(data, j * data->cell_width, i
+					* data->cell_height, data->cell_width, data->cell_height,
+					0x808080); // mur gris
+			}
+			else
+			{
+				draw_rectangle(data, j * data->cell_width, i
+					* data->cell_height, data->cell_width, data->cell_height,
+					0xFFFFFF); // sol blanc
+			}
+			j++;
+		}
+		i++;
+	}
 
-        // Calculer la hauteur du mur en fonction de la distance
-        int wall_height = (int)(HEIGHT / data->player.distance);
 
-        // Calculer la position du haut et du bas du mur à dessiner
-        int wall_top = (HEIGHT / 2) - (wall_height / 2);
-        int wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+}
 
-        // Dessiner le mur pour cette colonne
-        for (int y = wall_top; y < wall_bottom; y++)
-        {
-            img_pix_put(data, ray_x, y, 0xFFFFFF); // Remplace 0xFFFFFF par la couleur du mur
-        }
-    }
+void prespective_fn(t_data *data)
+{
+	(void) data;
+
 }

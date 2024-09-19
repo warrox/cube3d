@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/18 14:05:17 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:50:41 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void	init_player(t_data *data)
 double	get_angle_posplayer(char player_dir)
 {
 	if (player_dir == 'E')
+	{
 		return (0);
+	}
 	if (player_dir == 'S')
 	{
 		return (PI / 2);
@@ -53,6 +55,7 @@ double	get_angle_posplayer(char player_dir)
 	}
 	return (0);
 }
+
 
 void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
 {
@@ -69,11 +72,9 @@ void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
 
     int err = dx - dy;
     int e2;
-
     while (1)
     {
-        img_pix_put(data, x0, y0, color); // Dessine un pixel en blanc (ou autre couleur)
-
+		img_pix_put(data, x0, y0, color); // Dessine un pixel en blanc (ou autre couleur)
         if (x0 == x1 && y0 == y1) // Si la ligne est complète
             break;
 
@@ -97,39 +98,112 @@ void storage_box4render(int map_x, int map_y, t_data *data)
 {
     double pos_x;
     double pos_y;
-    double distance; // Utilisation d'un double pour la précision
+    double distance;
 
-    printf("player_x : %f\n", data->player.x);
-    printf("player_y : %f\n", data->player.y);
+    // printf("player_x : %f\n", data->player.x);
+    // printf("player_y : %f\n", data->player.y);
 	pos_x = data->player.x; // Position du joueur en x
     pos_y = data->player.y; // Position du joueur en y
 
-    // Calcul de la distance euclidienne entre le joueur et le hit du rayon
+    // Calcul de la distance entre le joueur et le hit du rayon
     distance = sqrt(pow(map_x - pos_x, 2) + pow(map_y - pos_y, 2));
     
     data->player.distance = distance; // Stocker la distance
 
-    printf("Player distance : %f\n", data->player.distance);
+    // printf("Player distance : %f\n", data->player.distance);
+}
+
+
+void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
+{
+    int y;
+
+    // Vérifier que la colonne x est dans les limites de l'écran
+    if (x < 0 || x >= WIDTH)
+        return;
+
+    // 1. Dessiner le ciel (en bleu clair) au-dessus du mur
+    y = 0;
+    while (y < start)
+    {
+        if (y >= 0 && y < HEIGHT)
+        {
+            img_pix_put(data, x, y, 0x87CEEB); // Couleur du ciel (bleu clair)
+        }
+        y++;
+    }
+
+    // 2. Dessiner le mur entre 'start' et 'end'
+    while (y <= end)
+    {
+        if (y >= 0 && y < HEIGHT)
+        {
+            img_pix_put(data, x, y, wall_color); // Couleur du mur
+        }
+        y++;
+    }
+
+    // 3. Dessiner le sol (en marron) en dessous du mur
+    while (y < HEIGHT)
+    {
+        if (y >= 0 && y < HEIGHT)
+        {
+            img_pix_put(data, x, y, 0x8B4513); // Couleur du sol (marron)
+        }
+        y++;
+    }
+}
+void render_3d(t_data *data, double distance, int x)
+{
+    int wall_height = (int)(HEIGHT / distance);
+    int draw_start = -wall_height / 2 + HEIGHT / 2;
+    if (draw_start < 0) draw_start = 0;
+    
+    int draw_end = wall_height / 2 + HEIGHT / 2;
+    if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
+    
+    // Dessiner la ligne pour le mur à la position x (la colonne correspondante)
+    draw_vertical_line(data,x ,draw_start, draw_end, 0xff1241);
 }
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
-    double ray_dir_x;
+    
+	double ray_dir_x;
     double ray_dir_y;
-    int player_pos[2];
+    
+	int player_pos[2];
     int arrival_pos[2];
-    int num_rays = 100; // Nombre de rayons à tracer pour couvrir le FOV
-    double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
+    int num_rays = 1000; // Nombre de rayons à tracer pour couvrir le FOV
+	
+	// **New var ** //
+	int plane_dimension = WIDTH * HEIGHT;
+	double distance;
+	int center_plane[2];
+	center_plane[0] = WIDTH /2 ;
+	center_plane[1] = HEIGHT /2;
+	// ** //
+	double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
     double angle_step = fov_radians / num_rays; // Pas d'angle entre chaque rayon
-    double ray_x, ray_y; // Position temporaire du rayon
-    int map_x, map_y; // Position dans la grille de la carte
-    int hit; // Indicateur de collision
+    
+	double ray_x; 
+	double ray_y; // Position temporaire du rayon
+    
+	int map_x; 
+	int map_y; // Position dans la grille de la carte
+    
+	int hit; // Indicateur de collision
+	
 	int old_x = 0;
 	int old_y = 0;
+	int x = 0;	
+	int i = 0;
+	double subsequent_ray = 0;
     player_pos[0] = data->player.x * data->cell_width;
     player_pos[1] = data->player.y * data->cell_height;
 
-    for (int i = 0; i < num_rays; i++)
+	draw_map(data);
+    while (i++ < num_rays)
     {
         // Calcul de l'angle du rayon actuel
         ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
@@ -144,28 +218,29 @@ void ray_cast_radians(t_data *data)
         hit = 0;
 		old_x = ray_x;
 		old_y = ray_y;
-        // Parcourir le rayon jusqu'à rencontrer un mur (cellule "1")
+        // Parcourir le rayon jusqu'à rencontrer un mur "1"
         while (!hit)
         {
             // Avancer le long du rayon
-            ray_x += ray_dir_x * 0.1; // 0.1 est un pas relativement petit pour plus de précision
-            ray_y += ray_dir_y * 0.1;
-			old_x *= 0.1;
-			old_y *= 0.1;
+            ray_x += ray_dir_x * 0.01; // 0.1 est un pas relativement petit pour plus de précision
+            ray_y += ray_dir_y * 0.01;
+			old_x *= 0.01;
+			old_y *= 0.01;
             // Convertir les coordonnées réelles en coordonnées de la carte (entier)
             map_x = (int)ray_x;
             map_y = (int)ray_y;
 
+			subsequent_ray = fov_radians/ plane_dimension; // Angle between subsequent rays = 60/800 degrees
             // Vérifier si le rayon touche un mur
 			if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
             {
 				hit = 1;// Rayon a touché un mur
-				// render_3d(data);
-				if(old_x >= MAP_WIDTH - 0.2 && old_y >= MAP_HEIGHT - 0.2)
-				{
-					printf("OKIDOKI\n"); //ESSAIE DE DETECTER UNE COLISION DU PLAYER PAR UN MUR MAIS MARCHE PAS CHECK IF AU DESSUS AVEC OLD X ET OLD Y
-				}
-            }
+				distance = sqrt(pow(ray_x - data->player.x, 2) + pow(ray_y - data->player.y, 2));
+				// printf("Distance : %f\n",distance);
+				
+				x = (int)((i / (double)num_rays) * WIDTH); // i est l'index du rayon
+				render_3d(data, distance, x);
+			}
 
             // Si le rayon sort de la carte, on arrête aussi
             if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
@@ -173,14 +248,21 @@ void ray_cast_radians(t_data *data)
                 hit = 1;
             }
         }
-
+		
         // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)
         arrival_pos[0] = ray_x * data->cell_width;
         arrival_pos[1] = ray_y * data->cell_height;
 
         // Tracer la ligne (rayon) entre la position du joueur et la position d'arrêt
+		data->player.map_pos[0] = player_pos[0];
+		data->player.map_pos[1] = player_pos[1];
+
+		data->player.arrival_pos[0] = arrival_pos[0];
+		data->player.arrival_pos[1] = arrival_pos[1];
 		storage_box4render(map_x,map_y,data);
-		draw_vector(data, player_pos, arrival_pos, 0xFF0000);
-		render_3d(data);
+		// rename drawvector elle sert a dessiner le fov du player sur la minimap
+		draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
+		prespective_fn(data);
     }
+	// render_3d(data);
 }
