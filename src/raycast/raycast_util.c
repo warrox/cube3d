@@ -6,12 +6,74 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/19 10:50:41 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/19 14:53:16 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
+void draw_fov(t_data *data)
+{
+    double fov = 60 * (PI / 180.0);  // Conversion du FOV en radians (60°)
+    double half_fov = fov / 2;       // Moitié du FOV (30° de chaque côté)
+    int num_rays = 100;              // 50 à gauche et 50 à droite
+    double angle_step = fov / num_rays;  // Pas d'angle entre chaque rayon
+    double ray_angle, ray_dir_x, ray_dir_y;
+    double ray_x, ray_y;
+    int hit, map_x, map_y;
+
+    // Position du joueur sur la mini-map
+    int player_pos[2];
+    player_pos[0] = data->player.x * data->cell_width;
+    player_pos[1] = data->player.y * data->cell_height;
+
+    // Boucle pour dessiner 100 rayons couvrant le FOV entre -30 et +30 degrés
+    for (int i = 0; i < num_rays; i++)
+    {
+        // Calculer l'angle du rayon en fonction du FOV (-30° à +30°)
+        ray_angle = data->player.angle - half_fov + (i * angle_step);
+
+        // Calcul de la direction du rayon (composantes x et y)
+        ray_dir_x = cos(ray_angle);
+        ray_dir_y = sin(ray_angle);
+
+        // Initialisation du rayon à la position du joueur
+        ray_x = data->player.x;
+        ray_y = data->player.y;
+        hit = 0;
+
+        // Parcourir le rayon jusqu'à rencontrer un mur
+        while (!hit)
+        {
+            // Avancer le long du rayon
+            ray_x += ray_dir_x * 0.1;
+            ray_y += ray_dir_y * 0.1;
+
+            // Convertir les coordonnées en positions dans la grille de la carte
+            map_x = (int)ray_x;
+            map_y = (int)ray_y;
+
+            // Si on touche un mur ou si on sort de la carte, on arrête le rayon
+            if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
+            {
+                hit = 1;
+            }
+
+            if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
+            {
+                hit = 1;
+            }
+        }
+
+        // Position finale du rayon (là où il a touché un mur)
+        int arrival_pos[2];
+        arrival_pos[0] = ray_x * data->cell_width;
+        arrival_pos[1] = ray_y * data->cell_height;
+
+        // Dessiner le rayon en rouge sur la mini-map avec la fonction draw_vector
+        draw_vector(data, player_pos, arrival_pos, 0xFF0000);
+    }
+}
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -74,7 +136,7 @@ void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
     int e2;
     while (1)
     {
-		img_pix_put(data, x0, y0, color); // Dessine un pixel en blanc (ou autre couleur)
+		img_pix_put(data, x0, y0, color);
         if (x0 == x1 && y0 == y1) // Si la ligne est complète
             break;
 
@@ -162,8 +224,7 @@ void render_3d(t_data *data, double distance, int x)
     int draw_end = wall_height / 2 + HEIGHT / 2;
     if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
     
-    // Dessiner la ligne pour le mur à la position x (la colonne correspondante)
-    draw_vertical_line(data,x ,draw_start, draw_end, 0xff1241);
+	draw_vertical_line(data,x ,draw_start, draw_end, 0xff1241);
 }
 void ray_cast_radians(t_data *data)
 {
@@ -202,7 +263,6 @@ void ray_cast_radians(t_data *data)
     player_pos[0] = data->player.x * data->cell_width;
     player_pos[1] = data->player.y * data->cell_height;
 
-	draw_map(data);
     while (i++ < num_rays)
     {
         // Calcul de l'angle du rayon actuel
@@ -261,8 +321,10 @@ void ray_cast_radians(t_data *data)
 		data->player.arrival_pos[1] = arrival_pos[1];
 		storage_box4render(map_x,map_y,data);
 		// rename drawvector elle sert a dessiner le fov du player sur la minimap
-		draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
+		// draw_vector(data, data->player.map_pos, data->player.arrival_pos, 0xFF0000);
 		prespective_fn(data);
     }
-	// render_3d(data);
+	//draw mini map + fov de la minimap
+	draw_map(data);
+	draw_fov(data);
 }

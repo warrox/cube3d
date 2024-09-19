@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/19 09:40:35 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/19 13:49:14 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,4 +258,5 @@ int	key_handler(int keycode, t_data *data);
 void draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void draw_map(t_data *data);
 void prespective_fn(t_data *data);
+int	close_window(int keycode, t_data *data);
 #endif

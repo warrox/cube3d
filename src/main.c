@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mainwait.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/19 10:53:54 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/19 13:59:26 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 	printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
 	init_mlx(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
+	mlx_hook(data.mlx.mlx_win, 17,0,close_window, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
 	free_file_struct(&data);

@@ -33,8 +33,17 @@ void	draw_rectangle(t_data *data, int x, int y, int width, int height,
 		i++;
 	}
 }
+
+
+int	close_window(int keycode, t_data *data)
+{
+	free_file_struct(data);
+	exit(EXIT_SUCCESS);
+	return(keycode);
+}
 int	key_handler(int keycode, t_data *data)
 {
+	
 	if (keycode == W_KEY)
 	{
 		data->player.x += MOVE_SPEED * cos(data->player.angle);
@@ -49,15 +58,15 @@ int	key_handler(int keycode, t_data *data)
 	{
 		data->player.angle -= ROTATION_SPEED;
 		if (data->player.angle < 0)
-		{ // Gérer les angles négatifs
+		{
 			data->player.angle += 2 * M_PI;
 		}
 	}
 	else if (keycode == ARROW_RIGHT)
-	{ // Rotation à droite
+	{
 		data->player.angle += ROTATION_SPEED;
 		if (data->player.angle > 2 * M_PI)
-		{ // Gérer les angles supérieurs à 360°
+		{
 			data->player.angle -= 2 * M_PI;
 		}
 	}
