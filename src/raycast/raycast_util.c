@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/20 12:44:58 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/20 13:57:36 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,8 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 	int old_y = 0;
 	int plane_dimension = WIDTH * HEIGHT;
 	double subsequent_ray = 0;
-
+	double distance = 0;
+	double	angle_rad = 0; 
 	// Direction du rayon (composantes x et y)
 	ray_dir_x = cos(ray_angle);
 	ray_dir_y = sin(ray_angle);
@@ -260,15 +261,10 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 			//
 			double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
 
-			double angle_rad = angle * (PI / 180);
-			// printf("angle: %f, angle_rad:  %f\n", angle, angle_rad);
-			double distance = (sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)));
-			return distance * cos(angle_rad);
-			// printf("Distance : %f\n",distance);
-			
-			// x = (int)((i / (double)num_rays) * WIDTH); // i est l'index du rayon
+			angle_rad = angle * (PI / 180);
+			distance = (sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)));
+			return (distance * cos(angle_rad));	
 		}
-
 		// Si le rayon sort de la carte, on arrête aussi
 		if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
 		{
