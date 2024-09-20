@@ -6,8 +6,8 @@ int	minimap_render(void *param)
 
 	data = (t_data *)param;	
 	// printf("string : %s\n", data->map_test[0]);
-	data->cell_width = (WIDTH / 6) / MAP_WIDTH;
-	data->cell_height = (HEIGHT / 6) / MAP_HEIGHT;
+	data->cell_width = (WIDTH / 6) / data->file->max_len;
+	data->cell_height = (HEIGHT / 6) / data->file->line_map;
 	mlx_destroy_image(data->mlx.p_mlx, data->mlx.img);
 	data->mlx.img = mlx_new_image(data->mlx.p_mlx, WIDTH, HEIGHT);
 	data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bits_per_pixel,

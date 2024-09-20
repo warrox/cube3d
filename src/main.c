@@ -6,44 +6,36 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/19 13:59:26 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/20 14:12:49 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D_lib.h"
 
 // implement a calculation function to build the fov
-char	map[MAP_HEIGHT][MAP_WIDTH + 1] = 
-	{
-		"111111", 
-		"101001", 
-		"101001",
-		"10S001", 
-		"111111"
-	};
-int cpy_map(t_data *data)
-{
-
-	int i = 0;
-	data->map_test = malloc(sizeof(char*) * (MAP_HEIGHT + 1));
-	if (!data->map_test)
-		return (0);
-
-	while (i < MAP_HEIGHT)
-	{
-		data->map_test[i] = ft_strdup(map[i]);
-		if (!data->map_test[i])
-		{
-			while (i > 0)
-				free(data->map_test[--i]);
-			free(data->map_test);
-			return (0);
-		}
-		i++;
-	}
-	data->map_test[i] = NULL;
-	return(0);
-}
+// int cpy_map(t_data *data)
+// {
+//
+// 	int i = 0;
+// 	data->map_test = malloc(sizeof(char*) * (MAP_HEIGHT + 1));
+// 	if (!data->map_test)
+// 		return (0);
+//
+// 	while (i < MAP_HEIGHT)
+// 	{
+// 		data->map_test[i] = ft_strdup(map[i]);
+// 		if (!data->map_test[i])
+// 		{
+// 			while (i > 0)
+// 				free(data->map_test[--i]);
+// 			free(data->map_test);
+// 			return (0);
+// 		}
+// 		i++;
+// 	}
+// 	data->map_test[i] = NULL;
+// 	return(0);
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -59,20 +51,18 @@ int	main(int argc, char **argv, char **envp)
 	map_parser(&data);
 	print_final_datas(&data);
 	init_player(&data);
-	cpy_map(&data);
-	// file_parser(&data, argv[1]);
-	// file_cutter(&data);
-	for (int i = 0; i < MAP_HEIGHT; i++)
+	// cpy_map(&data);
+	for (int i = 0; i < data.file->line_map; i++)
 	{
-		for (int j = 0; j < MAP_WIDTH; j++)
+		for (int j = 0; j < data.file->max_len; j++)
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W'
-				|| map[i][j] == 'E')
+			if (data.file->map[i][j] == 'N' || data.file->map[i][j] == 'S' || data.file->map[i][j] == 'W'
+				|| data.file->map[i][j] == 'E')
 			{
 				data.player.x = j;
 				data.player.y = i;
-				data.player.angle = get_angle_posplayer(map[i][j]);
-				data.player.dir = map[i][j];
+				data.player.angle = get_angle_posplayer(data.file->map[i][j]);
+				data.player.dir = data.file->map[i][j]; 
 				break ;
 			}
 		}

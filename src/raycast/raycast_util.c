@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/20 13:57:36 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/20 14:12:04 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void draw_fov(t_data *data)
             map_x = (int)ray_x;
             map_y = (int)ray_y;
 
-            if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
+            if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
             {
                 hit = 1;
             }
 
-            if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
+            if (map_x < 0 || map_x >=data->file->max_len  || map_y < 0 || map_y >= data->file->line_map)
             {
                 hit = 1;
             }
@@ -255,7 +255,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 
 		subsequent_ray = fov_radians/ plane_dimension; // Angle between subsequent rays = 60/800 degrees
 		// Vérifier si le rayon touche un mur
-		if (map_x >= 0 && map_x < MAP_WIDTH && map_y >= 0 && map_y < MAP_HEIGHT && data->map_test[map_y][map_x] == '1')
+		if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
 		{
 			hit = 1;// Rayon a touché un mur
 			//
@@ -266,7 +266,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 			return (distance * cos(angle_rad));	
 		}
 		// Si le rayon sort de la carte, on arrête aussi
-		if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
+		if (map_x < 0 || map_x >= data->file->max_len || map_y < 0 || map_y >= data->file->line_map)
 		{
 			hit = 1;
 		}
@@ -315,7 +315,6 @@ void ray_cast_radians(t_data *data)
 		data->player.arrival_pos[0] = arrival_pos[0];
 		data->player.arrival_pos[1] = arrival_pos[1];
 		// storage_box4render(map_x,map_y,data);
-		prespective_fn(data);
     }
 	//draw mini map + fov de la minimap
 	draw_map(data);

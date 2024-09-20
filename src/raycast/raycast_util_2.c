@@ -101,12 +101,12 @@ void draw_map(t_data *data)
 	int j = 0;
 	// Affichage de la mini-map (murs et sol)
 	i = 0;
-	while (i < MAP_HEIGHT)
+	while (i < data->file->line_map)
 	{
 		j = 0;
-		while (j < MAP_WIDTH)
+		while (j < data->file->max_len)
 		{
-			if (data->map_test[i][j] == '1')
+			if (data->file->map[i][j] == '1')
 			{
 				draw_rectangle(data, j * data->cell_width, i
 					* data->cell_height, data->cell_width, data->cell_height,
@@ -126,8 +126,3 @@ void draw_map(t_data *data)
 
 }
 
-void prespective_fn(t_data *data)
-{
-	(void) data;
-
-}

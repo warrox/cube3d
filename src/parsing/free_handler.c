@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 08:38:59 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/19 13:58:41 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/20 14:20:26 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	free_split(char **split)
 
 void	free_file_struct(t_data *data)
 {
-	free(data->file->map_line_cpy);
+	// free(data->file->map_line_cpy);
 	// free(data->map_test);
-	free_split(data->file->tab_data);
-	free(data->file->color);
+	// free_split(data->file->tab_data);
+	// free(data->file->color);
 	free(data->file->path->path_ea);
 	free(data->file->path->path_no);
 	free(data->file->path->path_so);
