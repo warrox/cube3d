@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:46:52 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 17:17:45 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:54:05 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_file_struct(t_data *data)
 	data->file->map = NULL;
 	data->file->orientation = ZERO_INIT;
 	data->file->nb_player = ZERO_INIT;
+	data->file->max_len = -1;
 }
 
 void	init_path_struct(t_data *data)

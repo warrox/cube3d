@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/18 13:57:56 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:34:11 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,10 @@
 # define MAP_WIDTH 6
 # define MAP_HEIGHT 5
 # define NUM_RAYS 100
-# define G_VALUE 10
-# define W_VALUE 10
 # define WIDTH 800
 # define HEIGHT 800
 # define MOVE_SPEED 0.1
+# define ROTATION_SPEED 0.1
 # define COLOR 1
 # define PATH 2
 # define F 1
@@ -108,6 +107,7 @@ typedef struct s_file
 	int			line_map;
 	int			total_line;
 	int			nb_player;
+	int			max_len;
 	char		**map;
 	char		**infos;
 	char		orientation;
@@ -128,6 +128,8 @@ typedef struct s_player
 	double		oldtime; // time of previous frame
 	double		size_width;
 	double		size_height;
+	int			map_pos[4096];
+	int			arrival_pos[4096];
 }				t_player;
 
 typedef struct s_mlx
@@ -144,6 +146,7 @@ typedef struct s_mlx
 typedef struct s_data
 {
 	t_player	player;
+	char		**map_test;
 	t_file		*file;
 	t_mlx		mlx;
 	int			cell_width;
@@ -201,12 +204,15 @@ void			checker_map(t_data *data, char *str);
 char	*fill_clean_path(t_data *data, char **tmp, char *str, int count_char);
 int	count_clean_path_len(const char *str);
 int	check_permission(char *path);
+void	fill_map(t_data *data, char *line, char **cpy);
+void	find_max_len(t_data *data, char *line);
 
 /*free functions*/
 
 void			free_file_struct(t_data *data);
 void			free_map_struct(t_data *data);
 void			free_split(char **split);
+int	free_close_windows(void *data);
 
 /*utils functions*/
 
@@ -236,12 +242,21 @@ void			error_map(t_data *data, char *msg);
 void			init_path_struct(t_data *data);
 void			init_file_struct(t_data *data);
 void			init_color_struct(t_data *data);
-
+int				init_mlx(t_data *data);
 /*raycasting functions*/
 
 void			init_player(t_data *data);
 double			get_angle_posplayer(char player_dir);
 void			ray_cast_radians(t_data *data);
 void			img_pix_put(t_data *data, int x, int y, int color);
+void			draw_rectangle(t_data *data, int x, int y, int width, int height, int color);
+int				update_player_pos(t_data *data,int player_x,int player_y);
+int				minimap_render(void *param);
+int cpy_map(t_data *data);
+int update_player_pos(t_data *data,int player_x,int player_y);
+void	draw_rectangle(t_data *data, int x, int y, int width, int height,int color);
+int	key_handler(int keycode, t_data *data);
+void draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
+void draw_map(t_data *data);
 
 #endif

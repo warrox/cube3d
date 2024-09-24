@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/16 16:39:07 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/24 10:27:10 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,10 @@ RESET   = \e[00m
 
 SOURCE = ./src/
 
-
-RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c)
+RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c raycast_util_2.c)
+CUSTOMMLX = $(addprefix CustomMlxFunc/,init_mlx.c  )
 PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c error_handler_two.c cutter.c cutter_utils.c init.c data_parser.c color_case.c color_utils.c path_case.c path_utils.c map_parser.c map_utils.c color_case_utils.c)
-GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) main.c)
+GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) $(CUSTOMMLX) main.c)
 
 SRC = $(GAME)
 OBJ = $(SRC:%.c=%.o)
@@ -80,6 +80,9 @@ fclean: clean
 	-$(RM) ./minilibx-linux  
 	@echo "$(GREEN)Executable cleaned successfully!$(RESET)"
 
+leak:
+	valgrind --suppressions=ignore_mlx.supp --leak-check=full --show-leak-kinds=all ./cub3d maps/scene_valid_4.cub
+	
 re: fclean all
 
 .PHONY: all clean fclean re
