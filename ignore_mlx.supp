@@ -1,0 +1,27 @@
+{
+   ignore_mlx_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libmlx.so.*
+}
+
+{
+   ignore_x11_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.*
+}
+
+{
+   ignore_xcb_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.*
+}
+
+{
+	ignore_libXext_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/lib/x86_64-linux-gnu/libXext.so.*
+}
