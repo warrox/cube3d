@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/18 14:02:53 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/24 10:27:10 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,9 @@ fclean: clean
 	-$(RM) ./minilibx-linux  
 	@echo "$(GREEN)Executable cleaned successfully!$(RESET)"
 
+leak:
+	valgrind --suppressions=ignore_mlx.supp --leak-check=full --show-leak-kinds=all ./cub3d maps/scene_valid_4.cub
+	
 re: fclean all
 
 .PHONY: all clean fclean re
