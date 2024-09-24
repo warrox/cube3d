@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/24 12:34:24 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:11:16 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_color
 	int			c_r;
 	int			c_g;
 	int			c_b;
+	int			conv_c;
+	int			conv_f;
 	int			f_set;
 	int			c_set;
 	int			f_check;
@@ -140,7 +142,7 @@ typedef struct s_mlx
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
-	int			endian;
+	int			endian; //0 ---> t,r,g,b 1 ----> b,g,r,t
 }				t_mlx;
 
 typedef struct s_data
@@ -210,6 +212,9 @@ void			find_max_len(t_data *data, char *line);
 int				is_map_line(char *line);
 void			process_data_map(t_data *data);
 void			allocate_file_maps(t_data *data);
+char			*int_to_hex(int num);
+int				convert_color_c(t_data *data);
+int				convert_color_f(t_data *data);
 
 /*free functions*/
 

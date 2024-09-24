@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/16 17:07:19 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:21:18 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	color_case(t_data *data, char *infos)
 	if (!check_value(data, cpy, tmp))
 		error_malloc_value(data, cpy, tmp, "Error value detected in colors!");
 	set_value(data, cpy, tmp);
+	data->file->color->conv_c = convert_color_c(data);
+	data->file->color->conv_f = convert_color_f(data);
 	free_split(tmp);
 	free(cpy);
 }

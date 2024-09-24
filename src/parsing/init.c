@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:46:52 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/18 15:54:05 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:28:36 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	init_color_struct(t_data *data)
 	data->file->color->c_set = ZERO_INIT;
 	data->file->color->f_check = ZERO_INIT;
 	data->file->color->c_check = ZERO_INIT;
+	data->file->color->conv_c = ZERO_INIT;
+	data->file->color->conv_f = ZERO_INIT;
 }
 
 void	init_file_struct(t_data *data)
