@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/18 16:43:35 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:41:18 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	find_max_len(t_data *data, char *line)
 	line_len = ft_strlen(line);
 	if (line_len > data->file->max_len)
 		data->file->max_len = line_len;
-		// dprintf(2, "[ICI LINE]: %s\n", line);
-	// dprintf(2, "[ICI MAX_LEN]: %d\n", data->file->max_len);
 }
 
 void	fill_map(t_data *data, char *line, char **cpy)
@@ -39,37 +37,9 @@ void	fill_map(t_data *data, char *line, char **cpy)
 	while (line[i])
 		(*cpy)[j++] = line[i++];
 	while (j < data->file->max_len)
-		(*cpy)[j++] = ' ';
+		(*cpy)[j++] = '1';
 	(*cpy)[j] = '\0';
 }
-
-
-// void	fill_map(t_data *data, char *line, char *cpy)
-// {
-// 	int i;
-// 	int	j;
-
-// 	i = ZERO_INIT;
-// 	j = ZERO_INIT;
-// 	cpy = malloc(sizeof(char) * data->file->max_len + 1);
-// 	if (!cpy)
-// 	{
-// 		//error;
-// 		exit(1);
-// 	}
-// 	while(line[i])
-// 	{
-// 		cpy[j] = line[i];
-// 		i++;
-// 		j++;
-// 	}
-// 	while(j < data->file->max_len)
-// 	{
-// 		cpy[j] = ' ';
-// 		j++;
-// 	}
-// 	cpy[j] = '\0';
-// }
 
 void	checker_map(t_data *data, char *str)
 {
