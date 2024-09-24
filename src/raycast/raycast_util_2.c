@@ -34,13 +34,6 @@ void	draw_rectangle(t_data *data, int x, int y, int width, int height,
 	}
 }
 
-
-int	close_window(int keycode, t_data *data)
-{
-	free_file_struct(data);
-	exit(EXIT_SUCCESS);
-	return(keycode);
-}
 int	key_handler(int keycode, t_data *data)
 {
 	
