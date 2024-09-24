@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 08:38:59 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/20 14:20:26 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/24 11:41:48 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,25 @@ void	free_duplicate_data(t_data *data)
 	free(data->file->map);
 }
 
+int	free_close_windows(void *data)
+{
+	t_data *ptr = (t_data *)data;
+	
+	free(ptr->file->path->path_ea);
+	free(ptr->file->path->path_no);
+	free(ptr->file->path->path_so);
+	free(ptr->file->path->path_we);
+	free_split(ptr->file->tab_data);
+	free(ptr->file->path);
+	free(ptr->file->color);
+	free(ptr->file->map_line_cpy);
+	free_duplicate_data(ptr);
+	free(ptr->file);
+	exit(EXIT_SUCCESS);
+	return (0);
+}
+
+
 void	free_split(char **split)
 {
 	int	i;
@@ -47,10 +66,9 @@ void	free_split(char **split)
 
 void	free_file_struct(t_data *data)
 {
-	// free(data->file->map_line_cpy);
-	// free(data->map_test);
-	// free_split(data->file->tab_data);
-	// free(data->file->color);
+	free(data->file->map_line_cpy);
+	free_split(data->file->tab_data);
+	free(data->file->color);
 	free(data->file->path->path_ea);
 	free(data->file->path->path_no);
 	free(data->file->path->path_so);
