@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/24 11:46:23 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:58:12 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	
-	// (void)argc;
-	// (void)argv;
-	// (void)envp;
 	checker(argc, argv, envp);
 	file_extractor(&data, argv[1]);
 	file_cutter(&data);
@@ -51,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 	map_parser(&data);
 	print_final_datas(&data);
 	init_player(&data);
-	// cpy_map(&data);
 	for (int i = 0; i < data.file->line_map; i++)
 	{
 		for (int j = 0; j < data.file->max_len; j++)

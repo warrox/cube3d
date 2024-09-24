@@ -34,8 +34,9 @@ void	free_duplicate_data(t_data *data)
 
 int	free_close_windows(void *data)
 {
-	t_data *ptr = (t_data *)data;
-	
+	t_data	*ptr;
+
+	ptr = (t_data *)data;
 	free(ptr->file->path->path_ea);
 	free(ptr->file->path->path_no);
 	free(ptr->file->path->path_so);
@@ -49,7 +50,6 @@ int	free_close_windows(void *data)
 	exit(EXIT_SUCCESS);
 	return (0);
 }
-
 
 void	free_split(char **split)
 {
