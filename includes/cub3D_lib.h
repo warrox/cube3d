@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/20 14:05:19 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/24 11:34:11 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ void	find_max_len(t_data *data, char *line);
 void			free_file_struct(t_data *data);
 void			free_map_struct(t_data *data);
 void			free_split(char **split);
+int	free_close_windows(void *data);
 
 /*utils functions*/
 
@@ -257,5 +258,5 @@ void	draw_rectangle(t_data *data, int x, int y, int width, int height,int color)
 int	key_handler(int keycode, t_data *data);
 void draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void draw_map(t_data *data);
-int	close_window(int keycode, t_data *data);
+
 #endif
