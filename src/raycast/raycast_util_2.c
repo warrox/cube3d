@@ -1,6 +1,4 @@
 #include "../../includes/cub3D_lib.h"
-#include <stdio.h>
-
 
 int update_player_pos(t_data *data,int player_x,int player_y)
 {
