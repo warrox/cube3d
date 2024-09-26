@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/20 15:07:37 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/26 14:50:21 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	init_player(&data);
 	int test = rgb_to_hex(data.file->color->c_r,data.file->color->c_g, data.file->color->c_b);
 	printf("test : %d\n",test);
-	// cpy_map(&data);
 	for (int i = 0; i < data.file->line_map; i++)
 	{
 		for (int j = 0; j < data.file->max_len; j++)
@@ -85,7 +84,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
 	
-	init_mlx(&data);
+	init_mlx(&data);	
+	load_textures(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
 	mlx_hook(data.mlx.mlx_win, 17,0,close_window, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);

@@ -1,17 +1,43 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   raycast_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/20 14:12:04 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/25 10:59:18 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+#include <stdio.h>
 
+//WARNING: loadtext
+void load_textures(t_data *data)
+{
+	data->wall_textures.no.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_no, &data->wall_textures.no.width, &data->wall_textures.no.height); 
+ 	data->wall_textures.no.addr = mlx_get_data_addr(data->wall_textures.no.img, &data->wall_textures.no.bpp, &data->wall_textures.no.line_length, &data->wall_textures.no.endian);
+
+data->wall_textures.so.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_so, &data->wall_textures.so.width, &data->wall_textures.so.height);
+data->wall_textures.so.addr = mlx_get_data_addr(data->wall_textures.so.img, &data->wall_textures.so.bpp, &data->wall_textures.so.line_length, &data->wall_textures.so.endian);
+
+data->wall_textures.ea.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_ea, &data->wall_textures.ea.width, &data->wall_textures.ea.height);
+data->wall_textures.ea.addr = mlx_get_data_addr(data->wall_textures.ea.img, &data->wall_textures.ea.bpp, &data->wall_textures.ea.line_length, &data->wall_textures.ea.endian);
+
+data->wall_textures.we.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_we, &data->wall_textures.we.width, &data->wall_textures.we.height);
+data->wall_textures.we.addr = mlx_get_data_addr(data->wall_textures.we.img, &data->wall_textures.we.bpp, &data->wall_textures.we.line_length, &data->wall_textures.we.endian);
+}
+
+void select_wall_texture(t_data *data, char wall_direction)
+{
+	if (wall_direction == 'N')  // Mur côté Nord
+		data->current_texture = &data->wall_textures.no;
+	else if (wall_direction == 'S')  // Mur côté Sud
+		data->current_texture = &data->wall_textures.so;
+	else if (wall_direction == 'W')  // Mur côté Ouest
+		data->current_texture = &data->wall_textures.we;
+	else if (wall_direction == 'E')  // Mur côté Est
+		data->current_texture = &data->wall_textures.ea;
+}
 void draw_fov(t_data *data)
 {
     double fov = 60 * (PI / 180.0);
@@ -164,15 +190,66 @@ void storage_box4render(int map_x, int map_y, t_data *data)
 
     // printf("Player distance : %f\n", data->player.distance);
 }
+char get_wall_direction(t_data *data,double ray_dir_x, double ray_dir_y)
+{
 
+    if (fabs(ray_dir_x) > fabs(ray_dir_y))
+    {
+        if (ray_dir_x > 0)
+		{
+			// printf("1\n");
+			return RIGHT;   // Mur Est
+		}
+        else
+		{
+			
+			// printf("2\n");
+			return LEFT;    // Mur Ouest
+		}
+    }
+    else  // Si Y 
+    {
+        if (ray_dir_y > 1)
+		{
+			
+			// printf("3\n");
+			return DOWN;    // Mur Sud
+		}
+        else
+		{
+			printf("4\n");	
+			return UP;      // Mur Nord
+		}
+    }
+	
+	// printf("XX\n");
+	return (data->file->orientation);
+}
 
-void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
+void draw_vertical_line(t_data *data, int x, int start, int end)
 {
     int y;
+    int texture_y;
+    double tex_pos;
+    double step;
+	int wall_color;
+    t_texture *texture = &data->upcoming_texture;
 
     // Vérifier que la colonne x est dans les limites de l'écran
     if (x < 0 || x >= WIDTH)
         return;
+
+    if (!texture || !texture->addr)
+    {
+        printf("Texture or texture->addr is NULL\n");
+        return;
+    }
+
+    // Calculer le pas (step) pour parcourir la texture verticalement
+    step = (double)texture->height / (end - start);
+    
+    // Initialiser la position dans la texture
+    tex_pos = 0;
 
     // 1. Dessiner le ciel (en bleu clair) au-dessus du mur
     y = 0;
@@ -185,17 +262,33 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
         y++;
     }
 
-    // 2. Dessiner le mur entre 'start' et 'end'
-    while (y <= end)
+    //HACK:WALL draw
+	while (y <= end)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, wall_color); // Couleur du mur
+            // Calcul de la coordonnée Y de la texture
+            texture_y = (int)tex_pos & (texture->height - 1);
+
+            // Vérifier que texture_y est dans les limites
+            if (texture_y < 0 || texture_y >= texture->height)
+            {
+                printf("texture_y is out of bounds: %d\n", texture_y);
+                return;
+            }
+
+            // Incrémenter tex_pos pour le prochain pixel
+            tex_pos += step;
+
+            // Calculer la couleur du pixel de la texture
+            wall_color = *(int *)(texture->addr + (texture_y * texture->line_length));
+
+            // Appliquer la couleur sur la ligne de pixels du mur
+            img_pix_put(data, x, y, wall_color);
         }
         y++;
     }
 
-    // 3. Dessiner le sol (en marron) en dessous du mur
     while (y < HEIGHT)
     {
         if (y >= 0 && y < HEIGHT)
@@ -205,6 +298,7 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
         y++;
     }
 }
+
 void render_3d(t_data *data, double distance, int x)
 {
     int wall_height = (int)(HEIGHT / distance);
@@ -213,13 +307,15 @@ void render_3d(t_data *data, double distance, int x)
     
     int draw_end = wall_height / 2 + HEIGHT / 2;
     if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
-    
-	draw_vertical_line(data,x ,draw_start, draw_end, 0xff1241);
+	// (void) data, (void) x; 
+	draw_vertical_line(data,x ,draw_start, draw_end);
 }
 
 
 double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays){
 
+	
+	t_texture texture; 
 	double ray_dir_x;
     double ray_dir_y;
 	int map_x; 
@@ -252,9 +348,37 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 		// Convertir les coordonnées réelles en coordonnées de la carte (entier)
 		map_x = (int)*ray_x;
 		map_y = (int)*ray_y;
-
 		subsequent_ray = fov_radians/ plane_dimension; // Angle between subsequent rays = 60/800 degrees
 		// Vérifier si le rayon touche un mur
+		//WARNING: wall direction 
+		int direction = get_wall_direction(data, map_x, map_y);
+		// printf("Ray_x : %f\t Ray_y : %f\n", map_x, map_y);
+		if (direction == UP)
+		{
+			// printf("A\n");
+			data->upcoming_texture = data->wall_textures.no;
+		}
+		else if (direction == DOWN)
+		{	
+			// printf("B\n");
+			data->upcoming_texture = data->wall_textures.no;
+			data->upcoming_texture = data->wall_textures.so;
+		}
+		else if (direction == LEFT)
+		{
+			
+			// printf("C\n");
+			data->upcoming_texture = data->wall_textures.no;
+			data->upcoming_texture = data->wall_textures.we;
+		}
+		else if (direction == RIGHT)
+		{
+			
+			// printf("D\n");
+			texture = data->wall_textures.no;
+			texture = data->wall_textures.ea;
+		}
+
 		if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
 		{
 			hit = 1;// Rayon a touché un mur
@@ -277,7 +401,6 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
-    
 	int player_pos[2];
     int arrival_pos[2];
     int num_rays = 1000; // Nombre de rayons à tracer pour couvrir le FOV
@@ -298,12 +421,11 @@ void ray_cast_radians(t_data *data)
     player_pos[1] = data->player.y * data->cell_height;
 	
     while (i++ < num_rays)
-    {
-
-		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
+    {	
 		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays);
+		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
 		render_3d(data, data->player.distance, i);
-
+		
         // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)
         arrival_pos[0] = ray_x * data->cell_width;
         arrival_pos[1] = ray_y * data->cell_height;

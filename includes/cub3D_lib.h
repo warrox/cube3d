@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/20 14:05:19 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/26 15:29:12 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,25 @@ typedef struct s_mlx
 	int			line_length;
 	int			endian;
 }				t_mlx;
+//--------------------------
+typedef struct s_texture
+{
+	void   *img;
+	char   *addr;
+	int    width;
+	int    height;
+	int    bpp;
+	int    line_length;
+	int    endian;
+} t_texture;
+
+typedef struct s_textures
+{
+	t_texture no;
+	t_texture so;
+	t_texture we;
+	t_texture ea;
+} t_textures;
 
 typedef struct s_data
 {
@@ -151,8 +170,9 @@ typedef struct s_data
 	t_mlx		mlx;
 	int			cell_width;
 	int			cell_height;
-	// int wall;
-	// int			ground;
+	t_textures  wall_textures; // Remplace les textures individuelles par cette structure
+	t_texture	*current_texture;  // Texture active lors du raycasting
+	t_texture	upcoming_texture;
 }				t_data;
 
 /*strings functions*/
@@ -258,4 +278,6 @@ int	key_handler(int keycode, t_data *data);
 void draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void draw_map(t_data *data);
 int	close_window(int keycode, t_data *data);
+void select_wall_texture(t_data *data, char wall_direction);
+void load_textures(t_data *data);
 #endif

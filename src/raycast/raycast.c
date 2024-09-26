@@ -17,6 +17,7 @@ int	minimap_render(void *param)
 	// faire nouvel fonction a partir d'ici
 	mlx_put_image_to_window(data->mlx.p_mlx, data->mlx.mlx_win, data->mlx.img,
 		0, 0);
+	
 	update_player_pos(data, data->player.x, data->player.y);
 	return (0);
 }
