@@ -402,7 +402,6 @@ void ray_cast_radians(t_data *data)
 {
     double ray_angle;
 	int player_pos[2];
-    int arrival_pos[2];
     int num_rays = 1000; // Nombre de rayons à tracer pour couvrir le FOV
 	
 	double ray_x;
@@ -427,15 +426,15 @@ void ray_cast_radians(t_data *data)
 		render_3d(data, data->player.distance, i);
 		
         // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)
-        arrival_pos[0] = ray_x * data->cell_width;
-        arrival_pos[1] = ray_y * data->cell_height;
-
+        data->player.arrival_pos[0] = ray_x * data->cell_width;
+        data->player.arrival_pos[1] = ray_y * data->cell_height;
+		
         // Tracer la ligne (rayon) entre la position du joueur et la position d'arrêt
 		data->player.map_pos[0] = player_pos[0];
 		data->player.map_pos[1] = player_pos[1];
 
-		data->player.arrival_pos[0] = arrival_pos[0];
-		data->player.arrival_pos[1] = arrival_pos[1];
+		data->player.arrival_pos[0] = data->player.arrival_pos[0];
+		data->player.arrival_pos[1] = data->player.arrival_pos[1];
 		// storage_box4render(map_x,map_y,data);
     }
 	//draw mini map + fov de la minimap
