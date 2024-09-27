@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/26 15:29:12 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/27 14:43:08 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ typedef struct s_data
 	t_textures  wall_textures; // Remplace les textures individuelles par cette structure
 	t_texture	*current_texture;  // Texture active lors du raycasting
 	t_texture	upcoming_texture;
+	double      map_x;
+	double      map_y;
 }				t_data;
 
 /*strings functions*/

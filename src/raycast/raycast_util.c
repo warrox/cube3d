@@ -217,7 +217,7 @@ char get_wall_direction(t_data *data,double ray_dir_x, double ray_dir_y)
 		}
         else
 		{
-			printf("4\n");	
+			// printf("4\n");	
 			return UP;      // Mur Nord
 		}
     }
@@ -230,10 +230,12 @@ void draw_vertical_line(t_data *data, int x, int start, int end)
 {
     int y;
     int texture_y;
+    int texture_x;
     double tex_pos;
     double step;
 	int wall_color;
     t_texture *texture = &data->upcoming_texture;
+	printf("texture_width: %d\n", texture->width);
 
     // Vérifier que la colonne x est dans les limites de l'écran
     if (x < 0 || x >= WIDTH)
@@ -245,9 +247,12 @@ void draw_vertical_line(t_data *data, int x, int start, int end)
         return;
     }
 
+    // Calculer la coordonnée x dans la texture en fonction de la position du rayon sur le mur
+    texture_x = (int)((x / (double)WIDTH) * texture->width);
+
     // Calculer le pas (step) pour parcourir la texture verticalement
     step = (double)texture->height / (end - start);
-    
+
     // Initialiser la position dans la texture
     tex_pos = 0;
 
@@ -262,8 +267,8 @@ void draw_vertical_line(t_data *data, int x, int start, int end)
         y++;
     }
 
-    //HACK:WALL draw
-	while (y <= end)
+    // 2. Dessiner le mur (texture)
+    while (y <= end)
     {
         if (y >= 0 && y < HEIGHT)
         {
@@ -281,7 +286,7 @@ void draw_vertical_line(t_data *data, int x, int start, int end)
             tex_pos += step;
 
             // Calculer la couleur du pixel de la texture
-            wall_color = *(int *)(texture->addr + (texture_y * texture->line_length));
+            wall_color = *(int *)(texture->addr + (texture_y * texture->line_length + texture_x));
 
             // Appliquer la couleur sur la ligne de pixels du mur
             img_pix_put(data, x, y, wall_color);
@@ -289,6 +294,7 @@ void draw_vertical_line(t_data *data, int x, int start, int end)
         y++;
     }
 
+    // 3. Dessiner le sol (en marron) en dessous du mur
     while (y < HEIGHT)
     {
         if (y >= 0 && y < HEIGHT)
@@ -311,11 +317,9 @@ void render_3d(t_data *data, double distance, int x)
 	draw_vertical_line(data,x ,draw_start, draw_end);
 }
 
-
 double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays){
 
 	
-	t_texture texture; 
 	double ray_dir_x;
     double ray_dir_y;
 	int map_x; 
@@ -361,28 +365,29 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 		else if (direction == DOWN)
 		{	
 			// printf("B\n");
-			data->upcoming_texture = data->wall_textures.no;
+			// data->upcoming_texture = data->wall_textures.no;
 			data->upcoming_texture = data->wall_textures.so;
 		}
 		else if (direction == LEFT)
 		{
 			
 			// printf("C\n");
-			data->upcoming_texture = data->wall_textures.no;
+			// data->upcoming_texture = data->wall_textures.no;
 			data->upcoming_texture = data->wall_textures.we;
 		}
 		else if (direction == RIGHT)
 		{
 			
 			// printf("D\n");
-			texture = data->wall_textures.no;
-			texture = data->wall_textures.ea;
+			data->upcoming_texture = data->wall_textures.ea;
+			// texture = data->wall_textures.ea;
 		}
 
 		if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
 		{
 			hit = 1;// Rayon a touché un mur
 			//
+			//HACK:fisheye
 			double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
 
 			angle_rad = angle * (PI / 180);
