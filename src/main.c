@@ -6,11 +6,12 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/27 16:49:37 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/27 17:00:55 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D_lib.h"
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -38,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
+	
 	init_mlx(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
 	mlx_hook(data.mlx.mlx_win, 17, 0, free_close_windows, &data);
