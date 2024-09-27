@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/24 10:27:10 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/27 16:52:17 by cyferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,10 @@ RESET   = \e[00m
 SOURCE = ./src/
 
 RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c raycast_util_2.c)
-CUSTOMMLX = $(addprefix CustomMlxFunc/,init_mlx.c  )
-PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c error_handler_two.c cutter.c cutter_utils.c init.c data_parser.c color_case.c color_utils.c path_case.c path_utils.c map_parser.c map_utils.c color_case_utils.c)
-GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) $(CUSTOMMLX) main.c)
+CUSTOMMLX = $(addprefix CustomMlxFunc/,init_mlx.c )
+PRINTS = $(addprefix prints/, print_utils.c)
+PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c error_handler_two.c cutter.c cutter_utils.c cutter_utils_2.c init.c data_parser.c color_case.c color_utils.c color_utils_2.c path_case.c path_utils.c map_parser.c map_utils.c color_case_utils.c)
+GAME = $(addprefix $(SOURCE), $(PARSING) $(RAYCAST) $(CUSTOMMLX) $(PRINTS) main.c)
 
 SRC = $(GAME)
 OBJ = $(SRC:%.c=%.o)

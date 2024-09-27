@@ -6,44 +6,15 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/24 11:46:23 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:49:37 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D_lib.h"
-
-// implement a calculation function to build the fov
-// int cpy_map(t_data *data)
-// {
-//
-// 	int i = 0;
-// 	data->map_test = malloc(sizeof(char*) * (MAP_HEIGHT + 1));
-// 	if (!data->map_test)
-// 		return (0);
-//
-// 	while (i < MAP_HEIGHT)
-// 	{
-// 		data->map_test[i] = ft_strdup(map[i]);
-// 		if (!data->map_test[i])
-// 		{
-// 			while (i > 0)
-// 				free(data->map_test[--i]);
-// 			free(data->map_test);
-// 			return (0);
-// 		}
-// 		i++;
-// 	}
-// 	data->map_test[i] = NULL;
-// 	return(0);
-// }
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	
-	// (void)argc;
-	// (void)argv;
-	// (void)envp;
 	checker(argc, argv, envp);
 	file_extractor(&data, argv[1]);
 	file_cutter(&data);
@@ -51,7 +22,6 @@ int	main(int argc, char **argv, char **envp)
 	map_parser(&data);
 	print_final_datas(&data);
 	init_player(&data);
-	// cpy_map(&data);
 	for (int i = 0; i < data.file->line_map; i++)
 	{
 		for (int j = 0; j < data.file->max_len; j++)

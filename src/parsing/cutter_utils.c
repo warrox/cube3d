@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/24 10:41:18 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:50:21 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,14 @@ void	find_max_len(t_data *data, char *line)
 
 void	fill_map(t_data *data, char *line, char **cpy)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	*cpy = malloc(sizeof(char) * (data->file->max_len + 1));
 	if (!*cpy)
-	{
-		// Gérer l'erreur si l'allocation échoue
-		exit(1);
-	}
+		error_fill_map(data, "Error malloc cpy");
 	while (line[i])
 		(*cpy)[j++] = line[i++];
 	while (j < data->file->max_len)
@@ -98,40 +95,4 @@ void	print_split(char **split)
 		printf("Element [%d]: [%s]\n", i, split[i]);
 		i++;
 	}
-}
-
-void	print_file(t_data *data)
-{
-	print_split(data->file->tab_data);
-}
-
-void	print_final_datas(t_data *data)
-{
-	int i;
-
-	i = ZERO_INIT;
-	dprintf(2, "-----------FILE BEFORE PARSING-----------\n\n");
-	print_file(data);
-	dprintf(2, "\n");
-	dprintf(2, "-----------FINALS DATA-----------\n");
-	dprintf(2, "final_F_r: %d\n", data->file->color->f_r);
-	dprintf(2, "final_F_g: %d\n", data->file->color->f_g);
-	dprintf(2, "final_F_b: %d\n", data->file->color->f_b);
-	dprintf(2, "final_C_r: %d\n", data->file->color->c_r);
-	dprintf(2, "final_C_g: %d\n", data->file->color->c_g);
-	dprintf(2, "final_C_b: %d\n", data->file->color->c_b);
-	dprintf(2, "----------------------------------------\n");
-	dprintf(2, "final_path_NO: %s\n", data->file->path->path_no);
-	dprintf(2, "final_path_WE: %s\n", data->file->path->path_we);
-	dprintf(2, "final_path_EA: %s\n", data->file->path->path_ea);
-	dprintf(2, "final_path_SO: %s\n", data->file->path->path_so);
-	dprintf(2, "----------------------------------------\n");
-	dprintf(2, "final_orientation: %c\n\n", data->file->orientation);
-	dprintf(2, "-----------FINALS MAP-----------\n");
-	while(i < data->file->line_map)
-	{
-		dprintf(2, "%s\n", data->file->map[i]);
-		i++;
-	}
-	dprintf(2, "----------------------------------------\n");
 }

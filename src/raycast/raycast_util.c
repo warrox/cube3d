@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/20 14:12:04 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/27 16:48:52 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, 0x87CEEB); // Couleur du ciel (bleu clair)
+            img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel (bleu clair)
         }
         y++;
     }
@@ -200,7 +200,7 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, 0x8B4513); // Couleur du sol (marron)
+            img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol (marron)
         }
         y++;
     }
@@ -213,8 +213,7 @@ void render_3d(t_data *data, double distance, int x)
     
     int draw_end = wall_height / 2 + HEIGHT / 2;
     if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
-    
-	draw_vertical_line(data,x ,draw_start, draw_end, 0xff1241);
+	draw_vertical_line(data,x ,draw_start, draw_end, 0x6B5729);
 }
 
 

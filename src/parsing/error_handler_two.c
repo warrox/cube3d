@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:31:30 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/17 15:08:56 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:32:25 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ void	end_error(t_data *data, char *msg)
 	free(data->file->map);
 	free(data->file->infos);
 	free(data->file->map_line_cpy);
+	free(data->file);
+	printf("\033[31mError\n%s\n\033[0m", msg);
+	exit(EXIT_FAILURE);
+}
+
+void	error_fill_map(t_data *data, char *msg)
+{
+	int	i;
+
+	i = ZERO_INIT;
+	free(data->file->color);
+	free(data->file->path);
+	free(data->file->map_line_cpy);
+	while (i < data->file->line_data)
+	{
+		free(data->file->infos[i]);
+		i++;
+	}
+	free_split(data->file->tab_data);
+	free(data->file->infos);
+	free(data->file->map);
 	free(data->file);
 	printf("\033[31mError\n%s\n\033[0m", msg);
 	exit(EXIT_FAILURE);

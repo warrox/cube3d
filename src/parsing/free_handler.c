@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 08:38:59 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/24 11:41:48 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:51:15 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void	free_duplicate_data(t_data *data)
 
 int	free_close_windows(void *data)
 {
-	t_data *ptr = (t_data *)data;
-	
+	t_data	*ptr;
+
+	ptr = (t_data *)data;
 	free(ptr->file->path->path_ea);
 	free(ptr->file->path->path_no);
 	free(ptr->file->path->path_so);
@@ -49,8 +50,6 @@ int	free_close_windows(void *data)
 	exit(EXIT_SUCCESS);
 	return (0);
 }
-
-
 void	free_split(char **split)
 {
 	int	i;
