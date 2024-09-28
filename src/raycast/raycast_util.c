@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/27 16:48:52 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:06:50 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,24 +146,6 @@ void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
     }
 }
 
-void storage_box4render(int map_x, int map_y, t_data *data)
-{
-    double pos_x;
-    double pos_y;
-    double distance;
-
-    // printf("player_x : %f\n", data->player.x);
-    // printf("player_y : %f\n", data->player.y);
-	pos_x = data->player.x; // Position du joueur en x
-    pos_y = data->player.y; // Position du joueur en y
-
-    // Calcul de la distance entre le joueur et le hit du rayon
-    distance = sqrt(pow(map_x - pos_x, 2) + pow(map_y - pos_y, 2));
-    
-    data->player.distance = distance; // Stocker la distance
-
-    // printf("Player distance : %f\n", data->player.distance);
-}
 
 
 void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
@@ -313,7 +295,6 @@ void ray_cast_radians(t_data *data)
 
 		data->player.arrival_pos[0] = arrival_pos[0];
 		data->player.arrival_pos[1] = arrival_pos[1];
-		// storage_box4render(map_x,map_y,data);
     }
 	//draw mini map + fov de la minimap
 	draw_map(data);

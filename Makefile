@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/27 16:52:17 by cyferrei         ###   ########.fr        #
+#    Updated: 2024/09/28 19:11:57 by whamdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3d
 CC = cc
 RM = rm -rf
 XFLAGS = -Lmlx_linux -Imlx_linux -lX11 -lXext -lm -lz -Ofast
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -g3
 MLX_PATH = minilibx-linux/
 LIBFT_CUB3D_PATH = libft_cub3D/
 LIB_MLX = minilibx-linux/libmlx.a
