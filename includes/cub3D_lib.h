@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/28 23:04:59 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:07:35 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,5 +270,6 @@ void			draw_rectangle(t_data *data, int x, int y, int width,
 int				key_handler(int keycode, t_data *data);
 void			draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void			draw_map(t_data *data);
-
+void			draw_fov(t_data *data);
+void draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2], int color);
 #endif

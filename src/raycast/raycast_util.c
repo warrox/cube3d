@@ -6,64 +6,12 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/28 23:06:50 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:08:10 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
 
-void draw_fov(t_data *data)
-{
-    double fov = 60 * (PI / 180.0);
-    double half_fov = fov / 2;  
-    int num_rays = 100; 
-    double angle_step = fov / num_rays; 
-    double ray_angle, ray_dir_x, ray_dir_y;
-    double ray_x, ray_y;
-    int hit, map_x, map_y;
-
-    // Position du joueur sur la mini-map
-    int player_pos[2];
-    player_pos[0] = data->player.x * data->cell_width;
-    player_pos[1] = data->player.y * data->cell_height;
-
-    for (int i = 0; i < num_rays; i++)
-    {
-        ray_angle = data->player.angle - half_fov + (i * angle_step);
-
-        ray_dir_x = cos(ray_angle);
-        ray_dir_y = sin(ray_angle);
-
-        ray_x = data->player.x;
-        ray_y = data->player.y;
-        hit = 0;
-
-        while (!hit)
-        {
-            ray_x += ray_dir_x * 0.1;
-            ray_y += ray_dir_y * 0.1;
-
-            map_x = (int)ray_x;
-            map_y = (int)ray_y;
-
-            if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
-            {
-                hit = 1;
-            }
-
-            if (map_x < 0 || map_x >=data->file->max_len  || map_y < 0 || map_y >= data->file->line_map)
-            {
-                hit = 1;
-            }
-        }
-
-        int arrival_pos[2];
-        arrival_pos[0] = ray_x * data->cell_width;
-        arrival_pos[1] = ray_y * data->cell_height;
-
-        draw_vector(data, player_pos, arrival_pos, 0xFF0000);
-    }
-}
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -79,8 +27,6 @@ void	init_player(t_data *data)
 	data->player.fov = 60; // fov de 60 degres
 	data->player.angle = 0;
 	data->player.distance = 0;
-	// data->wall = 0;
-	// data->ground = 0;
 	data->player.time = 0;    // time of current frame
 	data->player.oldtime = 0; // time of previous frame
 	data->player.x = -1;
@@ -108,43 +54,6 @@ double	get_angle_posplayer(char player_dir)
 	return (0);
 }
 
-
-void draw_vector(t_data *data, int pos1[2], int pos2[2], int color)
-{
-    int x0 = pos1[0]; // Coordonnée x du point 1
-    int y0 = pos1[1]; // Coordonnée y du point 1
-    int x1 = pos2[0]; // Coordonnée x du point 2
-    int y1 = pos2[1]; // Coordonnée y du point 2
-
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-
-    int err = dx - dy;
-    int e2;
-    while (1)
-    {
-		img_pix_put(data, x0, y0, color);
-        if (x0 == x1 && y0 == y1) // Si la ligne est complète
-            break;
-
-        e2 = 2 * err;
-
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
-}
 
 
 
@@ -259,9 +168,11 @@ void ray_cast_radians(t_data *data)
 {
     double ray_angle;
     
-	int player_pos[2];
-    int arrival_pos[2];
-    int num_rays = 1000; // Nombre de rayons à tracer pour couvrir le FOV
+	int player_pos[2]; // vecteur de depart x,y
+    
+	int arrival_pos[2]; // vecteur arrive xy
+
+	int num_rays = 1000;
 	
 	double ray_x;
 	double ray_y;
@@ -274,15 +185,16 @@ void ray_cast_radians(t_data *data)
 	double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
     double angle_step = fov_radians / num_rays; // Pas d'angle entre chaque rayon
     
-	int i = 0;
     player_pos[0] = data->player.x * data->cell_width;
     player_pos[1] = data->player.y * data->cell_height;
 	
+	int i = 0;
     while (i++ < num_rays)
     {
 
 		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
 		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays);
+		// 
 		render_3d(data, data->player.distance, i);
 
         // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)

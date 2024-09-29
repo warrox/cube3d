@@ -2,13 +2,12 @@
 
 int update_player_pos(t_data *data,int player_x,int player_y)
 {
-	data->player.size_width = data->cell_width * 0.25;
-	data->player.size_height = data->cell_height * 0.25;
+	// data->player.size_width = data->cell_width * 1;
+	// data->player.size_height = data->cell_height * 1;
 	// Utilise la position du joueur en pixels (déjà calculée en termes de grille dans key_handler)
-	player_x = data->player.x * data->cell_width;
-	player_y = data->player.y * data->cell_height;
+	// player_x = data->player.x * data->cell_width;
+	// player_y = data->player.y * data->cell_height;
 	// Dessiner le joueur (après avoir dessiné la carte)
-	// draw_rectangle(data, player_x, player_y, data->player.size_width,data->player.size_height, 0xFF0000);
 	ray_cast_radians(data);
 
 	return(0);
