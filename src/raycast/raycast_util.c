@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/29 09:08:10 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/29 15:38:49 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,7 @@ void ray_cast_radians(t_data *data)
     {
 
 		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
-		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays);
-		// 
+		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays); 
 		render_3d(data, data->player.distance, i);
 
         // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)
