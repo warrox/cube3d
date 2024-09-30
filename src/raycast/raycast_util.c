@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/30 09:32:46 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/30 13:28:08 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     int hit;
     double distance = 0;
     double angle_rad = 0;
-
+	unsigned int color = 0;
     // Direction du rayon (composantes x et y)
     ray_dir_x = cos(ray_angle);
     ray_dir_y = sin(ray_angle);
@@ -148,22 +148,29 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
             {
                 if (ray_dir_x > 0)
                 {
-                    printf("Rayon %d: Direction Est\n", i);
+                    
+					color = *(unsigned int*) (data->ea.addr + (data->ea.line_lengh * (data->ea.bpp / 8))); 
+					printf("Rayon %d: Direction Est\n", i);
                 }
                 else
-                {
-                    printf("Rayon %d: Direction Ouest\n", i);
+                { 
+					color = *(unsigned int*) (data->we.addr + (data->we.line_lengh * (data->we.bpp / 8))); 
+					printf("Rayon %d: Direction Ouest\n", i);
                 }
             }
             else
             {
                 if (ray_dir_y > 0)
                 {
-                    printf("Rayon %d: Direction Sud\n", i);
+    
+					color = *(unsigned int*) (data->so.addr + (data->so.line_lengh * (data->so.bpp / 8))); 
+					printf("Rayon %d: Direction Sud\n", i);
                 }
                 else
                 {
-                    printf("Rayon %d: Direction Nord\n", i);
+                    
+					color = *(unsigned int*) (data->no.addr + (data->no.line_lengh * (data->no.bpp / 8))); 
+					printf("Rayon %d: Direction Nord\n", i);
                 }
             }
 
