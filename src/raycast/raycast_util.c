@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/29 15:38:49 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/09/30 09:32:46 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,70 +108,87 @@ void render_3d(t_data *data, double distance, int x)
 }
 
 
-double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays){
 
-	double ray_dir_x;
+double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays)
+{
+    double ray_dir_x;
     double ray_dir_y;
-	int map_x; 
-	int map_y; // Position dans la grille de la carte
-	int hit; // Indicateur de collision
-	int old_x = 0;
-	int old_y = 0;
-	int plane_dimension = WIDTH * HEIGHT;
-	double subsequent_ray = 0;
-	double distance = 0;
-	double	angle_rad = 0; 
-	// Direction du rayon (composantes x et y)
-	ray_dir_x = cos(ray_angle);
-	ray_dir_y = sin(ray_angle);
+    int map_x;
+    int map_y;
+    int hit;
+    double distance = 0;
+    double angle_rad = 0;
 
-	// Initialisation des coordonnées du rayon (commence à la position du joueur)
-	*ray_x = data->player.x;
-	*ray_y = data->player.y;
-	hit = 0;
-	old_x = *ray_x;
-	old_y = *ray_y;
-	// Parcourir le rayon jusqu'à rencontrer un mur "1"
-	while (!hit)
-	{
-		// Avancer le long du rayon
-		*ray_x += ray_dir_x * 0.01; // 0.1 est un pas relativement petit pour plus de précision
-		*ray_y += ray_dir_y * 0.01;
-		old_x *= 0.01;
-		old_y *= 0.01;
-		// Convertir les coordonnées réelles en coordonnées de la carte (entier)
-		map_x = (int)*ray_x;
-		map_y = (int)*ray_y;
+    // Direction du rayon (composantes x et y)
+    ray_dir_x = cos(ray_angle);
+    ray_dir_y = sin(ray_angle);
 
-		subsequent_ray = fov_radians/ plane_dimension; // Angle between subsequent rays = 60/800 degrees
-		// Vérifier si le rayon touche un mur
-		if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
-		{
-			hit = 1;// Rayon a touché un mur
-			//
-			double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
+    // Initialisation des coordonnées du rayon (commence à la position du joueur)
+    *ray_x = data->player.x;
+    *ray_y = data->player.y;
+    hit = 0;
 
-			angle_rad = angle * (PI / 180);
-			distance = (sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)));
-			return (distance * cos(angle_rad));	
-		}
-		// Si le rayon sort de la carte, on arrête aussi
-		if (map_x < 0 || map_x >= data->file->max_len || map_y < 0 || map_y >= data->file->line_map)
-		{
-			hit = 1;
-		}
-	}
-	return 0;
+    // Parcourir le rayon jusqu'à rencontrer un mur "1"
+    while (!hit)
+    {
+        *ray_x += ray_dir_x * 0.01;
+        *ray_y += ray_dir_y * 0.01;
+
+        // Convertir les coordonnées réelles en coordonnées de la carte (entier)
+        map_x = (int)*ray_x;
+        map_y = (int)*ray_y;
+
+        // Vérifier si le rayon touche un mur
+        if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
+        {
+            hit = 1; // Rayon a touché un mur
+
+            // Déterminer la direction du mur touché
+            if (fabs(ray_dir_x) > fabs(ray_dir_y))
+            {
+                if (ray_dir_x > 0)
+                {
+                    printf("Rayon %d: Direction Est\n", i);
+                }
+                else
+                {
+                    printf("Rayon %d: Direction Ouest\n", i);
+                }
+            }
+            else
+            {
+                if (ray_dir_y > 0)
+                {
+                    printf("Rayon %d: Direction Sud\n", i);
+                }
+                else
+                {
+                    printf("Rayon %d: Direction Nord\n", i);
+                }
+            }
+
+            // Calculer la distance corrigée avec l'angle du rayon
+            double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
+            angle_rad = angle * (PI / 180);
+            distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(angle_rad);
+
+            // Vous pouvez supprimer la logique de texture ici pour le moment
+            return distance;
+        }
+
+        // Si le rayon sort de la carte, on arrête aussi
+        if (map_x < 0 || map_x >= data->file->max_len || map_y < 0 || map_y >= data->file->line_map)
+        {
+            hit = 1;
+        }
+    }
+    return 0;
 }
 
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
     
-	int player_pos[2]; // vecteur de depart x,y
-    
-	int arrival_pos[2]; // vecteur arrive xy
-
 	int num_rays = 1000;
 	
 	double ray_x;
@@ -184,28 +201,13 @@ void ray_cast_radians(t_data *data)
 	// ** //
 	double fov_radians = data->player.fov * (PI / 180.0); // Conversion du FOV en radians
     double angle_step = fov_radians / num_rays; // Pas d'angle entre chaque rayon
-    
-    player_pos[0] = data->player.x * data->cell_width;
-    player_pos[1] = data->player.y * data->cell_height;
-	
+    	
 	int i = 0;
     while (i++ < num_rays)
     {
-
 		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
 		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays); 
 		render_3d(data, data->player.distance, i);
-
-        // Calcul de la position finale du rayon en pixels (là où il a touché un mur ou est sorti de la carte)
-        arrival_pos[0] = ray_x * data->cell_width;
-        arrival_pos[1] = ray_y * data->cell_height;
-
-        // Tracer la ligne (rayon) entre la position du joueur et la position d'arrêt
-		data->player.map_pos[0] = player_pos[0];
-		data->player.map_pos[1] = player_pos[1];
-
-		data->player.arrival_pos[0] = arrival_pos[0];
-		data->player.arrival_pos[1] = arrival_pos[1];
     }
 	//draw mini map + fov de la minimap
 	draw_map(data);
