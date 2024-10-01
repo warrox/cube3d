@@ -6,11 +6,12 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/30 13:28:08 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:51:23 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+#include <stdio.h>
 
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
@@ -56,10 +57,10 @@ double	get_angle_posplayer(char player_dir)
 
 
 
-
-void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
+void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *texture)
 {
     int y;
+    int tex_y;
 
     // Vérifier que la colonne x est dans les limites de l'écran
     if (x < 0 || x >= WIDTH)
@@ -71,7 +72,7 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel (bleu clair)
+            img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel
         }
         y++;
     }
@@ -81,7 +82,14 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, wall_color); // Couleur du mur
+            tex_y = (y - start) * texture->height / (end - start);
+
+            // tex_y est  dans limites de la texture
+            if (tex_y >= 0 && tex_y < texture->height)
+            {
+                int color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh + x * (texture->bpp / 8)));
+                img_pix_put(data, x, y, color); // Couleur du mur
+            }
         }
         y++;
     }
@@ -91,12 +99,59 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int wall_color)
     {
         if (y >= 0 && y < HEIGHT)
         {
-            img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol (marron)
+            img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol
         }
         y++;
     }
 }
-void render_3d(t_data *data, double distance, int x)
+
+// void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *texture)
+// {
+//     int y;
+// 	int tex_y;
+//     // Vérifier que la colonne x est dans les limites de l'écran
+//     if (x < 0 || x >= WIDTH)
+//         return;
+//
+//     // 1. Dessiner le ciel (en bleu clair) au-dessus du mur
+//     y = 0;
+//     while (y < start)
+//     {
+//         if (y >= 0 && y < HEIGHT)
+//         {
+//             img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel (bleu clair)
+//         }
+//         y++;
+//     }
+//
+//     // 2. Dessiner le mur entre 'start' et 'end'
+// 	//:HACK
+// 	while (y <= end)
+//     {
+//         if (y >= 0 && y < HEIGHT)
+//         {
+//             printf("texture heigh : %d \t bpp : %d \t  addr : %p\n", texture->height, texture->bpp, texture->addr);
+// 			// tex_y = (y - start) * texture->height;
+// 			
+// 			tex_y = (y - start) * texture->height / (end - start);
+// 			printf("tex_y : %d\n",tex_y);
+// 			int color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh * (texture->bpp / 8)));
+// 			img_pix_put(data, x, y, color); // Couleur du mur
+//         }
+//         y++;
+//     }
+//
+//     // 3. Dessiner le sol (en marron) en dessous du mur
+//     while (y < HEIGHT)
+//     {
+//         if (y >= 0 && y < HEIGHT)
+//         {
+//             img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol (marron)
+//         }
+//         y++;
+//     }
+// }
+void render_3d(t_data *data, double distance, int x, t_texture *texture)
 {
     int wall_height = (int)(HEIGHT / distance);
     int draw_start = -wall_height / 2 + HEIGHT / 2;
@@ -104,7 +159,7 @@ void render_3d(t_data *data, double distance, int x)
     
     int draw_end = wall_height / 2 + HEIGHT / 2;
     if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
-	draw_vertical_line(data,x ,draw_start, draw_end, 0x6B5729);
+	draw_vertical_line(data,x ,draw_start, draw_end, texture);
 }
 
 
@@ -119,6 +174,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     double distance = 0;
     double angle_rad = 0;
 	unsigned int color = 0;
+	t_texture *texture;  
     // Direction du rayon (composantes x et y)
     ray_dir_x = cos(ray_angle);
     ray_dir_y = sin(ray_angle);
@@ -149,11 +205,14 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
                 if (ray_dir_x > 0)
                 {
                     
-					color = *(unsigned int*) (data->ea.addr + (data->ea.line_lengh * (data->ea.bpp / 8))); 
+					color = *(unsigned int*) (data->ea.addr + (data->ea.line_lengh * (data->ea.bpp / 8)));
+					texture = &data->ea;
 					printf("Rayon %d: Direction Est\n", i);
                 }
                 else
                 { 
+					
+					texture = &data->we;
 					color = *(unsigned int*) (data->we.addr + (data->we.line_lengh * (data->we.bpp / 8))); 
 					printf("Rayon %d: Direction Ouest\n", i);
                 }
@@ -163,12 +222,15 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
                 if (ray_dir_y > 0)
                 {
     
+					
+					texture = &data->so;
 					color = *(unsigned int*) (data->so.addr + (data->so.line_lengh * (data->so.bpp / 8))); 
 					printf("Rayon %d: Direction Sud\n", i);
                 }
                 else
                 {
                     
+					texture = &data->no;
 					color = *(unsigned int*) (data->no.addr + (data->no.line_lengh * (data->no.bpp / 8))); 
 					printf("Rayon %d: Direction Nord\n", i);
                 }
@@ -178,7 +240,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
             double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
             angle_rad = angle * (PI / 180);
             distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(angle_rad);
-
+			render_3d(data, distance, i, texture);
             // Vous pouvez supprimer la logique de texture ici pour le moment
             return distance;
         }
@@ -214,7 +276,6 @@ void ray_cast_radians(t_data *data)
     {
 		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
 		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays); 
-		render_3d(data, data->player.distance, i);
     }
 	//draw mini map + fov de la minimap
 	draw_map(data);
