@@ -9,10 +9,10 @@ void load_texture(t_data *data)
 	// data->ea = malloc(sizeof(data->textures));
 	// data->we = malloc(sizeof(data->textures));	
 	data->no.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_no, &data->no.width, &data->no.height);
- 	data->no.addr = mlx_get_data_addr(data->no.img, &data->no.bpp, &data->no.line_lengh, &data->no.endian);
+	data->no.addr = mlx_get_data_addr(data->no.img, &data->no.bpp, &data->no.line_lengh, &data->no.endian);
 	if (!data->no.img)
         printf("Failed to load north texture\n");
-	data->so.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_so, &data->no.width, &data->so.height);
+	data->so.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_so, &data->so.width, &data->so.height);
  	data->so.addr = mlx_get_data_addr(data->so.img, &data->so.bpp, &data->so.line_lengh, &data->so.endian);
 	if (!data->so.img)
         printf("Failed to load south texture\n");

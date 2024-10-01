@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/01 14:40:36 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:51:59 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,67 +57,64 @@ double	get_angle_posplayer(char player_dir)
 
 
 
-void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *texture)
+
+void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *texture, int wall_height, double hit_x)
 {
     int y;
     int tex_y;
+    double step;
+    double texture_pos;
+    int tex_x;
 
-    // Vérifier que la colonne x est dans les limites de l'écran
-    if (x < 0 || x >= WIDTH)
-        return;
+    // Calcul de la position correcte dans la texture en fonction de hit_x (la position où le rayon a touché le mur)
+	tex_x = (int)(hit_x * texture->width) % texture->width;
 
-    // 1. Dessiner le ciel (en bleu clair) au-dessus du mur
+    // Dessiner le ciel (au-dessus du mur)
     y = 0;
     while (y < start)
     {
-        if (y >= 0 && y < HEIGHT)
-        {
-            img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel
-        }
+        img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel
         y++;
     }
 
-    // 2. Dessiner le mur entre 'start' et 'end'
+    // Facteur d'échelle : combien de pixels de la texture pour un pixel du mur
+    step = (double)texture->height / wall_height;
+
+    // Position de départ dans la texture
+    texture_pos = (start - HEIGHT / 2 + wall_height / 2) * step;
+
+    // Dessiner le mur entre 'start' et 'end'
     while (y <= end)
     {
-        if (y >= 0 && y < HEIGHT)
-        {
-            tex_y = (y - start) * texture->height / (end - start);
-
-            // tex_y est  dans limites de la texture
-            if (tex_y >= 0 && tex_y < texture->height)
-            {
-                int color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh + x * (texture->bpp / 8)));
-                img_pix_put(data, x, y, color); // Couleur du mur
-            }
-        }
+        tex_y = (int)texture_pos % texture->height;
+        int color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh + tex_x * (texture->bpp / 8)));
+        img_pix_put(data, x, y, color); // Dessiner le pixel du mur
+        texture_pos += step;
         y++;
     }
 
-    // 3. Dessiner le sol (en marron) en dessous du mur
+    // Dessiner le sol (en dessous du mur)
     while (y < HEIGHT)
     {
-        if (y >= 0 && y < HEIGHT)
-        {
-            img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol
-        }
+        img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol
         y++;
     }
 }
 
-void render_3d(t_data *data, double distance, int x, t_texture *texture)
+void render_3d(t_data *data, double distance, int x, t_texture *texture, double hit_x)
 {
+    if (distance <= 0)
+        return;
+
     int wall_height = (int)(HEIGHT / distance);
     int draw_start = -wall_height / 2 + HEIGHT / 2;
     if (draw_start < 0) draw_start = 0;
     
     int draw_end = wall_height / 2 + HEIGHT / 2;
     if (draw_end >= HEIGHT) draw_end = HEIGHT - 1;
-	draw_vertical_line(data,x ,draw_start, draw_end, texture);
+
+    draw_vertical_line(data, x, draw_start, draw_end, texture, wall_height, hit_x);
 }
-
-
-
 double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays)
 {
     double ray_dir_x;
@@ -126,80 +123,57 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     int map_y;
     int hit;
     double distance = 0;
-    double angle_rad = 0;
-	unsigned int color = 0;
-	t_texture *texture;  
-    // Direction du rayon (composantes x et y)
+    double hit_x = 0;
+	t_texture *texture;
+
     ray_dir_x = cos(ray_angle);
     ray_dir_y = sin(ray_angle);
-
-    // Initialisation des coordonnées du rayon (commence à la position du joueur)
     *ray_x = data->player.x;
     *ray_y = data->player.y;
     hit = 0;
-
-    // Parcourir le rayon jusqu'à rencontrer un mur "1"
     while (!hit)
     {
         *ray_x += ray_dir_x * 0.01;
         *ray_y += ray_dir_y * 0.01;
 
-        // Convertir les coordonnées réelles en coordonnées de la carte (entier)
         map_x = (int)*ray_x;
         map_y = (int)*ray_y;
 
-        // Vérifier si le rayon touche un mur
         if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
         {
-            hit = 1; // Rayon a touché un mur
+            hit = 1;
 
-            // Déterminer la direction du mur touché
+            // Calculer la direction du mur touché et la texture à utiliser
             if (fabs(ray_dir_x) > fabs(ray_dir_y))
             {
                 if (ray_dir_x > 0)
-                {
-                    
-					// color = *(unsigned int*) (data->ea.addr + (data->ea.line_lengh * (data->ea.bpp / 8)));
+				{
 					texture = &data->ea;
-					printf("Rayon %d: Direction Est\n", i);
-                }
+				}
                 else
-                { 
-					
+				{
 					texture = &data->we;
-					// color = *(unsigned int*) (data->we.addr + (data->we.line_lengh * (data->we.bpp / 8))); 
-					printf("Rayon %d: Direction Ouest\n", i);
-                }
+				}
+                hit_x = *ray_y - floor(*ray_y);
             }
             else
             {
                 if (ray_dir_y > 0)
-                {
-    
-					
+				{
 					texture = &data->so;
-					// color = *(unsigned int*) (data->so.addr + (data->so.line_lengh * (data->so.bpp / 8))); 
-					printf("Rayon %d: Direction Sud\n", i);
-                }
+				}
                 else
-                {
-                    
-					texture = &data->no;
-					// color = *(unsigned int*) (data->no.addr + (data->no.line_lengh * (data->no.bpp / 8))); 
-					printf("Rayon %d: Direction Nord\n", i);
-                }
+                    texture = &data->no;
+                hit_x = *ray_x - floor(*ray_x);
             }
 
-            // Calculer la distance corrigée avec l'angle du rayon
             double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
-            angle_rad = angle * (PI / 180);
+            double angle_rad = angle * (PI / 180);
             distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(angle_rad);
-			render_3d(data, distance, i, texture);
-            // Vous pouvez supprimer la logique de texture ici pour le moment
+            render_3d(data, distance, i, texture, hit_x);
             return distance;
         }
 
-        // Si le rayon sort de la carte, on arrête aussi
         if (map_x < 0 || map_x >= data->file->max_len || map_y < 0 || map_y >= data->file->line_map)
         {
             hit = 1;
@@ -207,7 +181,6 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     }
     return 0;
 }
-
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
