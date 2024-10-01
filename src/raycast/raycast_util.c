@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/01 21:51:59 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/01 22:01:02 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
             }
 
             double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
+
             double angle_rad = angle * (PI / 180);
             distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(angle_rad);
             render_3d(data, distance, i, texture, hit_x);
