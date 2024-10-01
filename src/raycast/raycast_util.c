@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/01 13:51:23 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:40:36 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,52 +105,6 @@ void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *text
     }
 }
 
-// void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *texture)
-// {
-//     int y;
-// 	int tex_y;
-//     // Vérifier que la colonne x est dans les limites de l'écran
-//     if (x < 0 || x >= WIDTH)
-//         return;
-//
-//     // 1. Dessiner le ciel (en bleu clair) au-dessus du mur
-//     y = 0;
-//     while (y < start)
-//     {
-//         if (y >= 0 && y < HEIGHT)
-//         {
-//             img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel (bleu clair)
-//         }
-//         y++;
-//     }
-//
-//     // 2. Dessiner le mur entre 'start' et 'end'
-// 	//:HACK
-// 	while (y <= end)
-//     {
-//         if (y >= 0 && y < HEIGHT)
-//         {
-//             printf("texture heigh : %d \t bpp : %d \t  addr : %p\n", texture->height, texture->bpp, texture->addr);
-// 			// tex_y = (y - start) * texture->height;
-// 			
-// 			tex_y = (y - start) * texture->height / (end - start);
-// 			printf("tex_y : %d\n",tex_y);
-// 			int color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh * (texture->bpp / 8)));
-// 			img_pix_put(data, x, y, color); // Couleur du mur
-//         }
-//         y++;
-//     }
-//
-//     // 3. Dessiner le sol (en marron) en dessous du mur
-//     while (y < HEIGHT)
-//     {
-//         if (y >= 0 && y < HEIGHT)
-//         {
-//             img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol (marron)
-//         }
-//         y++;
-//     }
-// }
 void render_3d(t_data *data, double distance, int x, t_texture *texture)
 {
     int wall_height = (int)(HEIGHT / distance);
@@ -205,7 +159,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
                 if (ray_dir_x > 0)
                 {
                     
-					color = *(unsigned int*) (data->ea.addr + (data->ea.line_lengh * (data->ea.bpp / 8)));
+					// color = *(unsigned int*) (data->ea.addr + (data->ea.line_lengh * (data->ea.bpp / 8)));
 					texture = &data->ea;
 					printf("Rayon %d: Direction Est\n", i);
                 }
@@ -213,7 +167,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
                 { 
 					
 					texture = &data->we;
-					color = *(unsigned int*) (data->we.addr + (data->we.line_lengh * (data->we.bpp / 8))); 
+					// color = *(unsigned int*) (data->we.addr + (data->we.line_lengh * (data->we.bpp / 8))); 
 					printf("Rayon %d: Direction Ouest\n", i);
                 }
             }
@@ -224,14 +178,14 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     
 					
 					texture = &data->so;
-					color = *(unsigned int*) (data->so.addr + (data->so.line_lengh * (data->so.bpp / 8))); 
+					// color = *(unsigned int*) (data->so.addr + (data->so.line_lengh * (data->so.bpp / 8))); 
 					printf("Rayon %d: Direction Sud\n", i);
                 }
                 else
                 {
                     
 					texture = &data->no;
-					color = *(unsigned int*) (data->no.addr + (data->no.line_lengh * (data->no.bpp / 8))); 
+					// color = *(unsigned int*) (data->no.addr + (data->no.line_lengh * (data->no.bpp / 8))); 
 					printf("Rayon %d: Direction Nord\n", i);
                 }
             }
