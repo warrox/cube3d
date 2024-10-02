@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/29 18:48:33 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/02 14:52:21 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define NUM_RAYS 100
 # define WIDTH 800
 # define HEIGHT 800
-# define MOVE_SPEED 0.1
+# define MOVE_SPEED 0.03
 # define ROTATION_SPEED 0.1
 # define COLOR 1
 # define PATH 2
@@ -145,6 +145,8 @@ typedef struct s_player
 	double		size_height;
 	int			map_pos[4096];
 	int			arrival_pos[4096];
+	int			movex;
+	int			movey;
 }				t_player;
 
 typedef struct s_mlx
@@ -284,6 +286,7 @@ int				update_player_pos(t_data *data, int player_x, int player_y);
 void			draw_rectangle(t_data *data, int x, int y, int width,
 					int height, int color);
 int				key_handler(int keycode, t_data *data);
+int	key_release_handler(int keycode, t_data *data);
 void			draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void			draw_map(t_data *data);
 void			draw_fov(t_data *data);

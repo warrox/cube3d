@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/09/29 18:39:18 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/02 14:50:28 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	init_mlx(&data);	
 	load_texture(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
+	mlx_hook(data.mlx.mlx_win, KeyRelease, KeyReleaseMask, key_release_handler, &data);
 	mlx_hook(data.mlx.mlx_win, 17, 0, free_close_windows, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);

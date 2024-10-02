@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast_util_2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/02 14:49:20 by whamdi            #+#    #+#             */
+/*   Updated: 2024/10/02 14:49:37 by whamdi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub3D_lib.h"
 
 int update_player_pos(t_data *data,int player_x,int player_y)
@@ -29,15 +41,9 @@ int	key_handler(int keycode, t_data *data)
 {
 	
 	if (keycode == W_KEY)
-	{
-		data->player.x += MOVE_SPEED * cos(data->player.angle);
-		data->player.y += MOVE_SPEED * sin(data->player.angle);
-	}
+		data->player.movey++;
 	else if (keycode == S_KEY)
-	{
-		data->player.x -= MOVE_SPEED * cos(data->player.angle);
-		data->player.y -= MOVE_SPEED * sin(data->player.angle);
-	}
+		data->player.movey--;
 	else if (keycode == ARROW_LEFT)
 	{
 		data->player.angle -= ROTATION_SPEED;
@@ -55,15 +61,9 @@ int	key_handler(int keycode, t_data *data)
 		}
 	}
 	if (keycode == A_KEY)
-	{
-		data->player.y += MOVE_SPEED * cos(data->player.angle);
-		data->player.x += MOVE_SPEED * sin(data->player.angle);
-	}
+		data->player.movex--;
 	if (keycode == D_KEY)
-	{
-		data->player.y -= MOVE_SPEED * cos(data->player.angle);
-		data->player.x -= MOVE_SPEED * sin(data->player.angle);
-	}
+		data->player.movex++;
 	if (keycode == ESCAPE)
 	{
 		free_file_struct(data);
@@ -78,6 +78,18 @@ int	key_handler(int keycode, t_data *data)
 	return (0);
 }
 
+int	key_release_handler(int keycode, t_data *data)
+{
+	if (keycode == W_KEY)
+		data->player.movey--;
+	else if (keycode == S_KEY)
+		data->player.movey++;
+	if (keycode == A_KEY)
+		data->player.movex++;
+	if (keycode == D_KEY)
+		data->player.movex--;
+	return (0);
+}
 
 void draw_map(t_data *data)
 {

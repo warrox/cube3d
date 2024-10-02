@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/02 13:00:46 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/02 15:38:00 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	init_player(t_data *data)
 	data->player.oldtime = 0; // time of previous frame
 	data->player.x = -1;
 	data->player.y = -1;
+	data->player.movex = 0;
+	data->player.movey = 0;
 }
 
 double	get_angle_posplayer(char player_dir)
@@ -195,6 +197,27 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     }
     return 0;
 }
+
+void move_player(t_data *data){
+	if (data->player.movey == 1 && data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == '0')
+	{
+		data->player.x += MOVE_SPEED * cos(data->player.angle);
+		data->player.y += MOVE_SPEED * sin(data->player.angle);
+	}
+	if (data->player.movey == -1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == '0'){ //S
+		data->player.x -= MOVE_SPEED * cos(data->player.angle);
+		data->player.y -= MOVE_SPEED * sin(data->player.angle);
+	}
+	if (data->player.movex == 1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * cos(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * sin(data->player.angle)))] == '0'){ //D
+		data->player.y -= MOVE_SPEED * cos(data->player.angle);
+		data->player.x -= MOVE_SPEED * sin(data->player.angle);
+	}
+	if (data->player.movex == -1 && data->file->map[(int)(data->player.y += (MOVE_SPEED * cos(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * sin(data->player.angle)))] == '0'){ //A
+		data->player.y += MOVE_SPEED * cos(data->player.angle);
+		data->player.x += MOVE_SPEED * sin(data->player.angle);
+	}
+}
+
 void ray_cast_radians(t_data *data)
 {
     double ray_angle;
@@ -219,6 +242,7 @@ void ray_cast_radians(t_data *data)
 		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays); 
     }
 	//draw mini map + fov de la minimap
+	move_player(data);
 	draw_map(data);
 	draw_fov(data);
 }
