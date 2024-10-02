@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/01 22:01:02 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/02 13:00:46 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *text
 
     // Calcul de la position correcte dans la texture en fonction de hit_x (la position où le rayon a touché le mur)
 	tex_x = (int)(hit_x * texture->width) % texture->width;
-
+	// printf("text_x: %d\n", tex_x);
+	// tex_x = x % texture->line_lengh; // Ajuster tex_x si nécessaire
     // Dessiner le ciel (au-dessus du mur)
     y = 0;
     while (y < start)
@@ -124,13 +125,16 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     int hit;
     double distance = 0;
     double hit_x = 0;
-	t_texture *texture;
+    t_texture *texture;
 
+    // Direction du rayon basée sur l'angle
     ray_dir_x = cos(ray_angle);
     ray_dir_y = sin(ray_angle);
     *ray_x = data->player.x;
     *ray_y = data->player.y;
     hit = 0;
+
+    // Boucle pour avancer le rayon jusqu'à toucher un mur
     while (!hit)
     {
         *ray_x += ray_dir_x * 0.01;
@@ -139,42 +143,51 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
         map_x = (int)*ray_x;
         map_y = (int)*ray_y;
 
+        // Vérifie si le rayon touche un mur
         if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
         {
             hit = 1;
 
-            // Calculer la direction du mur touché et la texture à utiliser
-            if (fabs(ray_dir_x) > fabs(ray_dir_y))
-            {
-                if (ray_dir_x > 0)
-				{
-					texture = &data->ea;
-				}
-                else
-				{
-					texture = &data->we;
-				}
-                hit_x = *ray_y - floor(*ray_y);
-            }
-            else
+            // Déterminer si l'impact est sur l'axe X ou Y
+            double x_dist = fabs(*ray_x - floor(*ray_x + 0.5)); // Distance à la ligne verticale (entre deux cases)
+            double y_dist = fabs(*ray_y - floor(*ray_y + 0.5)); // Distance à la ligne horizontale
+
+            if (x_dist > y_dist) // Impact sur l'axe Y -> Mur Nord ou Sud
             {
                 if (ray_dir_y > 0)
-				{
-					texture = &data->so;
-				}
+                {
+                    texture = &data->so; // Mur Sud
+                }
                 else
-                    texture = &data->no;
+                {
+                    texture = &data->no; // Mur Nord
+                }
                 hit_x = *ray_x - floor(*ray_x);
             }
+            else // Impact sur l'axe X -> Mur Est ou Ouest
+            {
+                if (ray_dir_x > 0)
+                {
+                    texture = &data->ea; // Mur Est
+                }
+                else
+                {
+                    texture = &data->we; // Mur Ouest
+                }
+                hit_x = *ray_y - floor(*ray_y);
+            }
 
-            double angle = ((i - (num_rays / 2)) * data->player.fov) / num_rays;
+            // Correction de l'effet "fish-eye"
+            double corrected_angle = ray_angle - data->player.angle;
+            if (corrected_angle < -PI) corrected_angle += 2 * PI;
+            if (corrected_angle > PI) corrected_angle -= 2 * PI;
 
-            double angle_rad = angle * (PI / 180);
-            distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(angle_rad);
+            distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(corrected_angle);
             render_3d(data, distance, i, texture, hit_x);
             return distance;
         }
 
+        // Si le rayon sort de la carte
         if (map_x < 0 || map_x >= data->file->max_len || map_y < 0 || map_y >= data->file->line_map)
         {
             hit = 1;
