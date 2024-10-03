@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 04:28:33 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 09:44:46 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
 /*all defines*/
 
 # define ZERO_INIT 0
@@ -54,6 +53,7 @@ enum
 	D_KEY = 100,
 	P_KEY = 112,
 	E_KEY = 101,
+	L_KEY = 108,
 	ARROW_LEFT = 65361,
 	ARROW_UP = 65362,
 	ARROW_RIGHT = 65363,
@@ -173,6 +173,7 @@ typedef struct s_data
 	t_texture	ea;
 	t_texture	we;
 	char		textures[3];
+	int			lgbt;
 }				t_data;
 
 /*strings functions*/

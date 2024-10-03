@@ -6,12 +6,11 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 04:16:45 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 09:48:26 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
-#include <stdio.h>
 
 void	img_pix_put(t_data *data, int x, int y, int color)
 {
@@ -34,6 +33,7 @@ void	init_player(t_data *data)
 	data->player.y = -1;
 	data->player.movex = 0;
 	data->player.movey = 0;
+	data->lgbt = 0;
 }
 
 double	get_angle_posplayer(char player_dir)
@@ -202,7 +202,7 @@ void move_player(t_data *data){
 	//W
 	if (data->player.movey == 1 && data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == '0')
 	{
-		data->player.x += MOVE_SPEED * cos(data->player.angle);
+		data->player.x += MOVE_SPEED * cos(data->player.angle );
 		data->player.y += MOVE_SPEED * sin(data->player.angle);
 	}
 	// S

@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:49:20 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 04:37:57 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 09:47:49 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ int	key_handler(int keycode, t_data *data)
 		free_file_struct(data);
 		exit(EXIT_SUCCESS);
 	}
+	if(keycode == L_KEY)
+	{
+		data->lgbt = 1;
+	}
 	// Vérification des collisions (pour éviter que le joueur traverse les murs)
 	// if (data->map_test[(int)data->player.y][(int)data->player.x] != '1')
 	// {
@@ -126,13 +130,19 @@ void draw_map(t_data *data)
 		j = 0;
 		while (j < data->file->max_len)
 		{
-			if (data->file->map[i][j] == '1')
+			if (data->file->map[i][j] == '1' && data->lgbt)
 			{
 				// mur lgbt :D 
 				percentage = (double)(i * data->file->max_len + j) / (data->file->line_map * data->file->max_len);
 				
 				draw_rectangle(data, j * data->cell_width, i * data->cell_height, 
 					data->cell_width, data->cell_height, lgbt_color(percentage));
+			}
+			else if(data->file->map[i][j] == '1' && data->lgbt == 0)
+			{
+				draw_rectangle(data, j * data->cell_width, i * data->cell_height, 
+					data->cell_width, data->cell_height, 0000);
+
 			}
 			else
 			{
