@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 08:00:40 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 08:35:28 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,18 @@ typedef struct s_path
 	int			we_check;
 	int			ea_check;
 }				t_path;
+typedef struct s_ray_box 
+{
+	double ray_x;
+    double ray_y;
+    double ray_dir_x;
+    double ray_dir_y;
+    int hit;
+	int map_x;
+    int map_y;
+
+	
+} t_ray_box;
 
 typedef struct s_texture 
 {
