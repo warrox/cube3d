@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 13:46:22 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:43:17 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ int				is_wrong_line(char *str);
 void			checker_map(t_data *data, char *str);
 char			*fill_clean_path(t_data *data, char **tmp, char *str,
 					int count_char);
-int				count_clean_path_len(const char *str);
+int				count_clean_path_len(char *str);
 int				check_permission(char *path);
 void			fill_map(t_data *data, char *line, char **cpy);
 void			find_max_len(t_data *data, char *line);
@@ -241,6 +241,7 @@ int				check_around_character(char **map, int i, int j,
 					int line_len[3]);
 int				check_in_characters(t_data *data, char **map);
 int				check_nb_split(char **tmp);
+int				check_arg_validity(char *str);
 
 /*free functions*/
 

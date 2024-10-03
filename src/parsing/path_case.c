@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 21:54:11 by cyprien           #+#    #+#             */
-/*   Updated: 2024/10/03 10:34:30 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:47:39 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int	check_permission(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-	{
-		perror("Error opening file");
 		return (0);
-	}
 	close(fd);
 	return (1);
 }
@@ -77,22 +74,27 @@ void	path_case(t_data *data, char *str)
 {
 	char	*cpy;
 	char	**tmp;
+	int	i;
 
-	(void)data;
 	cpy = NULL;
 	tmp = NULL;
+	if(!check_arg_validity(str))
+		error_malloc_value(data, cpy, tmp, "Syntax error in path!");
 	cpy = clear_whitespace_path(data, tmp, str);
 	tmp = ft_split(cpy, ' ');
+	i = ZERO_INIT;
 	if (!tmp)
 		error_malloc_value(data, cpy, tmp,
 			"Fail to allocate memory for tmp (in path_case)!");
+	while(tmp[i])
+		i++;
+	if (i != 2)
+		error_malloc_value(data, cpy, tmp, "Syntax error in path!");
 	if (!check_syntax_path(str))
 		error_malloc_value(data, cpy, tmp, "Syntax error in path!");
 	if (!check_extension_path(tmp[1]))
 		error_malloc_value(data, cpy, tmp, "Extension error in path!");
 	if (!check_permission(tmp[1]))
 		error_malloc_value(data, cpy, tmp, "No permission detected!");
-	set_path(data, tmp);
-	free_split(tmp);
-	free(cpy);
+	(set_path(data, tmp), free_split(tmp), free(cpy));
 }
