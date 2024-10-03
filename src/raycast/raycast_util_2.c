@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:49:20 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 10:09:16 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 12:57:00 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,28 @@ void render_lgbt_mode(t_data *data)
 		draw_centered_text(data, "LGBT MODE ACTIVATED", 0xFF00FF);	
 	}
 }
+
+void free_resources(t_data *data)
+{
+    printf("A\n");
+	if (data->no.img)
+        mlx_destroy_image(data->mlx.p_mlx, data->no.img);
+    if (data->so.img)
+        mlx_destroy_image(data->mlx.p_mlx, data->so.img);
+    if (data->ea.img)
+        mlx_destroy_image(data->mlx.p_mlx, data->ea.img);
+    if (data->we.img)
+        mlx_destroy_image(data->mlx.p_mlx, data->we.img);
+	    
+    if (data->mlx.mlx_win)
+        mlx_destroy_window(data->mlx.p_mlx, data->mlx.mlx_win);
+    if (data->mlx.img)
+        mlx_destroy_image(data->mlx.p_mlx, data->mlx.img);
+	mlx_destroy_display(data->mlx.p_mlx);
+	free(data->mlx.p_mlx);
+    printf("b\n");
+}
+
 int key_handler(int keycode, t_data *data)
 {
 	if (keycode == W_KEY)
@@ -51,6 +73,7 @@ int key_handler(int keycode, t_data *data)
 		data->player.movex++;
 	if (keycode == ESCAPE)
 	{
+		free_resources(data);
 		free_file_struct(data);
 		exit(EXIT_SUCCESS);
 	}

@@ -2,12 +2,7 @@
 #include <stdio.h>
 
 void load_texture(t_data *data)
-{
-	
-	// data->no = malloc(sizeof(data->textures));
-	// data->so = malloc(sizeof(data->textures));
-	// data->ea = malloc(sizeof(data->textures));
-	// data->we = malloc(sizeof(data->textures));	
+{	
 	data->no.img = mlx_xpm_file_to_image(data->mlx.p_mlx, data->file->path->path_no, &data->no.width, &data->no.height);
 	data->no.addr = mlx_get_data_addr(data->no.img, &data->no.bpp, &data->no.line_lengh, &data->no.endian);
 	if (!data->no.img)
@@ -30,3 +25,5 @@ void load_texture(t_data *data)
 
 	
 }
+
+

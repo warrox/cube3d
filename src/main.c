@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/02 14:50:28 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 12:49:19 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ int	main(int argc, char **argv, char **envp)
 	mlx_hook(data.mlx.mlx_win, 17, 0, free_close_windows, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
+	mlx_destroy_window(data.mlx.p_mlx, data.mlx.mlx_win);
+	mlx_destroy_image(data.mlx.p_mlx, data.mlx.img);
+	if (data.no.img)
+		mlx_destroy_image(data.mlx.p_mlx, data.no.img);
+	if (data.so.img)
+		mlx_destroy_image(data.mlx.p_mlx, data.so.img);
+	if (data.ea.img)
+		mlx_destroy_image(data.mlx.p_mlx, data.ea.img);
+	if (data.we.img)
+		mlx_destroy_image(data.mlx.p_mlx, data.we.img);
 	free_file_struct(&data);
 	return (0);
 }
