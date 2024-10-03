@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/27 16:50:21 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:33:42 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	fill_map(t_data *data, char *line, char **cpy)
 	while (line[i])
 		(*cpy)[j++] = line[i++];
 	while (j < data->file->max_len)
-		(*cpy)[j++] = '1';
+		(*cpy)[j++] = ' ';
 	(*cpy)[j] = '\0';
 }
 
@@ -45,27 +45,55 @@ void	checker_map(t_data *data, char *str)
 	i = ZERO_INIT;
 	while (str[i])
 	{
-		while (str[i] != '\n')
+		while (str[i] && str[i] != '\n')
 			i++;
-		i++;
-		while (str[i] == ' ' || str[i] == '\t')
+		if (str[i])
+			i++;
+		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 			i++;
 		if (str[i] == '1')
 			break ;
-		i++;
 	}
 	while (str[i])
 	{
 		if (str[i] == '\n' && !is_wrong_line(&str[i]))
-			error_split(data, "Error with the map (space)!");
+			error_split(data, "Erreur dans la carte (espace)!");
 		if (str[i] == '\n')
-		{
-			while (str[i] == ' ' || str[i] == '\t')
+			while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 				i++;
-		}
-		i++;
+		if (str[i])
+			i++;
 	}
 }
+
+// void	checker_map(t_data *data, char *str)
+// {
+// 	int	i;
+
+// 	i = ZERO_INIT;
+// 	while (str[i])
+// 	{
+// 		while (str[i] != '\n')
+// 			i++;
+// 		i++;
+// 		while (str[i] == ' ' || str[i] == '\t')
+// 			i++;
+// 		if (str[i] == '1')
+// 			break ;
+// 		i++;
+// 	}
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '\n' && !is_wrong_line(&str[i]))
+// 			error_split(data, "Error with the map (space)!");
+// 		if (str[i] == '\n')
+// 		{
+// 			while (str[i] == ' ' || str[i] == '\t')
+// 				i++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 int	is_wrong_line(char *str)
 {

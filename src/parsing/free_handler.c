@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 08:38:59 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/27 16:51:15 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:41:50 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	free_close_windows(void *data)
 	exit(EXIT_SUCCESS);
 	return (0);
 }
+
 void	free_split(char **split)
 {
 	int	i;

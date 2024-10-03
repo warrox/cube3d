@@ -6,11 +6,26 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:37:37 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/16 15:46:41 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:30:39 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+int	check_around_character(char **map, int i, int j, int line_len[3])
+{
+	if ((j - 1 >= 0 && j - 1 <= line_len[0] && map[i - 1][j - 1] == ' ')
+		|| (j <= line_len[0] && map[i - 1][j] == ' ') || (j + 1 <= line_len[0]
+			&& map[i - 1][j + 1] == ' ') || (j - 1 >= 0 && j - 1 <= line_len[2]
+			&& map[i + 1][j - 1] == ' ') || (j <= line_len[2] && map[i
+			+ 1][j] == ' ') || (j + 1 <= line_len[2] && map[i + 1][j
+			+ 1] == ' ') || (j + 1 < line_len[1] && map[i][j + 1] == ' ') || (j
+			- 1 >= 0 && map[i][j - 1] == ' '))
+	{
+		return (1);
+	}
+	return (0);
+}
 
 char	*new_alloc(t_data *data, char *ptr, int size)
 {

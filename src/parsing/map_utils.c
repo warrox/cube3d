@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:29:35 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/18 16:37:43 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:38:01 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,35 @@ int	check_around_space(char **map, int i, int j, int line_len[3])
 		return (1);
 	}
 	return (0);
+}
+
+int	check_in_characters(t_data *data, char **map)
+{
+	int	i;
+	int	j;
+	int	last_line;
+	int	line_len[3];
+
+	i = 1;
+	last_line = data->file->line_map - 1;
+	while (i < last_line)
+	{
+		line_len[0] = ft_strlen(map[i - 1]);
+		line_len[1] = ft_strlen(map[i]);
+		line_len[2] = ft_strlen(map[i + 1]);
+		j = 0;
+		while (map[i][j])
+		{
+			if (ft_strchr("WESN", map[i][j]))
+			{
+				if (check_around_character(map, i, j, line_len))
+					return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
 int	check_in_space(t_data *data, char **map)
@@ -65,7 +94,8 @@ int	check_no_s_walls(t_data *data, char **map)
 		j++;
 	while (map[0][j])
 	{
-		if (map[0][j] == '0')
+		if (map[0][j] == '0' || map[0][j] == 'S' || map[0][j] == 'N'
+			|| map[0][j] == 'E' || map[0][j] == 'W')
 			return (0);
 		j++;
 	}
@@ -74,7 +104,8 @@ int	check_no_s_walls(t_data *data, char **map)
 		j++;
 	while (map[tmp][j])
 	{
-		if (map[tmp][j] == '0')
+		if (map[tmp][j] == '0' || map[tmp][j] == 'S' || map[tmp][j] == 'N'
+			|| map[tmp][j] == 'E' || map[tmp][j] == 'W')
 			return (0);
 		j++;
 	}

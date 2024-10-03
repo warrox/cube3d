@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:28:35 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/24 14:21:18 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:19:03 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,18 @@ void	color_case(t_data *data, char *infos)
 {
 	char	**tmp;
 	char	*cpy;
+	int		count;
+	int		i;
 
+	count = ZERO_INIT;
+	i = ZERO_INIT;
 	cpy = clear_whitespace(data, infos);
 	tmp = ft_split(infos, ' ');
 	if (!tmp)
 		error_malloc_value(data, cpy, tmp,
 			"Fail to malloc tmp (in color_case)!");
+	if (!check_nb_split(tmp))
+		error_malloc_value(data, cpy, tmp, "Error syntax detected in colors!");
 	if (!check_syntax(cpy))
 		error_malloc_value(data, cpy, tmp, "Error syntax detected in colors!");
 	if (!check_value(data, cpy, tmp))

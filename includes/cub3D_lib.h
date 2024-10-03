@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 15:08:31 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 15:59:20 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
+# include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
 /*all defines*/
 
 # define ZERO_INIT 0
@@ -99,9 +101,9 @@ typedef struct s_path
 	int			ea_check;
 }				t_path;
 
-typedef struct s_texture 
+typedef struct s_texture
 {
-	void			*img;
+	void		*img;
 	void		*addr;
 	int			*addr_int;
 	int			bpp;
@@ -109,8 +111,8 @@ typedef struct s_texture
 	int			endian;
 	int			width;
 	int			height;
-	int			o_color;	
-} t_texture;
+	int			o_color;
+}				t_texture;
 
 typedef struct s_file
 {
@@ -139,8 +141,8 @@ typedef struct s_player
 	char		dir;
 	double		x;
 	double		y;
-	double		time; // time of current frame
-	double		oldtime; // time of previous frame
+	double		time;
+	double		oldtime;
 	double		size_width;
 	double		size_height;
 	int			map_pos[4096];
@@ -157,7 +159,7 @@ typedef struct s_mlx
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
-	int			endian; //0 ---> t,r,g,b 1 ----> b,g,r,t
+	int			endian;
 }				t_mlx;
 
 typedef struct s_data
@@ -237,7 +239,7 @@ int				is_wrong_line(char *str);
 void			checker_map(t_data *data, char *str);
 char			*fill_clean_path(t_data *data, char **tmp, char *str,
 					int count_char);
-int				count_clean_path_len(const char *str);
+int				count_clean_path_len(char *str);
 int				check_permission(char *path);
 void			fill_map(t_data *data, char *line, char **cpy);
 void			find_max_len(t_data *data, char *line);
@@ -247,6 +249,11 @@ void			allocate_file_maps(t_data *data);
 char			*int_to_hex(int num);
 int				convert_color_c(t_data *data);
 int				convert_color_f(t_data *data);
+int				check_around_character(char **map, int i, int j,
+					int line_len[3]);
+int				check_in_characters(t_data *data, char **map);
+int				check_nb_split(char **tmp);
+int				check_arg_validity(char *str);
 
 /*free functions*/
 
@@ -297,11 +304,12 @@ int				minimap_render(void *param);
 int				cpy_map(t_data *data);
 int				update_player_pos(t_data *data, int player_x, int player_y);
 int				key_handler(int keycode, t_data *data);
-int	key_release_handler(int keycode, t_data *data);
+int				key_release_handler(int keycode, t_data *data);
 void			draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void			draw_map(t_data *data);
 void			draw_fov(t_data *data);
-void			draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2], int color);
+void			draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2],
+					int color);
 void			load_texture(t_data *data);
 int	get_color_component(int color, int component, t_data *data);
 #endif

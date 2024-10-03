@@ -6,11 +6,25 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:07:05 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/17 15:22:28 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:43:06 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+int	check_arg_validity(char *str)
+{
+	int	j;
+
+	j = 0;
+	while (str[j] >= 'A' && str[j] <= 'Z')
+		j++;
+	while (str[j] == ' ' || str[j] == '\t')
+		j++;
+	if (str[j] == '\0')
+		return (0);
+	return (1);
+}
 
 char	*fill_clean_path(t_data *data, char **tmp, char *str, int count_char)
 {
@@ -41,7 +55,7 @@ char	*fill_clean_path(t_data *data, char **tmp, char *str, int count_char)
 	return (clear_path[j] = '\0', clear_path);
 }
 
-int	count_clean_path_len(const char *str)
+int	count_clean_path_len(char *str)
 {
 	int	i;
 	int	count_char;
