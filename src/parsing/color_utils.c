@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 21:18:07 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/24 13:06:54 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:27:40 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ char	*remove_whitespace(t_data *data, char *str, int count_char)
 	int		flag;
 	char	*clear_cpy;
 
-	clear_cpy = malloc((sizeof(char) * count_char) + 2);
+	clear_cpy = malloc((sizeof(char) * (count_char + 2)));
 	if (!clear_cpy)
 		error_malloc_whtspc(data, clear_cpy, "Fail to malloc clear_cpy!");
+
 	i = 0;
 	j = 0;
 	flag = 1;
@@ -52,8 +53,10 @@ char	*remove_whitespace(t_data *data, char *str, int count_char)
 	{
 		while (str[i] == ' ' || str[i] == '\t')
 			i++;
+		if (str[i] == '\0')
+			break;
 		clear_cpy[j++] = str[i];
-		if (flag)
+		if (flag && str[i] != '\0')
 		{
 			clear_cpy[j++] = ' ';
 			flag = 0;
