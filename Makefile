@@ -6,7 +6,7 @@
 #    By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 12:04:24 by cyferrei          #+#    #+#              #
-#    Updated: 2024/09/29 17:10:34 by whamdi           ###   ########.fr        #
+#    Updated: 2024/10/03 14:58:50 by whamdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ RESET   = \e[00m
 
 SOURCE = ./src/
 
-RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c raycast_util_2.c miniMap_render.c textures.c)
+RAYCAST = $(addprefix raycast/, raycast.c raycast_util.c raycast_util_2.c miniMap_render.c textures.c raycast_util_3.c raycast_util_4.c)
 CUSTOMMLX = $(addprefix CustomMlxFunc/,init_mlx.c )
 PRINTS = $(addprefix prints/, print_utils.c)
 PARSING = $(addprefix parsing/, checker.c parser.c parser_utils.c free_handler.c error_handler.c error_handler_one.c error_handler_two.c cutter.c cutter_utils.c cutter_utils_2.c init.c data_parser.c color_case.c color_utils.c color_utils_2.c path_case.c path_utils.c map_parser.c map_utils.c color_case_utils.c)
