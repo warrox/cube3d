@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:17:15 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 11:28:44 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:33:42 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	fill_map(t_data *data, char *line, char **cpy)
 	while (line[i])
 		(*cpy)[j++] = line[i++];
 	while (j < data->file->max_len)
-		(*cpy)[j++] = '1';
+		(*cpy)[j++] = ' ';
 	(*cpy)[j] = '\0';
 }
 
