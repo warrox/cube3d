@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 21:54:11 by cyprien           #+#    #+#             */
-/*   Updated: 2024/09/17 15:17:15 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:34:30 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 int	check_permission(char *path)
 {
-	if (access(path, F_OK) != 0)
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error opening file");
 		return (0);
-	if (access(path, R_OK) != 0)
-		return (0);
+	}
+	close(fd);
 	return (1);
 }
 

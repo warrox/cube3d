@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:43:09 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/09/18 16:39:43 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:34:25 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	check_walls(t_data *data)
 	ea_we = check_ea_we_walls(data, tmp);
 	no_s = check_no_s_walls(data, tmp);
 	inside_space = check_in_space(data, tmp);
-	dprintf(2, "ea_we %d | no_se %d | inside %d\n", ea_we, no_s, inside_space);
 	if (ea_we && no_s && inside_space)
 		return (1);
 	return (0);
