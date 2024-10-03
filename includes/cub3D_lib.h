@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 10:12:29 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 10:29:00 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
+# include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
 /*all defines*/
 
 # define ZERO_INIT 0
@@ -99,9 +101,9 @@ typedef struct s_path
 	int			ea_check;
 }				t_path;
 
-typedef struct s_texture 
+typedef struct s_texture
 {
-	void			*img;
+	void		*img;
 	void		*addr;
 	int			*addr_int;
 	int			bpp;
@@ -109,8 +111,8 @@ typedef struct s_texture
 	int			endian;
 	int			width;
 	int			height;
-	int			o_color;	
-} t_texture;
+	int			o_color;
+}				t_texture;
 
 typedef struct s_file
 {
@@ -139,8 +141,8 @@ typedef struct s_player
 	char		dir;
 	double		x;
 	double		y;
-	double		time; // time of current frame
-	double		oldtime; // time of previous frame
+	double time;    // time of current frame
+	double oldtime; // time of previous frame
 	double		size_width;
 	double		size_height;
 	int			map_pos[4096];
@@ -157,7 +159,7 @@ typedef struct s_mlx
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
-	int			endian; //0 ---> t,r,g,b 1 ----> b,g,r,t
+	int endian; // 0 ---> t,r,g,b 1 ----> b,g,r,t
 }				t_mlx;
 
 typedef struct s_data
@@ -288,10 +290,11 @@ int				update_player_pos(t_data *data, int player_x, int player_y);
 void			draw_rectangle(t_data *data, int x, int y, int width,
 					int height, int color);
 int				key_handler(int keycode, t_data *data);
-int	key_release_handler(int keycode, t_data *data);
+int				key_release_handler(int keycode, t_data *data);
 void			draw_vector(t_data *data, int pos1[2], int pos2[2], int color);
 void			draw_map(t_data *data);
 void			draw_fov(t_data *data);
-void			draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2], int color);
+void			draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2],
+					int color);
 void			load_texture(t_data *data);
 #endif
