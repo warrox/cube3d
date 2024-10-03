@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/02 14:50:28 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 11:33:23 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	file_cutter(&data);
 	data_parser(&data);
 	map_parser(&data);
-	print_final_datas(&data);
+	// print_final_datas(&data);
 	init_player(&data);
 	for (int i = 0; i < data.file->line_map; i++)
 	{
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 	}
-	printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
+	// printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
 	
 	init_mlx(&data);	
 	load_texture(&data);
