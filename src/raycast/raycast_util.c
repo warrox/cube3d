@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/02 15:38:00 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 04:16:45 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,22 +199,28 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
 }
 
 void move_player(t_data *data){
+	//W
 	if (data->player.movey == 1 && data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == '0')
 	{
 		data->player.x += MOVE_SPEED * cos(data->player.angle);
 		data->player.y += MOVE_SPEED * sin(data->player.angle);
 	}
+	// S
 	if (data->player.movey == -1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == '0'){ //S
 		data->player.x -= MOVE_SPEED * cos(data->player.angle);
 		data->player.y -= MOVE_SPEED * sin(data->player.angle);
 	}
-	if (data->player.movex == 1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * cos(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * sin(data->player.angle)))] == '0'){ //D
-		data->player.y -= MOVE_SPEED * cos(data->player.angle);
-		data->player.x -= MOVE_SPEED * sin(data->player.angle);
+	
+	// D
+	if (data->player.movex == 1 && data->file->map[(int)(data->player.y + (MOVE_SPEED * cos(data->player.angle + PI / 2)))][(int)(data->player.x + (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0') {
+		data->player.x += MOVE_SPEED * cos(data->player.angle + PI / 2);
+		data->player.y += MOVE_SPEED * sin(data->player.angle + PI / 2);
 	}
-	if (data->player.movex == -1 && data->file->map[(int)(data->player.y += (MOVE_SPEED * cos(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * sin(data->player.angle)))] == '0'){ //A
-		data->player.y += MOVE_SPEED * cos(data->player.angle);
-		data->player.x += MOVE_SPEED * sin(data->player.angle);
+
+	// A
+	if (data->player.movex == -1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * cos(data->player.angle + PI / 2)))][(int)(data->player.x - (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0') {
+		data->player.x -= MOVE_SPEED * cos(data->player.angle + PI / 2);
+		data->player.y -= MOVE_SPEED * sin(data->player.angle + PI / 2);
 	}
 }
 
