@@ -94,7 +94,8 @@ int	check_no_s_walls(t_data *data, char **map)
 		j++;
 	while (map[0][j])
 	{
-		if (map[0][j] == '0' || map[0][j] == 'S' || map[0][j] == 'N' || map[0][j] == 'E' || map[0][j] == 'W')
+		if (map[0][j] == '0' || map[0][j] == 'S' || map[0][j] == 'N'
+			|| map[0][j] == 'E' || map[0][j] == 'W')
 			return (0);
 		j++;
 	}
@@ -103,7 +104,8 @@ int	check_no_s_walls(t_data *data, char **map)
 		j++;
 	while (map[tmp][j])
 	{
-		if (map[tmp][j] == '0' || map[tmp][j] == 'S' || map[tmp][j] == 'N' || map[tmp][j] == 'E' || map[tmp][j] == 'W')
+		if (map[tmp][j] == '0' || map[tmp][j] == 'S' || map[tmp][j] == 'N'
+			|| map[tmp][j] == 'E' || map[tmp][j] == 'W')
 			return (0);
 		j++;
 	}

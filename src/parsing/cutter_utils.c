@@ -52,7 +52,7 @@ void	checker_map(t_data *data, char *str)
 		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 			i++;
 		if (str[i] == '1')
-			break;
+			break ;
 	}
 	while (str[i])
 	{

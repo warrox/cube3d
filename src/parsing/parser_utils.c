@@ -27,7 +27,6 @@ int	check_around_character(char **map, int i, int j, int line_len[3])
 	return (0);
 }
 
-
 char	*new_alloc(t_data *data, char *ptr, int size)
 {
 	char	*new;

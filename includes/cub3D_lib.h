@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 13:15:25 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:46:22 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ typedef struct s_player
 	char		dir;
 	double		x;
 	double		y;
-	double time;    // time of current frame
-	double oldtime; // time of previous frame
+	double		time;
+	double		oldtime;
 	double		size_width;
 	double		size_height;
 	int			map_pos[4096];
@@ -159,7 +159,7 @@ typedef struct s_mlx
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
-	int endian; // 0 ---> t,r,g,b 1 ----> b,g,r,t
+	int			endian;
 }				t_mlx;
 
 typedef struct s_data
@@ -237,9 +237,10 @@ void			allocate_file_maps(t_data *data);
 char			*int_to_hex(int num);
 int				convert_color_c(t_data *data);
 int				convert_color_f(t_data *data);
-int	check_around_character(char **map, int i, int j, int line_len[3]);
-int	check_in_characters(t_data *data, char **map);
-
+int				check_around_character(char **map, int i, int j,
+					int line_len[3]);
+int				check_in_characters(t_data *data, char **map);
+int				check_nb_split(char **tmp);
 
 /*free functions*/
 
