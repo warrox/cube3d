@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 09:44:46 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 09:55:46 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ typedef struct s_data
 	t_texture	we;
 	char		textures[3];
 	int			lgbt;
+	int			lgbt_activated;
 }				t_data;
 
 /*strings functions*/

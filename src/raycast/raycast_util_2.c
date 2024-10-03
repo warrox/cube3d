@@ -6,11 +6,62 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:49:20 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 09:47:49 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 10:09:16 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+
+
+void	draw_centered_text(t_data *data, char *text, int color)
+{
+	int i = 0;
+	while(i++ < 900000)
+		mlx_string_put(data->mlx.p_mlx, data->mlx.mlx_win,400,100,color, text);
+}
+
+void render_lgbt_mode(t_data *data)
+{
+	if (data->lgbt_activated)
+	{
+		draw_centered_text(data, "LGBT MODE ACTIVATED", 0xFF00FF);	
+	}
+}
+int key_handler(int keycode, t_data *data)
+{
+	if (keycode == W_KEY)
+		data->player.movey++;
+	else if (keycode == S_KEY)
+		data->player.movey--;
+	else if (keycode == ARROW_LEFT)
+	{
+		data->player.angle -= ROTATION_SPEED;
+		if (data->player.angle < 0)
+			data->player.angle += 2 * M_PI;
+	}
+	else if (keycode == ARROW_RIGHT)
+	{
+		data->player.angle += ROTATION_SPEED;
+		if (data->player.angle > 2 * M_PI)
+			data->player.angle -= 2 * M_PI;
+	}
+	if (keycode == A_KEY)
+		data->player.movex--;
+	if (keycode == D_KEY)
+		data->player.movex++;
+	if (keycode == ESCAPE)
+	{
+		free_file_struct(data);
+		exit(EXIT_SUCCESS);
+	}
+	if (keycode == L_KEY)
+	{
+		data->lgbt_activated = 1; // Désactive "LGBT MODE" quand on appuie sur L
+		render_lgbt_mode(data);	
+		data->lgbt = !data->lgbt; // Active/désactive le mode LGBT
+	}
+	return (0);
+}
 
 int update_player_pos(t_data *data,int player_x,int player_y)
 {
@@ -37,50 +88,6 @@ void	draw_rectangle(t_data *data, int x, int y, int width, int height,
 	}
 }
 
-int	key_handler(int keycode, t_data *data)
-{
-	
-	if (keycode == W_KEY)
-		data->player.movey++;
-	else if (keycode == S_KEY)
-		data->player.movey--;
-	else if (keycode == ARROW_LEFT)
-	{
-		data->player.angle -= ROTATION_SPEED;
-		if (data->player.angle < 0)
-		{
-			data->player.angle += 2 * M_PI;
-		}
-	}
-	else if (keycode == ARROW_RIGHT)
-	{
-		data->player.angle += ROTATION_SPEED;
-		if (data->player.angle > 2 * M_PI)
-		{
-			data->player.angle -= 2 * M_PI;
-		}
-	}
-	if (keycode == A_KEY)
-		data->player.movex--;
-	if (keycode == D_KEY)
-		data->player.movex++;
-	if (keycode == ESCAPE)
-	{
-		free_file_struct(data);
-		exit(EXIT_SUCCESS);
-	}
-	if(keycode == L_KEY)
-	{
-		data->lgbt = 1;
-	}
-	// Vérification des collisions (pour éviter que le joueur traverse les murs)
-	// if (data->map_test[(int)data->player.y][(int)data->player.x] != '1')
-	// {
-	// 	data->player.x = data->player.x;			
-	// 	data->player.y = data->player.y;
-	// }
-	return (0);
-}
 
 int	key_release_handler(int keycode, t_data *data)
 {
