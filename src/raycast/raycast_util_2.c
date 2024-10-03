@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:49:20 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/02 14:49:37 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 04:37:57 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,36 @@ int	key_release_handler(int keycode, t_data *data)
 	return (0);
 }
 
+
+int lgbt_color(double percentage)
+{
+    int colors[6] = {0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x0000FF, 0x800080};
+    int segment = (int)(percentage * 6);
+    double local_percentage = (percentage * 6) - segment;
+
+    if (segment >= 5)
+        return colors[5];
+
+    int r1 = (colors[segment] >> 16) & 0xFF;
+    int g1 = (colors[segment] >> 8) & 0xFF;
+    int b1 = colors[segment] & 0xFF;
+
+    int r2 = (colors[segment + 1] >> 16) & 0xFF;
+    int g2 = (colors[segment + 1] >> 8) & 0xFF;
+    int b2 = colors[segment + 1] & 0xFF;
+
+    int r = (int)(r1 + local_percentage * (r2 - r1));
+    int g = (int)(g1 + local_percentage * (g2 - g1));
+    int b = (int)(b1 + local_percentage * (b2 - b1));
+
+    return (r << 16 | g << 8 | b);
+}
 void draw_map(t_data *data)
 {
 	int i = 0;
 	int j = 0;
-	// Affichage de la mini-map (murs et sol)
-	i = 0;
+	double percentage;
+
 	while (i < data->file->line_map)
 	{
 		j = 0;
@@ -104,21 +128,20 @@ void draw_map(t_data *data)
 		{
 			if (data->file->map[i][j] == '1')
 			{
-				draw_rectangle(data, j * data->cell_width, i
-					* data->cell_height, data->cell_width, data->cell_height,
-					0x808080); // mur gris
+				// mur lgbt :D 
+				percentage = (double)(i * data->file->max_len + j) / (data->file->line_map * data->file->max_len);
+				
+				draw_rectangle(data, j * data->cell_width, i * data->cell_height, 
+					data->cell_width, data->cell_height, lgbt_color(percentage));
 			}
 			else
 			{
-				draw_rectangle(data, j * data->cell_width, i
-					* data->cell_height, data->cell_width, data->cell_height,
-					0xFFFFFF); // sol blanc
+				draw_rectangle(data, j * data->cell_width, i * data->cell_height, 
+					data->cell_width, data->cell_height, 0xFFFFFF); // sol blanc
 			}
 			j++;
 		}
 		i++;
 	}
-
-
 }
 
