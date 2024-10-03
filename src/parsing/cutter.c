@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 11:24:52 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:54:17 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	check_order(t_data *data)
 	char	*str;
 
 	i = ZERO_INIT;
+	if (data->file->map_line_cpy[0] == '\0')
+		error_data_format(data, "Nothing in file!");
 	str = data->file->map_line_cpy;
 	while (str[i])
 		i++;
