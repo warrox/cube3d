@@ -1,9 +1,9 @@
      EA              ./textures/examples3.xpm
-SO ./textures/examples1.xpm
+          SO ./textures/examples1.xpm
 NO ./textures/examples0.xpm
-F 32, 43,                                  54
+F 32, 43,                                  1
 WE ./textures/examples2.xpm
-C 107, 174, 232
+C 107, 174,1
 
 
 
