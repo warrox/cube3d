@@ -74,11 +74,11 @@ void	path_case(t_data *data, char *str)
 {
 	char	*cpy;
 	char	**tmp;
-	int	i;
+	int		i;
 
 	cpy = NULL;
 	tmp = NULL;
-	if(!check_arg_validity(str))
+	if (!check_arg_validity(str))
 		error_malloc_value(data, cpy, tmp, "Syntax error in path!");
 	cpy = clear_whitespace_path(data, tmp, str);
 	tmp = ft_split(cpy, ' ');
@@ -86,7 +86,7 @@ void	path_case(t_data *data, char *str)
 	if (!tmp)
 		error_malloc_value(data, cpy, tmp,
 			"Fail to allocate memory for tmp (in path_case)!");
-	while(tmp[i])
+	while (tmp[i])
 		i++;
 	if (i != 2)
 		error_malloc_value(data, cpy, tmp, "Syntax error in path!");

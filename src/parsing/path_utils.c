@@ -14,10 +14,12 @@
 
 int	check_arg_validity(char *str)
 {
-	int j = 0;
-	while(str[j] >= 'A' && str[j] <= 'Z')
+	int	j;
+
+	j = 0;
+	while (str[j] >= 'A' && str[j] <= 'Z')
 		j++;
-	while(str[j] == ' ' || str[j] == '\t')
+	while (str[j] == ' ' || str[j] == '\t')
 		j++;
 	if (str[j] == '\0')
 		return (0);
