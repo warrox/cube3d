@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 09:55:46 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/03 10:12:29 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define NUM_RAYS 100
 # define WIDTH 800
 # define HEIGHT 800
-# define MOVE_SPEED 0.05
+# define MOVE_SPEED 0.025
 # define ROTATION_SPEED 0.1
 # define COLOR 1
 # define PATH 2
