@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:56:12 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 14:56:15 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 09:48:33 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	draw_centered_text(t_data *data, char *text, int color)
 			text);
 }
 
-void	render_lgbt_mode(t_data *data)
+void	render_rainbow_mode(t_data *data)
 {
 	if (data->lgbt_activated)
-		draw_centered_text(data, "LGBT MODE ACTIVATED", 0xFF00FF);
+		draw_centered_text(data, "RAINBOW MODE ACTIVATED", 0xFF00FF);
 }
 
 void	free_images(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:56:59 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 14:57:02 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 09:49:29 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	key_handler(int keycode, t_data *data)
 	{
 		data->lgbt_activated = 1;
 		data->lgbt = !data->lgbt;
-		render_lgbt_mode(data);
+		render_rainbow_mode(data);
 	}
 	return (0);
 }

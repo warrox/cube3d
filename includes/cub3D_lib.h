@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 15:59:20 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:49:13 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ void			free_file_struct(t_data *data);
 void			free_map_struct(t_data *data);
 void			free_split(char **split);
 int				free_close_windows(void *data);
-
+void	free_resources(t_data *data);
 /*utils functions*/
 
 char			*new_alloc(t_data *data, char *ptr, int size);
@@ -312,4 +312,7 @@ void			draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2],
 					int color);
 void			load_texture(t_data *data);
 int	get_color_component(int color, int component, t_data *data);
+void	render_rainbow_mode(t_data *data);
+void	process_angle(t_data *data, int keycode);
+
 #endif

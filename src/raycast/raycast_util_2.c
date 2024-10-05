@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:49:20 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 15:15:24 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 09:48:02 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	interpolate_colors(int color1, int color2, t_data *data)
 	return (data->r << 16 | data->g << 8 | data->b);
 }
 
-int	lgbt_color(double percentage, t_data *data)
+int	rainbow_color(double percentage, t_data *data)
 {
 	int			segment;
 	const int	colors[6] = {0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x0000FF,
@@ -63,7 +63,7 @@ void	draw_map(t_data *data)
 				percentage = (double)(i * data->file->max_len + j)
 					/ (data->file->line_map * data->file->max_len);
 				if (data->lgbt)
-					draw_cell(data, j, i, lgbt_color(percentage, data));
+					draw_cell(data, j, i, rainbow_color(percentage, data));
 				else
 					draw_cell(data, j, i, 0x000000);
 			}
