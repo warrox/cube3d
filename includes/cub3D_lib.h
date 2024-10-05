@@ -161,22 +161,20 @@ typedef struct s_mlx
 	int			line_length;
 	int			endian;
 }				t_mlx;
-typedef struct s_calcul 
+typedef struct s_calcul
 {
-	double ray_dir_x;
-    double ray_dir_y;
-    int map_x;
-    int map_y;
-    int hit;
-    double distance;
-    double hit_x;
-	double x_dist;
-	double y_dist;
-	double corrected_angle;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	int			map_x;
+	int			map_y;
+	int			hit;
+	double		distance;
+	double		hit_x;
+	double		x_dist;
+	double		y_dist;
+	double		corrected_angle;
 
-} t_calcul;
-
-
+}				t_calcul;
 
 typedef struct s_data
 {
@@ -195,61 +193,60 @@ typedef struct s_data
 	char		textures[3];
 	int			lgbt;
 	int			lgbt_activated;
-	int	r1;
-	int	g1;
-	int	b1;
-	int	r2;
-	int	g2;
-	int	b2;
-	int	r;
-	int	g;
-	int	b;
-	int local_percentage;
-	double ray_x;
-	double ray_y;
-	int i;
-	int num_rays;
-	double fov_radians;
-	int	wall_height;
-	int	draw_start;
-	int	draw_end;
-	int		tex_x;
-	int		color;
+	int			r1;
+	int			g1;
+	int			b1;
+	int			r2;
+	int			g2;
+	int			b2;
+	int			r;
+	int			g;
+	int			b;
+	int			local_percentage;
+	double		ray_x;
+	double		ray_y;
+	int			i;
+	int			num_rays;
+	double		fov_radians;
+	int			wall_height;
+	int			draw_start;
+	int			draw_end;
+	int			tex_x;
+	int			color;
 }				t_data;
 
-typedef struct s_ray_context 
+typedef struct s_ray_context
 {
-    t_calcul *calc;
-    t_data *data;
-    double *ray_x;
-    double *ray_y;
-    double ray_angle;
-} t_ray_context;
+	t_calcul	*calc;
+	t_data		*data;
+	double		*ray_x;
+	double		*ray_y;
+	double		ray_angle;
+}				t_ray_context;
 
-
-typedef struct s_minimap 
+typedef struct s_minimap
 {
-	int	x0;
-	int	y0;
-	int	x1;
-	int	y1;
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-	int i;
-	int		num_rays;
-	double	ray_angle;
-	double	angle_step;
-	double	fov;
-	int		hit;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	int		map_x;
-	int		map_y;
-}	t_minimap;
+	int			x0;
+	int			y0;
+	int			x1;
+	int			y1;
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			err;
+	int			e2;
+	int			i;
+	int			num_rays;
+	double		ray_angle;
+	double		angle_step;
+	double		fov;
+	int			hit;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	int			map_x;
+	int			map_y;
+}				t_minimap;
 /*strings functions*/
 
 int				ft_strlen(char *str);
@@ -320,7 +317,7 @@ void			free_file_struct(t_data *data);
 void			free_map_struct(t_data *data);
 void			free_split(char **split);
 int				free_close_windows(void *data);
-void	free_resources(t_data *data);
+void			free_resources(t_data *data);
 /*utils functions*/
 
 char			*new_alloc(t_data *data, char *ptr, int size);
@@ -357,7 +354,7 @@ void			init_player(t_data *data);
 double			get_angle_posplayer(char player_dir);
 void			ray_cast_radians(t_data *data);
 void			img_pix_put(t_data *data, int x, int y, int color);
-void	draw_rectangle(t_data *data, int width, int height,int color);
+void			draw_rectangle(t_data *data, int width, int height, int color);
 int				update_player_pos(t_data *data, int player_x, int player_y);
 int				minimap_render(void *param);
 int				cpy_map(t_data *data);
@@ -370,37 +367,39 @@ void			draw_fov(t_data *data);
 void			draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2],
 					int color);
 void			load_texture(t_data *data);
-int	get_color_component(int color, int component, t_data *data);
-void	render_rainbow_mode(t_data *data);
-void	process_angle(t_data *data, int keycode);
+int				get_color_component(int color, int component, t_data *data);
+void			render_rainbow_mode(t_data *data);
+void			process_angle(t_data *data, int keycode);
 
-void calculate_player_position(t_data *data, int player_pos[2]);
-void set_ray_direction(double *ray_dir_x, double *ray_dir_y, double ray_angle);
-int is_ray_out_of_bounds(t_data *data, int map_x, int map_y);
-void check_ray_hit(t_data *data, int *hit, int *map_x, int *map_y);
-void calculate_arrival_position(t_data *data, double ray_x, double ray_y, int arrival_pos[2]);
-void	draw_fov(t_data *data);
-void	cast_ray(t_data *data, double ray_angle, int player_pos[2]);
-void init_send_ray(t_ray_context *ctx);
-void update_ray_position(t_ray_context *ctx);
-int check_hit(t_ray_context *ctx, t_texture **texture);
-double calculate_distance(t_ray_context *ctx);
-void	init_send_ray(t_ray_context *ctx);
-void	update_ray_position(t_ray_context *ctx);
+void			calculate_player_position(t_data *data, int player_pos[2]);
+void			set_ray_direction(double *ray_dir_x, double *ray_dir_y,
+					double ray_angle);
+int				is_ray_out_of_bounds(t_data *data, int map_x, int map_y);
+void			check_ray_hit(t_data *data, int *hit, int *map_x, int *map_y);
+void			calculate_arrival_position(t_data *data, double ray_x,
+					double ray_y, int arrival_pos[2]);
+void			draw_fov(t_data *data);
+void			cast_ray(t_data *data, double ray_angle, int player_pos[2]);
+void			init_send_ray(t_ray_context *ctx);
+void			update_ray_position(t_ray_context *ctx);
+int				check_hit(t_ray_context *ctx, t_texture **texture);
+double			calculate_distance(t_ray_context *ctx);
+void			init_send_ray(t_ray_context *ctx);
+void			update_ray_position(t_ray_context *ctx);
 
-static void	move_forward(t_data *data, int trigger);
+static void		move_forward(t_data *data, int trigger);
 
-static void	move_backward(t_data *data, int trigger);
+static void		move_backward(t_data *data, int trigger);
 
-static void	move_left(t_data *data, int trigger);
+static void		move_left(t_data *data, int trigger);
 
-static void	move_right(t_data *data, int trigger);
+static void		move_right(t_data *data, int trigger);
 
-void	move_player(t_data *data);
+void			move_player(t_data *data);
 
-void	init_send_ray(t_ray_context *ctx);
+void			init_send_ray(t_ray_context *ctx);
 
-void	update_ray_position(t_ray_context *ctx);
+void			update_ray_position(t_ray_context *ctx);
 
-double	get_angle_posplayer(char player_dir);
+double			get_angle_posplayer(char player_dir);
 #endif
