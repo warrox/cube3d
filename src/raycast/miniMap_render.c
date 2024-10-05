@@ -1,91 +1,91 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniMap_render.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/05 10:09:53 by whamdi            #+#    #+#             */
+/*   Updated: 2024/10/05 10:11:05 by whamdi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../../includes/cub3D_lib.h"
+
+void cast_ray(t_data *data, double ray_angle, int player_pos[2])
+{
+    double ray_dir_x, ray_dir_y, ray_x, ray_y;
+    int hit = 0;
+    int map_x, map_y;
+
+    set_ray_direction(&ray_dir_x, &ray_dir_y, ray_angle);
+
+    ray_x = data->player.x;
+    ray_y = data->player.y;
+
+    while (!hit)
+    {
+        ray_x += ray_dir_x * 0.1;
+        ray_y += ray_dir_y * 0.1;
+        check_ray_hit(data, &hit, ray_x, ray_y, &map_x, &map_y);
+    }
+
+    int arrival_pos[2];
+    calculate_arrival_position(data, ray_x, ray_y, arrival_pos);
+    draw_line_fov_minim(data, player_pos, arrival_pos, 0xFF0000);
+}
 
 void draw_fov(t_data *data)
 {
     double fov = 60 * (PI / 180.0);
-    double half_fov = fov / 2;  
-    int num_rays = 100; 
-    double angle_step = fov / num_rays; 
-    double ray_angle, ray_dir_x, ray_dir_y;
-    double ray_x, ray_y;
-    int hit, map_x, map_y;
+    double half_fov = fov / 2;
+    int num_rays = 100;
+    double angle_step = fov / num_rays;
+    double ray_angle;
 
-    // Position du joueur sur la mini-map
     int player_pos[2];
-    player_pos[0] = data->player.x * data->cell_width;
-    player_pos[1] = data->player.y * data->cell_height;
+    calculate_player_position(data, player_pos);
 
-    for (int i = 0; i < num_rays; i++)
+    int i = 0;
+    while (i < num_rays)
     {
         ray_angle = data->player.angle - half_fov + (i * angle_step);
-
-        ray_dir_x = cos(ray_angle);
-        ray_dir_y = sin(ray_angle);
-
-        ray_x = data->player.x;
-        ray_y = data->player.y;
-        hit = 0;
-
-        while (!hit)
-        {
-            ray_x += ray_dir_x * 0.1;
-            ray_y += ray_dir_y * 0.1;
-
-            map_x = (int)ray_x;
-            map_y = (int)ray_y;
-
-            if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
-            {
-                hit = 1;
-            }
-
-            if (map_x < 0 || map_x >=data->file->max_len  || map_y < 0 || map_y >= data->file->line_map)
-            {
-                hit = 1;
-            }
-        }
-
-        int arrival_pos[2];
-        arrival_pos[0] = ray_x * data->cell_width;
-        arrival_pos[1] = ray_y * data->cell_height;
-        draw_line_fov_minim(data, player_pos, arrival_pos, 0xFF0000);
+        cast_ray(data, ray_angle, player_pos);
+        i++;
     }
 }
 
 void draw_line_fov_minim(t_data *data, int pos1[2], int pos2[2], int color)
 {
-    int x0 = pos1[0]; // Coordonnée x du point 1
-    int y0 = pos1[1]; // Coordonnée y du point 1
-    int x1 = pos2[0]; // Coordonnée x du point 2
-    int y1 = pos2[1]; // Coordonnée y du point 2
+    int x0 = pos1[0];
+    int y0 = pos1[1];
+    int x1 = pos2[0];
+    int y1 = pos2[1];
 
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
-
     int sx = (x0 < x1) ? 1 : -1;
     int sy = (y0 < y1) ? 1 : -1;
 
     int err = dx - dy;
     int e2;
-    while (1)
+
+    while (x0 != x1 || y0 != y1)
     {
-		img_pix_put(data, x0, y0, color);
-        if (x0 == x1 && y0 == y1) // Si la ligne est complète
-            break;
-
+        img_pix_put(data, x0, y0, color);
         e2 = 2 * err;
-
         if (e2 > -dy)
         {
             err -= dy;
             x0 += sx;
         }
-
         if (e2 < dx)
         {
             err += dx;
             y0 += sy;
         }
     }
+    img_pix_put(data, x0, y0, color);
 }
 
