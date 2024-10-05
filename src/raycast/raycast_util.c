@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 09:48:26 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 12:47:43 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,30 +198,44 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     return 0;
 }
 
-void move_player(t_data *data){
-	//W
-	if (data->player.movey == 1 && data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == '0')
+// int check_pos_play_on_map(t_data *data)
+// {
+// 	if (data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == 'W' || 
+// 	data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == 'W')
+// 		trigger = 1;
+//
+// 	return(data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))]);
+// }
+
+void move_player(t_data *data){	
+	int trigger;
+	trigger = 0;
+	
+	if (data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == 'W' || 
+	data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == 'W')
+		trigger = 1;
+	if (data->player.movey == 1 && (trigger == 1 ||  data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == '0'))
 	{
 		data->player.x += MOVE_SPEED * cos(data->player.angle );
 		data->player.y += MOVE_SPEED * sin(data->player.angle);
 	}
-	// S
-	if (data->player.movey == -1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == '0'){ //S
+	if (data->player.movey == -1 && (trigger == 1 || data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == '0')){ //S
 		data->player.x -= MOVE_SPEED * cos(data->player.angle);
 		data->player.y -= MOVE_SPEED * sin(data->player.angle);
 	}
 	
-	// D
-	if (data->player.movex == 1 && data->file->map[(int)(data->player.y + (MOVE_SPEED * cos(data->player.angle + PI / 2)))][(int)(data->player.x + (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0') {
+	if (data->player.movex == 1 && (trigger == 1 || data->file->map[(int)(data->player.y + (MOVE_SPEED * cos(data->player.angle + PI / 2)))][(int)(data->player.x + (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0'))
+	{
 		data->player.x += MOVE_SPEED * cos(data->player.angle + PI / 2);
 		data->player.y += MOVE_SPEED * sin(data->player.angle + PI / 2);
 	}
 
-	// A
-	if (data->player.movex == -1 && data->file->map[(int)(data->player.y - (MOVE_SPEED * cos(data->player.angle + PI / 2)))][(int)(data->player.x - (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0') {
+	if (data->player.movex == -1 && (trigger == 1 ||  data->file->map[(int)(data->player.y - (MOVE_SPEED * cos(data->player.angle + PI / 2)))][(int)(data->player.x - (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0')) 
+	{
 		data->player.x -= MOVE_SPEED * cos(data->player.angle + PI / 2);
 		data->player.y -= MOVE_SPEED * sin(data->player.angle + PI / 2);
 	}
+	trigger = 0;
 }
 
 void ray_cast_radians(t_data *data)
