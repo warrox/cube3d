@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 14:33:42 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:42:09 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,67 +105,88 @@ void render_3d(t_data *data, double distance, int x, t_texture *texture, double 
     draw_vertical_line(data, x, draw_start, draw_end, texture, wall_height, hit_x);
 }
 
-
-void init_send_ray(t_calcul *c, t_data *data, double *ray_angle, double *ray_x, double *ray_y)
+void init_send_ray(t_ray_context *ctx)
 {
-	c->distance = 0;
-    c->hit_x = 0;
-
-    c->ray_dir_x = cos(*ray_angle);
-    c->ray_dir_y = sin(*ray_angle);
-    *ray_x = data->player.x;
-    *ray_y = data->player.y;
-    c->hit = 0;
-
+    ctx->calc->distance = 0;
+    ctx->calc->hit_x = 0;
+    ctx->calc->ray_dir_x = cos(ctx->ray_angle);
+    ctx->calc->ray_dir_y = sin(ctx->ray_angle);
+    *(ctx->ray_x) = ctx->data->player.x;
+    *(ctx->ray_y) = ctx->data->player.y;
+    ctx->calc->hit = 0;
 }
+
+void update_ray_position(t_ray_context *ctx)
+{
+    *(ctx->ray_x) += ctx->calc->ray_dir_x * 0.01;
+    *(ctx->ray_y) += ctx->calc->ray_dir_y * 0.01;
+}
+
+int check_hit(t_ray_context *ctx, t_texture **texture)
+{
+    ctx->calc->map_x = (int)*(ctx->ray_x);
+    ctx->calc->map_y = (int)*(ctx->ray_y);
+
+    if (ctx->calc->map_x >= 0 && ctx->calc->map_x < ctx->data->file->max_len &&
+        ctx->calc->map_y >= 0 && ctx->calc->map_y < ctx->data->file->line_map && 
+        ctx->data->file->map[ctx->calc->map_y][ctx->calc->map_x] == '1')
+    {
+        ctx->calc->hit = 1;
+        ctx->calc->x_dist = fabs(*(ctx->ray_x) - floor(*(ctx->ray_x) + 0.5));
+        ctx->calc->y_dist = fabs(*(ctx->ray_y) - floor(*(ctx->ray_y) + 0.5));
+
+        if (ctx->calc->x_dist > ctx->calc->y_dist)
+        {
+            *texture = (ctx->calc->ray_dir_y > 0) ? &ctx->data->so : &ctx->data->no;
+            ctx->calc->hit_x = *(ctx->ray_x) - floor(*(ctx->ray_x));
+        }
+        else
+        {
+            *texture = (ctx->calc->ray_dir_x > 0) ? &ctx->data->ea : &ctx->data->we;
+            ctx->calc->hit_x = *(ctx->ray_y) - floor(*(ctx->ray_y));
+        }
+        return 1;
+    }
+    return 0;
+}
+
+double calculate_distance(t_ray_context *ctx)
+{
+    double corrected_angle = ctx->ray_angle - ctx->data->player.angle;
+    if (corrected_angle < -PI) corrected_angle += 2 * PI;
+    if (corrected_angle > PI) corrected_angle -= 2 * PI;
+
+    return sqrt(pow(*(ctx->ray_x) - ctx->data->player.x, 2) + 
+                pow(*(ctx->ray_y) - ctx->data->player.y, 2)) * 
+           cos(corrected_angle);
+}
+
 double send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 {
-    
-	t_calcul c;
-	t_texture *texture;
-	init_send_ray(&c, data, &ray_angle, ray_x, ray_y);	
+    t_calcul c;
+    t_texture *texture;
+    t_ray_context ctx = { &c, data, ray_x, ray_y, ray_angle };
+
+    init_send_ray(&ctx);
+
     while (!c.hit)
     {
-        *ray_x += c.ray_dir_x * 0.01;
-        *ray_y += c.ray_dir_y * 0.01;
-
-        c.map_x = (int)*ray_x;
-        c.map_y = (int)*ray_y;
-
-        if (c.map_x >= 0 && c.map_x < data->file->max_len && c.map_y >= 0 && c.map_y < data->file->line_map && data->file->map[c.map_y][c.map_x] == '1')
+        update_ray_position(&ctx);
+        
+        if (check_hit(&ctx, &texture))
         {
-            c.hit = 1;
-            c.x_dist = fabs(*ray_x - floor(*ray_x + 0.5));
-            c.y_dist = fabs(*ray_y - floor(*ray_y + 0.5));
-
-            if (c.x_dist > c.y_dist)
-            {
-                if (c.ray_dir_y > 0)
-                    texture = &data->so;
-                else
-                    texture = &data->no;
-                c.hit_x = *ray_x - floor(*ray_x);
-            }
-            else
-            {
-                if (c.ray_dir_x > 0)
-                    texture = &data->ea;
-                else
-                    texture = &data->we;
-                c.hit_x = *ray_y - floor(*ray_y);
-            }
-            c.corrected_angle = ray_angle - data->player.angle;
-            if (c.corrected_angle < -PI) c.corrected_angle += 2 * PI;
-            if (c.corrected_angle > PI) c.corrected_angle -= 2 * PI;
-            c.distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(c.corrected_angle);
+            c.distance = calculate_distance(&ctx);
             render_3d(data, c.distance, data->i, texture, c.hit_x);
-            return (c.distance);
+            return c.distance;
         }
 
-        if (c.map_x < 0 || c.map_x >= data->file->max_len || c.map_y < 0 || c.map_y >= data->file->line_map)
+        if (c.map_x < 0 || c.map_x >= data->file->max_len || 
+            c.map_y < 0 || c.map_y >= data->file->line_map)
+        {
             c.hit = 1;
+        }
     }
-    return (0);
+    return 0;
 }
 
 void move_player(t_data *data)

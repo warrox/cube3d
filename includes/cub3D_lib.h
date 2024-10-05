@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 14:25:47 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:41:37 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,9 @@ typedef struct s_calcul
 	double corrected_angle;
 
 } t_calcul;
+
+
+
 typedef struct s_data
 {
 	t_player	player;
@@ -208,6 +211,17 @@ typedef struct s_data
 	int num_rays;
 	double fov_radians;
 }				t_data;
+
+typedef struct s_ray_context 
+{
+    t_calcul *calc;
+    t_data *data;
+    double *ray_x;
+    double *ray_y;
+    double ray_angle;
+} t_ray_context;
+
+
 typedef struct s_minimap 
 {
 	int	x0;
