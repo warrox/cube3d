@@ -6,7 +6,7 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 14:51:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 15:26:30 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 15:39:19 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	img_pix_put(t_data *data, int x, int y, int color)
 
 void	init_player(t_data *data)
 {
-	data->player.fov = 60; // fov de 60 degres
+	data->player.fov = 60;
 	data->player.angle = 0;
 	data->player.distance = 0;
-	data->player.time = 0;    // time of current frame
-	data->player.oldtime = 0; // time of previous frame
+	data->player.time = 0;
+	data->player.oldtime = 0;
 	data->player.x = -1;
 	data->player.y = -1;
 	data->player.movex = 0;
@@ -66,4 +66,3 @@ double	get_angle_posplayer(char player_dir)
 		return (PI);
 	return (0);
 }
-
