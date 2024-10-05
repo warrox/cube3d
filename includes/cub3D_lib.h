@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 10:52:05 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:18:33 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,20 @@ typedef struct s_mlx
 	int			line_length;
 	int			endian;
 }				t_mlx;
+typedef struct s_calcul 
+{
+	double ray_dir_x;
+    double ray_dir_y;
+    int map_x;
+    int map_y;
+    int hit;
+    double distance;
+    double hit_x;
+	double x_dist;
+	double y_dist;
+	double corrected_angle;
 
+} t_calcul;
 typedef struct s_data
 {
 	t_player	player;

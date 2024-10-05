@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 13:29:16 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:22:23 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,64 +106,57 @@ void render_3d(t_data *data, double distance, int x, t_texture *texture, double 
 }
 double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays)
 {
-    double ray_dir_x;
-    double ray_dir_y;
-    int map_x;
-    int map_y;
-    int hit;
-    double distance = 0;
-    double hit_x = 0;
-    t_texture *texture;
-	double x_dist;
-	double y_dist;
-	double corrected_angle;
+    t_calcul c;
+	t_texture *texture;
+	c.distance = 0;
+    c.hit_x = 0;
 
-    ray_dir_x = cos(ray_angle);
-    ray_dir_y = sin(ray_angle);
+    c.ray_dir_x = cos(ray_angle);
+    c.ray_dir_y = sin(ray_angle);
     *ray_x = data->player.x;
     *ray_y = data->player.y;
-    hit = 0;
+    c.hit = 0;
 
-    while (!hit)
+    while (!c.hit)
     {
-        *ray_x += ray_dir_x * 0.01;
-        *ray_y += ray_dir_y * 0.01;
+        *ray_x += c.ray_dir_x * 0.01;
+        *ray_y += c.ray_dir_y * 0.01;
 
-        map_x = (int)*ray_x;
-        map_y = (int)*ray_y;
+        c.map_x = (int)*ray_x;
+        c.map_y = (int)*ray_y;
 
-        if (map_x >= 0 && map_x < data->file->max_len && map_y >= 0 && map_y < data->file->line_map && data->file->map[map_y][map_x] == '1')
+        if (c.map_x >= 0 && c.map_x < data->file->max_len && c.map_y >= 0 && c.map_y < data->file->line_map && data->file->map[c.map_y][c.map_x] == '1')
         {
-            hit = 1;
-            x_dist = fabs(*ray_x - floor(*ray_x + 0.5));
-            y_dist = fabs(*ray_y - floor(*ray_y + 0.5));
+            c.hit = 1;
+            c.x_dist = fabs(*ray_x - floor(*ray_x + 0.5));
+            c.y_dist = fabs(*ray_y - floor(*ray_y + 0.5));
 
-            if (x_dist > y_dist)
+            if (c.x_dist > c.y_dist)
             {
-                if (ray_dir_y > 0)
+                if (c.ray_dir_y > 0)
                     texture = &data->so;
                 else
                     texture = &data->no;
-                hit_x = *ray_x - floor(*ray_x);
+                c.hit_x = *ray_x - floor(*ray_x);
             }
             else
             {
-                if (ray_dir_x > 0)
+                if (c.ray_dir_x > 0)
                     texture = &data->ea;
                 else
                     texture = &data->we;
-                hit_x = *ray_y - floor(*ray_y);
+                c.hit_x = *ray_y - floor(*ray_y);
             }
-            corrected_angle = ray_angle - data->player.angle;
-            if (corrected_angle < -PI) corrected_angle += 2 * PI;
-            if (corrected_angle > PI) corrected_angle -= 2 * PI;
-            distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(corrected_angle);
-            render_3d(data, distance, i, texture, hit_x);
-            return (distance);
+            c.corrected_angle = ray_angle - data->player.angle;
+            if (c.corrected_angle < -PI) c.corrected_angle += 2 * PI;
+            if (c.corrected_angle > PI) c.corrected_angle -= 2 * PI;
+            c.distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(c.corrected_angle);
+            render_3d(data, c.distance, i, texture, c.hit_x);
+            return (c.distance);
         }
 
-        if (map_x < 0 || map_x >= data->file->max_len || map_y < 0 || map_y >= data->file->line_map)
-            hit = 1;
+        if (c.map_x < 0 || c.map_x >= data->file->max_len || c.map_y < 0 || c.map_y >= data->file->line_map)
+            c.hit = 1;
     }
     return (0);
 }
