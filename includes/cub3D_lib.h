@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 14:41:37 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:53:36 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,4 +376,10 @@ void check_ray_hit(t_data *data, int *hit, int *map_x, int *map_y);
 void calculate_arrival_position(t_data *data, double ray_x, double ray_y, int arrival_pos[2]);
 void	draw_fov(t_data *data);
 void	cast_ray(t_data *data, double ray_angle, int player_pos[2]);
+void init_send_ray(t_ray_context *ctx);
+void update_ray_position(t_ray_context *ctx);
+int check_hit(t_ray_context *ctx, t_texture **texture);
+double calculate_distance(t_ray_context *ctx);
+void	init_send_ray(t_ray_context *ctx);
+void	update_ray_position(t_ray_context *ctx);
 #endif
