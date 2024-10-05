@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 10:29:56 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 10:52:05 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,16 @@ typedef struct s_minimap
 	int	sy;
 	int	err;
 	int	e2;
-
+	int i;
+	int		num_rays;
+	double	ray_angle;
+	double	angle_step;
+	double	fov;
+	int		hit;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
 }	t_minimap;
 /*strings functions*/
 
@@ -335,4 +344,6 @@ void set_ray_direction(double *ray_dir_x, double *ray_dir_y, double ray_angle);
 int is_ray_out_of_bounds(t_data *data, int map_x, int map_y);
 void check_ray_hit(t_data *data, int *hit, int *map_x, int *map_y);
 void calculate_arrival_position(t_data *data, double ray_x, double ray_y, int arrival_pos[2]);
+void	draw_fov(t_data *data);
+void	cast_ray(t_data *data, double ray_angle, int player_pos[2]);
 #endif
