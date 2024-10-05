@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 14:58:18 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 15:00:39 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,13 @@ void	init_player(t_data *data)
 double	get_angle_posplayer(char player_dir)
 {
 	if (player_dir == 'E')
-	{
 		return (0);
-	}
 	if (player_dir == 'S')
-	{
 		return (PI / 2);
-	}
 	if (player_dir == 'N')
-	{
 		return (3 * PI / 2);
-	}
 	if (player_dir == 'W')
-	{
 		return (PI);
-	}
 	return (0);
 }
 
@@ -79,12 +71,12 @@ void	draw_vertical_line(t_data *data, int x, int start, int end,
 		tex_y = (int)texture_pos % texture->height;
 		color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh
 					+ tex_x * (texture->bpp / 8)));
-		img_pix_put(data, x, y, color); // Dessiner le pixel du mur
+		img_pix_put(data, x, y, color);
 		texture_pos += step;
 	}
 	while (y < HEIGHT)
 	{
-		img_pix_put(data, x, y, data->file->color->conv_f); // Couleur du sol
+		img_pix_put(data, x, y, data->file->color->conv_f);
 		y++;
 	}
 }
@@ -113,8 +105,9 @@ double	send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 {
 	t_calcul		c;
 	t_texture		*texture;
+	t_ray_context	ctx;
 
-	t_ray_context ctx = {&c, data, ray_x, ray_y, ray_angle};
+	ctx = {&c, data, ray_x, ray_y, ray_angle};
 	init_send_ray(&ctx);
 	while (!c.hit)
 	{
@@ -127,9 +120,7 @@ double	send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 		}
 		if (c.map_x < 0 || c.map_x >= data->file->max_len || c.map_y < 0
 			|| c.map_y >= data->file->line_map)
-		{
 			c.hit = 1;
-		}
 	}
 	return (0);
 }
