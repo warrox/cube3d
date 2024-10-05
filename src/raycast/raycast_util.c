@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 15:00:39 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 15:18:26 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ double	get_angle_posplayer(char player_dir)
 	return (0);
 }
 
-void	draw_vertical_line(t_data *data, int x, int start, int end,
-		t_texture *texture, int wall_height, double hit_x)
+void	draw_vertical_line(t_data *data, int x,t_texture *texture, double hit_x)
 {
 	int		y;
 	int		tex_y;
@@ -62,11 +61,11 @@ void	draw_vertical_line(t_data *data, int x, int start, int end,
 
 	tex_x = (int)(hit_x * texture->width) % texture->width;
 	y = -1;
-	while (++y < start)
+	while (++y < data->draw_start)
 		img_pix_put(data, x, y, data->file->color->conv_c); // Couleur du ciel
-	step = (double)texture->height / wall_height;
-	texture_pos = (start - HEIGHT / 2 + wall_height / 2) * step;
-	while (++y <= end)
+	step = (double)texture->height / data->wall_height;
+	texture_pos = (data->draw_start - HEIGHT / 2 + data->wall_height / 2) * step;
+	while (++y <= data->draw_end)
 	{
 		tex_y = (int)texture_pos % texture->height;
 		color = *(unsigned int *)(texture->addr + (tex_y * texture->line_lengh
@@ -74,40 +73,34 @@ void	draw_vertical_line(t_data *data, int x, int start, int end,
 		img_pix_put(data, x, y, color);
 		texture_pos += step;
 	}
-	while (y < HEIGHT)
+	while (++y < HEIGHT)
 	{
 		img_pix_put(data, x, y, data->file->color->conv_f);
-		y++;
 	}
 }
 
 void	render_3d(t_data *data, double distance, int x, t_texture *texture,
 		double hit_x)
 {
-	int	wall_height;
-	int	draw_start;
-	int	draw_end;
 
 	if (distance <= 0)
 		return ;
-	wall_height = (int)(HEIGHT / distance);
-	draw_start = -wall_height / 2 + HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = wall_height / 2 + HEIGHT / 2;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
-	draw_vertical_line(data, x, draw_start, draw_end, texture, wall_height,
-		hit_x);
+	data->wall_height = (int)(HEIGHT / distance);
+	data->draw_start = -data->wall_height / 2 + HEIGHT / 2;
+	if (data->draw_start < 0)
+		data->draw_start = 0;
+	data->draw_end = data->wall_height / 2 + HEIGHT / 2;
+	if (data->draw_end >= HEIGHT)
+		data->draw_end = HEIGHT - 1;
+	draw_vertical_line(data, x,texture,hit_x);
 }
 
 double	send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 {
 	t_calcul		c;
 	t_texture		*texture;
-	t_ray_context	ctx;
 
-	ctx = {&c, data, ray_x, ray_y, ray_angle};
+	t_ray_context ctx = {&c, data, ray_x, ray_y, ray_angle};
 	init_send_ray(&ctx);
 	while (!c.hit)
 	{
@@ -123,53 +116,6 @@ double	send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 			c.hit = 1;
 	}
 	return (0);
-}
-
-void	move_player(t_data *data)
-{
-	int	trigger;
-
-	trigger = 0;
-	if (data->file->map[(int)(data->player.y + (MOVE_SPEED
-				* sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED
-				* cos(data->player.angle)))] == 'W'
-		|| data->file->map[(int)(data->player.y - (MOVE_SPEED
-				* sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED
-				* cos(data->player.angle)))] == 'W')
-		trigger = 1;
-	if (data->player.movey == 1 && (trigger == 1
-			|| data->file->map[(int)(data->player.y + (MOVE_SPEED
-					* sin(data->player.angle)))][(int)(data->player.x
-				+ (MOVE_SPEED * cos(data->player.angle)))] == '0'))
-	{
-		data->player.x += MOVE_SPEED * cos(data->player.angle);
-		data->player.y += MOVE_SPEED * sin(data->player.angle);
-	}
-	if (data->player.movey == -1 && (trigger == 1
-			|| data->file->map[(int)(data->player.y - (MOVE_SPEED
-					* sin(data->player.angle)))][(int)(data->player.x
-				- (MOVE_SPEED * cos(data->player.angle)))] == '0'))
-	{ // S
-		data->player.x -= MOVE_SPEED * cos(data->player.angle);
-		data->player.y -= MOVE_SPEED * sin(data->player.angle);
-	}
-	if (data->player.movex == 1 && (trigger == 1
-			|| data->file->map[(int)(data->player.y + (MOVE_SPEED
-					* cos(data->player.angle + PI / 2)))][(int)(data->player.x
-				+ (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0'))
-	{
-		data->player.x += MOVE_SPEED * cos(data->player.angle + PI / 2);
-		data->player.y += MOVE_SPEED * sin(data->player.angle + PI / 2);
-	}
-	if (data->player.movex == -1 && (trigger == 1
-			|| data->file->map[(int)(data->player.y - (MOVE_SPEED
-					* cos(data->player.angle + PI / 2)))][(int)(data->player.x
-				- (MOVE_SPEED * sin(data->player.angle + PI / 2)))] == '0'))
-	{
-		data->player.x -= MOVE_SPEED * cos(data->player.angle + PI / 2);
-		data->player.y -= MOVE_SPEED * sin(data->player.angle + PI / 2);
-	}
-	trigger = 0;
 }
 
 void	ray_cast_radians(t_data *data)

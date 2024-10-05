@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 14:53:36 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 15:13:10 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,9 @@ typedef struct s_data
 	int i;
 	int num_rays;
 	double fov_radians;
+	int	wall_height;
+	int	draw_start;
+	int	draw_end;
 }				t_data;
 
 typedef struct s_ray_context 
@@ -382,4 +385,14 @@ int check_hit(t_ray_context *ctx, t_texture **texture);
 double calculate_distance(t_ray_context *ctx);
 void	init_send_ray(t_ray_context *ctx);
 void	update_ray_position(t_ray_context *ctx);
+
+static void	move_forward(t_data *data, int trigger);
+
+static void	move_backward(t_data *data, int trigger);
+
+static void	move_left(t_data *data, int trigger);
+
+static void	move_right(t_data *data, int trigger);
+
+void	move_player(t_data *data);
 #endif
