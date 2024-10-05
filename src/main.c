@@ -6,43 +6,53 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/03 15:59:45 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:07:24 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D_lib.h"
+#include <stdio.h>
 
-int	main(int argc, char **argv, char **envp)
+void	init_angle_player(t_data *data)
 {
-	t_data	data;
-	
-	checker(argc, argv, envp);
-	file_extractor(&data, argv[1]);
-	file_cutter(&data);
-	data_parser(&data);
-	map_parser(&data);
-	init_player(&data);
-	for (int i = 0; i < data.file->line_map; i++)
+	int	i;
+	int	j;
+
+	file_cutter(data);
+	data_parser(data);
+	map_parser(data);
+	init_player(data);
+	i = -1;
+	while (++i < data->file->line_map)
 	{
-		for (int j = 0; j < data.file->max_len; j++)
+		j = -1;
+		while (++j <= data->file->max_len)
 		{
-			if (data.file->map[i][j] == 'N' || data.file->map[i][j] == 'S' || data.file->map[i][j] == 'W'
-				|| data.file->map[i][j] == 'E')
+			if (data->file->map[i][j] == 'N' || data->file->map[i][j] == 'S'
+				|| data->file->map[i][j] == 'W' || data->file->map[i][j] == 'E')
 			{
-				data.player.x = j;
-				data.player.y = i;
-				data.player.angle = get_angle_posplayer(data.file->map[i][j]);
-				data.player.dir = data.file->map[i][j]; 
+				data->player.x = j;
+				data->player.y = i;
+				data->player.angle = get_angle_posplayer(data->file->map[i][j]);
+				data->player.dir = data->file->map[i][j];
 				break ;
 			}
 		}
 	}
-	// printf("player x %f\t player y %f\n ", data.player.x, data.player.y);
-	
-	init_mlx(&data);	
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+
+	checker(argc, argv, envp);
+	file_extractor(&data, argv[1]);
+	init_angle_player(&data);
+	init_mlx(&data);
 	load_texture(&data);
 	mlx_hook(data.mlx.mlx_win, KeyPress, KeyPressMask, key_handler, &data);
-	mlx_hook(data.mlx.mlx_win, KeyRelease, KeyReleaseMask, key_release_handler, &data);
+	mlx_hook(data.mlx.mlx_win, KeyRelease, KeyReleaseMask, key_release_handler,
+		&data);
 	mlx_hook(data.mlx.mlx_win, 17, 0, free_close_windows, &data);
 	mlx_loop_hook(data.mlx.p_mlx, minimap_render, (void *)&data);
 	mlx_loop(data.mlx.p_mlx);
