@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 14:18:33 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:25:47 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,9 @@ typedef struct s_data
 	int local_percentage;
 	double ray_x;
 	double ray_y;
+	int i;
+	int num_rays;
+	double fov_radians;
 }				t_data;
 typedef struct s_minimap 
 {

@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 14:22:23 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:27:13 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,10 @@ void render_3d(t_data *data, double distance, int x, t_texture *texture, double 
 
     draw_vertical_line(data, x, draw_start, draw_end, texture, wall_height, hit_x);
 }
-double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_x, double *ray_y, int i, int num_rays)
+double send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 {
-    t_calcul c;
+    
+	t_calcul c;
 	t_texture *texture;
 	c.distance = 0;
     c.hit_x = 0;
@@ -151,7 +152,7 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
             if (c.corrected_angle < -PI) c.corrected_angle += 2 * PI;
             if (c.corrected_angle > PI) c.corrected_angle -= 2 * PI;
             c.distance = sqrt(pow(*ray_x - data->player.x, 2) + pow(*ray_y - data->player.y, 2)) * cos(c.corrected_angle);
-            render_3d(data, c.distance, i, texture, c.hit_x);
+            render_3d(data, c.distance, data->i, texture, c.hit_x);
             return (c.distance);
         }
 
@@ -198,7 +199,7 @@ void ray_cast_radians(t_data *data)
 {
     double ray_angle;
     
-	int num_rays = 1000;
+	data->num_rays = 1000;
 	
 	double ray_x;
 	double ray_y;
@@ -206,14 +207,14 @@ void ray_cast_radians(t_data *data)
 	int center_plane[2];
 	center_plane[0] = WIDTH /2 ;
 	center_plane[1] = HEIGHT /2;
-	double fov_radians = data->player.fov * (PI / 180.0);
-    double angle_step = fov_radians / num_rays;
+	data->fov_radians = data->player.fov * (PI / 180.0);
+    double angle_step = data->fov_radians / data->num_rays;
     	
-	int i = 0;
-    while (i++ < num_rays)
+	data->i = 0;
+    while (data->i++ < data->num_rays)
     {
-		ray_angle = data->player.angle - (fov_radians / 2) + (i * angle_step);
-		data->player.distance = send_ray(data, ray_angle, fov_radians, &ray_x, &ray_y, i, num_rays); 
+		ray_angle = data->player.angle - (data->fov_radians / 2) + (data->i * angle_step);
+		data->player.distance = send_ray(data, ray_angle, &ray_x, &ray_y); 
     }
 	move_player(data);
 	draw_map(data);
