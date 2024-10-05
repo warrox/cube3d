@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 14:27:13 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:33:42 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,26 @@ void render_3d(t_data *data, double distance, int x, t_texture *texture, double 
 
     draw_vertical_line(data, x, draw_start, draw_end, texture, wall_height, hit_x);
 }
+
+
+void init_send_ray(t_calcul *c, t_data *data, double *ray_angle, double *ray_x, double *ray_y)
+{
+	c->distance = 0;
+    c->hit_x = 0;
+
+    c->ray_dir_x = cos(*ray_angle);
+    c->ray_dir_y = sin(*ray_angle);
+    *ray_x = data->player.x;
+    *ray_y = data->player.y;
+    c->hit = 0;
+
+}
 double send_ray(t_data *data, double ray_angle, double *ray_x, double *ray_y)
 {
     
 	t_calcul c;
 	t_texture *texture;
-	c.distance = 0;
-    c.hit_x = 0;
-
-    c.ray_dir_x = cos(ray_angle);
-    c.ray_dir_y = sin(ray_angle);
-    *ray_x = data->player.x;
-    *ray_y = data->player.y;
-    c.hit = 0;
-
+	init_send_ray(&c, data, &ray_angle, ray_x, ray_y);	
     while (!c.hit)
     {
         *ray_x += c.ray_dir_x * 0.01;
@@ -193,7 +199,6 @@ void move_player(t_data *data)
 	}
 	trigger = 0;
 }
-
 
 void ray_cast_radians(t_data *data)
 {
