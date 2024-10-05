@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 10:12:46 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 10:29:56 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,23 @@ typedef struct s_data
 	int	g;
 	int	b;
 	int local_percentage;
+	double ray_x;
+	double ray_y;
 }				t_data;
+typedef struct s_minimap 
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
 
+}	t_minimap;
 /*strings functions*/
 
 int				ft_strlen(char *str);
@@ -318,6 +333,6 @@ void	process_angle(t_data *data, int keycode);
 void calculate_player_position(t_data *data, int player_pos[2]);
 void set_ray_direction(double *ray_dir_x, double *ray_dir_y, double ray_angle);
 int is_ray_out_of_bounds(t_data *data, int map_x, int map_y);
-void check_ray_hit(t_data *data, int *hit, double ray_x, double ray_y, int *map_x, int *map_y);
+void check_ray_hit(t_data *data, int *hit, int *map_x, int *map_y);
 void calculate_arrival_position(t_data *data, double ray_x, double ray_y, int arrival_pos[2]);
 #endif
