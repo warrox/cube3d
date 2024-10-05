@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:06:23 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 12:47:43 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/05 12:55:46 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ double	get_angle_posplayer(char player_dir)
 	}
 	return (0);
 }
-
-
-
 
 void draw_vertical_line(t_data *data, int x, int start, int end, t_texture *texture, int wall_height, double hit_x)
 {
@@ -198,16 +195,8 @@ double send_ray(t_data *data, double ray_angle, double fov_radians, double *ray_
     return 0;
 }
 
-// int check_pos_play_on_map(t_data *data)
-// {
-// 	if (data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == 'W' || 
-// 	data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == 'W')
-// 		trigger = 1;
-//
-// 	return(data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))]);
-// }
-
-void move_player(t_data *data){	
+void move_player(t_data *data)
+{	
 	int trigger;
 	trigger = 0;
 	
@@ -237,6 +226,7 @@ void move_player(t_data *data){
 	}
 	trigger = 0;
 }
+
 
 void ray_cast_radians(t_data *data)
 {
