@@ -6,11 +6,12 @@
 /*   By: whamdi <whamdi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:05:43 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 15:40:31 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/06 20:37:34 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+#include <stdio.h>
 
 static void	move_forward(t_data *data, int trigger)
 {
@@ -63,15 +64,37 @@ static void	move_right(t_data *data, int trigger)
 void	move_player(t_data *data)
 {
 	int	trigger;
-
+	int trigger1;
+	static double old_x;
+	static double old_y;
+	
 	trigger = 0;
-	if (data->file->map[(int)(data->player.y + (MOVE_SPEED
-				* sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED
-				* cos(data->player.angle)))] == 'W'
-		|| data->file->map[(int)(data->player.y - (MOVE_SPEED
-				* sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED
-				* cos(data->player.angle)))] == 'W')
+	trigger1 = 0;
+	
+	if(data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] != 'W' || 
+		data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] != 'W')
+	{
+		old_x = data->player.x;
+		old_y = data->player.y;
+	}
+	while(data->file->map[(int)(data->player.y + (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED * cos(data->player.angle)))] == 'W' || 
+		data->file->map[(int)(data->player.y - (MOVE_SPEED * sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED * cos(data->player.angle)))] == 'W')
+	{ 
+		if(trigger1 == 100)
+		{
+			data->player.x = old_x;
+			data->player.y = old_y;
+			break;
+		}
+		if (data->file->map[(int)(data->player.y + (MOVE_SPEED
+			* sin(data->player.angle)))][(int)(data->player.x + (MOVE_SPEED
+			* cos(data->player.angle)))] == 'W'
+			|| data->file->map[(int)(data->player.y - (MOVE_SPEED
+			* sin(data->player.angle)))][(int)(data->player.x - (MOVE_SPEED
+			* cos(data->player.angle)))] == 'W')
 		trigger = 1;
+		trigger1 ++;
+	}	
 	move_forward(data, trigger);
 	move_backward(data, trigger);
 	move_left(data, trigger);
