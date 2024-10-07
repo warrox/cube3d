@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/07 09:01:07 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/07 11:20:42 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	init_angle_player(t_data *data)
 			if (data->file->map[i][j] == 'N' || data->file->map[i][j] == 'S'
 				|| data->file->map[i][j] == 'W' || data->file->map[i][j] == 'E')
 			{
-				data->player.x = j;
-				data->player.y = i;
+				data->player.x = j + 0.25;
+				data->player.y = i + 0.25;
 				data->player.angle = get_angle_posplayer(data->file->map[i][j]);
 				data->player.dir = data->file->map[i][j];
 				break ;

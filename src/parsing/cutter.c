@@ -24,7 +24,7 @@ void	check_order(t_data *data)
 	str = data->file->map_line_cpy;
 	while (str[i])
 		i++;
-	i-= 2;
+	i -= 2;
 	if (str[i] != '1')
 		error_data_format(data, "Error order: map is not last!");
 	i = 0;
