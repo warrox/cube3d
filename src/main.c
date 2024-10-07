@@ -6,12 +6,11 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:10:46 by whamdi            #+#    #+#             */
-/*   Updated: 2024/10/05 16:07:24 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/07 09:01:07 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D_lib.h"
-#include <stdio.h>
 
 void	init_angle_player(t_data *data)
 {
