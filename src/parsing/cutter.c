@@ -6,11 +6,12 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:10:18 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 14:54:17 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/07 10:18:52 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D_lib.h"
+#include <stdio.h>
 
 void	check_order(t_data *data)
 {
@@ -23,7 +24,7 @@ void	check_order(t_data *data)
 	str = data->file->map_line_cpy;
 	while (str[i])
 		i++;
-	i--;
+	i-= 2;
 	if (str[i] != '1')
 		error_data_format(data, "Error order: map is not last!");
 	i = 0;
