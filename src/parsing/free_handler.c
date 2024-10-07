@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 08:38:59 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/03 13:41:50 by cyferrei         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:40:36 by cyferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	free_close_windows(void *data)
 	free(ptr->file->map_line_cpy);
 	free_duplicate_data(ptr);
 	free(ptr->file);
+	free_resources(data);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
