@@ -6,7 +6,7 @@
 /*   By: cyferrei <cyferrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:20:45 by cyferrei          #+#    #+#             */
-/*   Updated: 2024/10/05 15:27:37 by whamdi           ###   ########.fr       */
+/*   Updated: 2024/10/07 11:31:37 by whamdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define PATH 2
 # define F 1
 # define C 2
-
+# define COLLISION_BUFFER 0.1
 /*all enums*/
 
 enum
